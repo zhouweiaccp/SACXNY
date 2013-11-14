@@ -36,7 +36,7 @@ namespace SACSIS.Admin
                     {
                         sTreeNodePId = treeNodeId + ",";
                     }
-                    BtnSort(sender,e);//对xml文档进行排序
+                    BtnSort(sender, e);//对xml文档进行排序
                     GetTreeList(treeNodeId);
                 }
                 else if (param == "Add")
@@ -46,7 +46,7 @@ namespace SACSIS.Admin
                     string order = Request.Form["order"];
                     string url = Request.Form["url"];
                     string vis = Request.Form["vis"];
-                    BtnAdd_Click(pId,name,order,url,vis);
+                    BtnAdd_Click(pId, name, order, url, vis);
                 }
                 else if (param == "Edit")
                 {
@@ -109,7 +109,7 @@ namespace SACSIS.Admin
             XmlToDataTable(xnod);
             xnod = null;
             DataTable dts = dt;
-            
+
             GetSTreeNodesParentID(dts, treeNodeId);
             string[] sTreeNodePIds = sTreeNodePId.ToString().TrimEnd(',').Split(',');
             GetTreeNodesParentID(dts, pIDs);
@@ -245,7 +245,7 @@ namespace SACSIS.Admin
             int count = 0;
             string info = "";
             string flPath = FileUpload1.PostedFile.FileName.ToString();
-            FileStream fs = new FileStream(flPath, FileMode.Open, FileAccess.Read); //将图片以文件流的形式进行保存
+            FileStream fs = new FileStream(Server.MapPath(flPath), FileMode.Open, FileAccess.Read); //将图片以文件流的形式进行保存
             BinaryReader br = new BinaryReader(fs);
 
             byte[] imgBytesIn = br.ReadBytes((int)fs.Length);  //将流读入到字节数组中
@@ -268,12 +268,12 @@ namespace SACSIS.Admin
                 }
             }
             else
-                info = errMsg;        
+                info = errMsg;
         }
         #endregion
 
         #region 添加菜单
-        protected void BtnAdd_Click(string pId,string name,string order,string url,string vis)
+        protected void BtnAdd_Click(string pId, string name, string order, string url, string vis)
         {
             string message = "";
             XmlDocument xmldoc = new XmlDocument();
@@ -301,12 +301,12 @@ namespace SACSIS.Admin
             }
             if (order == "")
             {
-                order = (maxOrder+1).ToString();
+                order = (maxOrder + 1).ToString();
             }
 
             XmlElement nodeE = xmldoc.CreateElement("parment");
             //设置需要添加的节点的标示和各项属性
-            nodeE.SetAttribute("id", (maxId+1).ToString());
+            nodeE.SetAttribute("id", (maxId + 1).ToString());
             nodeE.SetAttribute("name", name);
             nodeE.SetAttribute("pId", pId);
             nodeE.SetAttribute("order", order);
@@ -326,12 +326,12 @@ namespace SACSIS.Admin
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             Response.Write(result);
             Response.End();
-            
+
         }
         #endregion
 
         #region 编辑菜单
-        protected void BtnEdit_Click(string pId,string id, string name, string order, string url, string vis)
+        protected void BtnEdit_Click(string pId, string id, string name, string order, string url, string vis)
         {
             string message = "";
             XmlDocument xmldoc = new XmlDocument();
@@ -339,7 +339,7 @@ namespace SACSIS.Admin
             xmldoc.Load(xmlpath);
             double maxOrder = 0;
             double temp = 0;
-            
+
             if (order == "")
             {
                 if (pId != "")
@@ -398,7 +398,7 @@ namespace SACSIS.Admin
             {
                 if (xmldoc.ChildNodes[1].ChildNodes[i].Attributes.GetNamedItem("pId").Value == id)
                 {
-                    HasChildNodes=true;
+                    HasChildNodes = true;
                     break;
                 }
             }
@@ -445,7 +445,7 @@ namespace SACSIS.Admin
             xmldoc.Load(xmlpath);
             for (int i = 0; i < xmldoc.ChildNodes[1].ChildNodes.Count; i++)
             {
-                for (int j = i+1; j < xmldoc.ChildNodes[1].ChildNodes.Count; j++)
+                for (int j = i + 1; j < xmldoc.ChildNodes[1].ChildNodes.Count; j++)
                 {
                     if (xmldoc.ChildNodes[1].ChildNodes[i].Attributes.GetNamedItem("pId").Value == xmldoc.ChildNodes[1].ChildNodes[j].Attributes.GetNamedItem("pId").Value)
                     {
@@ -503,7 +503,7 @@ namespace SACSIS.Admin
                 }
             }
             else
-                info = errMsg;       
+                info = errMsg;
         }
         #endregion
     }

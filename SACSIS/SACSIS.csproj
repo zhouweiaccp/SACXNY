@@ -733,6 +733,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\" />
+    <Folder Include="Trend\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />
