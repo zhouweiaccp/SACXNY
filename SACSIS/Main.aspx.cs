@@ -23,7 +23,7 @@ namespace Web
             }
             if (!Page.IsPostBack)
             {
-                DownLoadXml("Webmenu");//下载XML文件至指定路径
+               // DownLoadXml("Webmenu");//下载XML文件至指定路径
                 GetMenuRoot();
             }
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <rquuest>
-  <parment id="ALL" name="全公司1" pId="000" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
+  <parment id="ALL" name="全公司1" pId="" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
   <parment id="0" name="全公司" pId="ALL" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
   <parment id="1" name="风电" pId="ALL" order="1" visible="1" owner=",1,2," FileName="" />
   <parment id="2" name="光伏" pId="ALL" order="2" visible="1" owner=",1,2," FileName="" />
