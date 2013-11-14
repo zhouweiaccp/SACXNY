@@ -4,18 +4,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>标杆风机对比</title>
-    <link href="../js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css" />
-    <link href="../UI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
-    <link href="../UI/themes/icon.css" rel="stylesheet" type="text/css" />
+    <link href="../Js/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css" />
+    <link href="../Js/jQueryEasyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="../Js/jQueryEasyUI/themes/icon.css" rel="stylesheet" type="text/css" />
     <link href="../css/zTreeStyle/FJ.css" rel="stylesheet" type="text/css" />
     <link href="../css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
-    <script src="../js/WPPLine.js" type="text/javascript"></script>
-    <script src="../js/Chart.js" type="text/javascript"></script>
-    <script src="../UI/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script src="../js/jquery.ztree.core-3.5.js" type="text/javascript"></script>
-    <script src="../js/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
-    <script src="../UI/jquery.easyui.min.js" type="text/javascript"></script>
-    <script src="../js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="../Js/WPPLine.js" type="text/javascript"></script>
+    <script src="../Js/Chart.js" type="text/javascript"></script>
+    <script src="../Js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../Js/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="../Js/jQueryZtree/jquery.ztree.core-3.5.js" type="text/javascript"></script>
+    <script src="../Js/jQueryZtree/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
+    <script src="../Js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
     <script type="text/javascript">
     	<!--
         var idbg = '';
@@ -242,9 +242,9 @@
     </script>
 </head>
 <body style="font-size: 12px;">
-    <script src="../js/highcharts.js" type="text/javascript"></script>
-    <script src="../js/data.js" type="text/javascript"></script>
-    <script src="../js/exporting.js" type="text/javascript"></script>
+    <script src="../Js/highcharts.js" type="text/javascript"></script>
+    <script src="../Js/data.js" type="text/javascript"></script>
+    <script src="../Js/exporting.js" type="text/javascript"></script>
     <div id="dv_body">
         <div id="dv_jz" style="width: 340px; float: left;">
             <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
