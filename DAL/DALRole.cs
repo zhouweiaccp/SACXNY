@@ -20,7 +20,7 @@ namespace DAL
         {
             string errMsg = "";
             DataTable dt = null;
-            string sql = "select * from T_SYS_GROUP order by ID_KEY asc";
+            string sql = "select * from Administrator.T_SYS_GROUP order by ID_KEY asc";
             dt = dl.RunDataTable(sql, out errMsg);
             return dt;
         }
@@ -28,26 +28,26 @@ namespace DAL
         public DataTable GetAllRole(int sCount, int eCount)
         {
             DataTable dt = null;
-            string[] cName = new string[]{"ID_KEY","T_GRPID","T_GRPDESC"};
-            dt = dl.GetS2Enotes("T_SYS_GROUP",cName,"ID_KEY",sCount,eCount);
+            string[] cName = new string[] { "ID_KEY", "T_GRPID", "T_GRPDESC" };
+            dt = dl.GetS2Enotes("Administrator.T_SYS_GROUP", cName, "ID_KEY", sCount, eCount);
             return dt;
         }
         //共有多少条角色记录
         public int GetRoleCount()
         {
-            return dl.GetCount("T_SYS_GROUP");
+            return dl.GetCount("Administrator.T_SYS_GROUP");
         }
         //保存新的角色信息
         public bool SaveRole(string rId, string rName, out string errMsg)
         {
             errMsg = "";
             bool flag = false;
-            string sql1 = "select * from T_SYS_GROUP where T_GRPID='" + rId + "'";
+            string sql1 = "select * from Administrator.T_SYS_GROUP where T_GRPID='" + rId + "'";
             DataTable dt = null;
-            dt = dl.RunDataTable(sql1,out errMsg);
+            dt = dl.RunDataTable(sql1, out errMsg);
             if (dt == null || dt.Rows.Count == 0)
             {
-                string sql2 = "insert into T_SYS_GROUP (T_GRPID,T_GRPDESC) values ('" + rId + "','" + rName + "')";
+                string sql2 = "insert into Administrator.T_SYS_GROUP (T_GRPID,T_GRPDESC) values ('" + rId + "','" + rName + "')";
                 dl.RunNonQuery(sql2, out errMsg);
                 if (errMsg == "")
                 {
@@ -69,7 +69,7 @@ namespace DAL
             errMsg = "";
             if (rId == OrId)
             {
-                string sql1 = "update T_SYS_GROUP set T_GRPDESC='" + rName + "' where T_GRPID='" + OrId + "'";
+                string sql1 = "update Administrator.T_SYS_GROUP set T_GRPDESC='" + rName + "' where T_GRPID='" + OrId + "'";
                 dl.RunNonQuery(sql1, out errMsg);
                 if (errMsg == "")
                 {
@@ -82,13 +82,13 @@ namespace DAL
             }
             else
             {
-                string sql1 = "select * from T_SYS_GROUP where T_GRPID='" + rId + "'";
+                string sql1 = "select * from Administrator.T_SYS_GROUP where T_GRPID='" + rId + "'";
 
                 DataTable dt = null;
                 dt = dl.RunDataTable(sql1, out errMsg);
                 if (dt == null || dt.Rows.Count == 0)
                 {
-                    string sql2 = "update T_SYS_GROUP set T_GRPID='" + rId + "',T_GRPDESC='" + rName + "' where T_GRPID='" + OrId + "'";
+                    string sql2 = "update Administrator.T_SYS_GROUP set T_GRPID='" + rId + "',T_GRPDESC='" + rName + "' where T_GRPID='" + OrId + "'";
                     dl.RunNonQuery(sql2, out errMsg);
                     if (errMsg == "")
                     {
@@ -111,9 +111,9 @@ namespace DAL
             errMsg = "";
             bool flag = true;
 
-            string sql = "delete from T_SYS_GROUP where T_GRPID='" + rId + "'";
+            string sql = "delete from Administrator.T_SYS_GROUP where T_GRPID='" + rId + "'";
             dl.RunNonQuery(sql, out errMsg);
-            
+
             if (errMsg == "")
             {
                 return true;
@@ -134,16 +134,16 @@ namespace DAL
         {
             string errMsg = "";
             DataTable dt = null;
-            string sql = "select T_USERID,T_USERNAME from T_SYS_MEMBERINFO order by ID_KEY asc";
+            string sql = "select T_USERID,T_USERNAME from Administrator.T_SYS_MEMBERINFO order by ID_KEY asc";
             try
             {
                 dt = dl.RunDataTable(sql, out errMsg);
             }
             catch (Exception ex)
             {
-                
+
             }
-            
+
             return dt;
         }
         /// <summary>
@@ -173,9 +173,9 @@ namespace DAL
             int t1 = eCount - sCount + 1;
             int t2 = sCount - 1;
             string rlDBType = dl.init();
-            string sql = "select top " + t1 + " * from (select ID_KEY,T_USERID,T_USERNAME from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "')as b where (b.ID_KEY not in ( select top " + t2 + " ID_KEY from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'))";
-            string sql1 = "select * from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME,rownumber() over(order by ID_KEY asc ) as rowid from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "') as b where b.rowid between " + sCount + " and " + eCount + "";
-            string sql2 = "select * from(select ID_KEY,T_USERID,T_USERNAME,ROWNUM rn from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "' and ROWNUM <= " + eCount + ")WHERE rn >= " + sCount + "";
+            string sql = "select top " + t1 + " * from (select ID_KEY,T_USERID,T_USERNAME from(select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "')as b where (b.ID_KEY not in ( select top " + t2 + " ID_KEY from(select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'))";
+            string sql1 = "select * from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME,rownumber() over(order by ID_KEY asc ) as rowid from (select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID ORDER BY Administrator.T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "') as b where b.rowid between " + sCount + " and " + eCount + "";
+            string sql2 = "select * from(select ID_KEY,T_USERID,T_USERNAME,ROWNUM rn from(select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID ORDER BY Administrator.T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "' and ROWNUM <= " + eCount + ")WHERE rn >= " + sCount + "";
 
             string errMsg;
             DataTable dt = null;
@@ -219,9 +219,9 @@ namespace DAL
         public int GetUserCountByRole(string id)
         {
             string rlDBType = dl.init();
-            string sql = "select COUNT(*) from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'";
-            string sql1 = "select count(*) from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "')as b";
-            string sql2 = "select count(*) from ( select ID_KEY,T_USERID,T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "')";
+            string sql = "select COUNT(*) from(select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'";
+            string sql1 = "select count(*) from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME from (select Administrator.T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID ORDER BY Administrator.T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "')as b";
+            string sql2 = "select count(*) from ( select ID_KEY,T_USERID,T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,Administrator.T_SYS_MEMBERINFO.T_USERID,Administrator.T_SYS_MEMBERINFO.T_USERNAME,Administrator.T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON Administrator.T_SYS_MEMBERGRP.T_USERID=Administrator.T_SYS_MEMBERINFO.T_USERID ORDER BY Administrator.T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "')";
             string errMsg;
             int count = 0;
             if (rlDBType == "SQL")
@@ -469,7 +469,7 @@ namespace DAL
                 sql = "select T_USERID,T_USERNAME,T_PASSWD from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
             else
                 sql = "select * from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
-            
+
             try
             {
                 dt = dl.RunDataTable(sql, out errMsg);
@@ -478,7 +478,7 @@ namespace DAL
             {
                 LogHelper.WriteLog(LogHelper.EnLogType.Run, "发生时间：" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "/n错误信息：" + ex.Message);
             }
-            
+
             return dt;
         }
         #endregion
@@ -649,7 +649,7 @@ namespace DAL
             {
                 LogHelper.WriteLog(LogHelper.EnLogType.Run, "发生时间：" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "/n错误信息：" + ex.Message);
             }
-            
+
             return result;
         }
         #endregion
@@ -660,13 +660,13 @@ namespace DAL
         {
             string errMsg = "";
             string sql1 = "select * from Administrator.T_SYS_MENU where T_XMLID='WebMenu'";
-            DataTable dt = dl.RunDataTable(sql1,out errMsg);
+            DataTable dt = dl.RunDataTable(sql1, out errMsg);
             if (dt.Rows.Count == 0 || dt == null)
             {
                 string sql2 = "insert into T_SYS_MENU (T_XMLID,T_XMLNAME) values ('WebMenu','系统菜单')";
                 dl.RunNonQuery(sql2, out errMsg);
             }
-            return dl.RetBoolUpFile("T_SYS_MENU", "T_XMLID", "WebMenu", "B_XML", fileBytes,out errMsg);
+            return dl.RetBoolUpFile("T_SYS_MENU", "T_XMLID", "WebMenu", "B_XML", fileBytes, out errMsg);
         }
 
         public bool IsEmptyXml()
@@ -683,7 +683,7 @@ namespace DAL
         }
         public bool DownLoadXml(string fileID, string filePath)
         {
-            return dl.DownLoadXml(fileID,filePath);
+            return dl.DownLoadXml(fileID, filePath);
         }
         #endregion
 
@@ -691,9 +691,9 @@ namespace DAL
         public DataTable GetUserInfo(string userName)
         {
             DataTable dt = null;
-            string errMsg="";
+            string errMsg = "";
             string sql = "select * from Administrator.T_SYS_MEMBERINFO where T_USERID='" + userName + "'";
-            dt = dl.RunDataTable(sql,out errMsg);
+            dt = dl.RunDataTable(sql, out errMsg);
             return dt;
         }
         public string GetRoleId(string userId)

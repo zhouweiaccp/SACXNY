@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ManageRole.aspx.cs" Inherits="SACSIS.Admin.ManageRole" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>角色管理</title>
@@ -9,80 +8,80 @@
     <link href="../Js/jQueryEasyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
     <link href="../Js/jQueryEasyUI/css/djxt.css" rel="stylesheet" type="text/css" />
     <link href="../css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
-    <script src="../Js/jQueryEasyUI/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="../Js/jQueryEasyUI/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="../Js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../Js/jquery.easyui.min.js" type="text/javascript"></script>
     <script src="../Js/jQueryZtree/jquery.ztree.core-3.5.js" type="text/javascript"></script>
     <script src="../Js/jQueryZtree/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
     <style type="text/css">
-     body
-     {
-     	height:100%; 
-     	overflow:auto; 
-     	margin:0px; 
-     	padding:0px;
-     }
-     .style1
+        body
         {
-            background-image:url(../img/table-head-2.jpg);
-            height:25px;
-            font-size:13px;     
-            color:Black;
-            width:300px;
+            height: 100%;
+            overflow: auto;
+            margin: 0px;
+            padding: 0px;
+        }
+        .style1
+        {
+            background-image: url(../img/table-head-2.jpg);
+            height: 25px;
+            font-size: 13px;
+            color: Black;
+            width: 300px;
         }
         .style2
         {
-            background-image:url(../img/table-head-3.jpg);
-            height:25px;
-            width:1px;
+            background-image: url(../img/table-head-3.jpg);
+            height: 25px;
+            width: 1px;
         }
         .style3
         {
-            background-image:url(../img/table-head-2.jpg);
-            height:25px;
-            font-size:13px;     
-            color:Black;
+            background-image: url(../img/table-head-2.jpg);
+            height: 25px;
+            font-size: 13px;
+            color: Black;
         }
         .style4
-    {
-    	font-size:12px;
-        width:500px;
-        color:#599ce0;
-    }
+        {
+            font-size: 12px;
+            width: 500px;
+            color: #599ce0;
+        }
         .style5
         {
-            background-image:url(../img/table-head-3.jpg);
-            width:1px;
+            background-image: url(../img/table-head-3.jpg);
+            width: 1px;
         }
         .style6
         {
             width: 50px;
-            background-color:#f2f5f7;
+            background-color: #f2f5f7;
         }
         .style7
         {
             font-size: 13px;
-            height:30px;
-            background-color:#f2f5f7;
+            height: 30px;
+            background-color: #f2f5f7;
         }
         .button
         {
-        width:76px;  /*图片宽带*/
-        background:url(../img/button.jpg) no-repeat left top;  /*图片路径*/
-        border:none;  /*去掉边框*/
-        height:24px; /*图片高度*/
-        color:Black;
-        vertical-align: middle;
-        text-align:center
+            width: 76px; /*图片宽带*/
+            background: url(../img/button.jpg) no-repeat left top; /*图片路径*/
+            border: none; /*去掉边框*/
+            height: 24px; /*图片高度*/
+            color: Black;
+            vertical-align: middle;
+            text-align: center;
         }
-       .title
-       {
-       	background-image:url(../img/table-head.jpg);
-       	height:30px;
-       	text-align:30px;
-        	font-size:13px;
-        	color:#0a4869;
-        	font-weight:bold;
-       }
+        .title
+        {
+            background-image: url(../img/table-head.jpg);
+            height: 30px;
+            text-align: 30px;
+            font-size: 13px;
+            color: #0a4869;
+            font-weight: bold;
+        }
     </style>
     <script type="text/javascript">
         var ihight;
@@ -159,8 +158,8 @@
 		            var id = "";
 		            var name = "";
 		            $.each(rows, function (i, n) {
-		            	id += "" + n.T_GRPID + ",";
-		            	name += n.T_GRPDESC + ',';
+		                id += "" + n.T_GRPID + ",";
+		                name += n.T_GRPDESC + ',';
 		            });
 		            name = name.substring(0, name.length - 1);
 		            id = id.substring(0, id.length - 1);
@@ -270,29 +269,48 @@
             }
         }; 
 		
-</script>
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-    <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tr><td colspan="3" class="title">&nbsp;角色管理</td></tr>
-    <tr><td valign="middle" class="style1">&nbsp;注意事项</td></tr>
-    <tr><td align="left" valign="middle" height="30px"><div class="style4">&nbsp;&nbsp;角色ID必须唯一不可重复</div></td></tr>
-    <tr><td><div><table id="grid"></table></div></td></tr>
-    </table>
+        <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="3" class="title">
+                    &nbsp;角色管理
+                </td>
+            </tr>
+            <tr>
+                <td valign="middle" class="style1">
+                    &nbsp;注意事项
+                </td>
+            </tr>
+            <tr>
+                <td align="left" valign="middle" height="30px">
+                    <div class="style4">
+                        &nbsp;&nbsp;角色ID必须唯一不可重复</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <table id="grid">
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
     <div id="dv_add" data-options="iconCls:'icon-save'" style="padding: 5px; width: 400px;
         height: 200px;">
         <p>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 角色编号&nbsp;
             <input id="txtID" class="easyui-validatebox" type="text" name="name" style="border: solid 1px #E0ECF9;
-                text-align: center;" /><input type="text" id="txtOID" style="visibility:hidden" /></p>
+                text-align: center;" /><input type="text" id="txtOID" style="visibility: hidden" /></p>
         <p>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 角色名称&nbsp;
             <input id="txtName" class="easyui-validatebox" type="text" name="name" style="border: solid 1px #E0ECF9;
                 text-align: center;" /></p>
-                
     </div>
     </form>
 </body>

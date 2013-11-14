@@ -53,8 +53,8 @@
                                         </tr>
                                         <tr>
                                             <td height="39" align="center" valign="top" style="font-size: 9pt">
-                                                密&nbsp;&nbsp;&nbsp;码：<asp:TextBox ID="PassWord" runat="server" Width="120px" TextMode="Password"
-                                                    Height="22px" TabIndex="2"></asp:TextBox>
+                                                密&nbsp;&nbsp;&nbsp;&nbsp;码：<asp:TextBox ID="PassWord" runat="server" Width="120px"
+                                                    TextMode="Password" Height="22px" TabIndex="2"></asp:TextBox>
                                             </td>
                                         </tr>
                                     </table>

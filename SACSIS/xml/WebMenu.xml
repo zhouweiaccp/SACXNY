@@ -170,4 +170,9 @@
   <parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="" />
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName="" />
   <parment id="141" name="12" pId="24" order="1" visible="1" owner=",2," FileName="1" />
+  <parment id="701" name="系统管理" pId="7" order="4" visible="1" owner=",1," FileName="" />
+  <parment id="702" name="菜单管理" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManageMenu.aspx" />
+  <parment id="703" name="角色管理" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManageRole.aspx" />
+  <parment id="704" name="用户管理" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManageRoleUser.aspx" />
+  <parment id="705" name="权限分配" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManagePower.aspx" />
 </rquuest>

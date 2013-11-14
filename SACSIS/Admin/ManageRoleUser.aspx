@@ -1,7 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ManageRoleUser.aspx.cs" Inherits="SACSIS.Admin.ManageRoleUser" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ManageRoleUser.aspx.cs"
+    Inherits="SACSIS.Admin.ManageRoleUser" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>角色用户管理</title>
@@ -9,74 +9,74 @@
     <link href="../Js/jQueryEasyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
     <link href="../Js/jQueryEasyUI/css/djxt.css" rel="stylesheet" type="text/css" />
     <link href="../css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
-    <script src="../Js/jQueryEasyUI/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="../Js/jQueryEasyUI/jquery.easyui.min.js" type="text/javascript"></script>
+    <script src="../Js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../Js/jquery.easyui.min.js" type="text/javascript"></script>
     <script src="../Js/jQueryZtree/jquery.ztree.core-3.5.js" type="text/javascript"></script>
     <script src="../Js/jQueryZtree/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
     <style type="text/css">
-     body
-     {
-     	height:100%; 
-     	overflow:auto; 
-     	margin:0px; 
-     	padding:0px;
-     }
-     .style1
+        body
         {
-            background-image:url(../img/table-head-2.jpg);
-            height:25px;
-            font-size:13px;     
-            color:Black;
-            width:300px;
+            height: 100%;
+            overflow: auto;
+            margin: 0px;
+            padding: 0px;
+        }
+        .style1
+        {
+            background-image: url(../img/table-head-2.jpg);
+            height: 25px;
+            font-size: 13px;
+            color: Black;
+            width: 300px;
         }
         .style2
         {
-            background-image:url(../img/table-head-3.jpg);
-            height:25px;
-            width:1px;
+            background-image: url(../img/table-head-3.jpg);
+            height: 25px;
+            width: 1px;
         }
         .style3
         {
-            background-image:url(../img/table-head-2.jpg);
-            height:25px;
-            font-size:13px;     
-            color:Black;
+            background-image: url(../img/table-head-2.jpg);
+            height: 25px;
+            font-size: 13px;
+            color: Black;
         }
         .style5
         {
-            background-image:url(../img/table-head-3.jpg);
-            width:1px;
+            background-image: url(../img/table-head-3.jpg);
+            width: 1px;
         }
         .style6
         {
             width: 50px;
-            background-color:#f2f5f7;
+            background-color: #f2f5f7;
         }
         .style7
         {
             font-size: 13px;
-            height:30px;
-            background-color:#f2f5f7;
+            height: 30px;
+            background-color: #f2f5f7;
         }
         .button
         {
-        width:76px;  /*图片宽带*/
-        background:url(../img/button.jpg) no-repeat left top;  /*图片路径*/
-        border:none;  /*去掉边框*/
-        height:24px; /*图片高度*/
-        color:Black;
-        vertical-align: middle;
-        text-align:center
+            width: 76px; /*图片宽带*/
+            background: url(../img/button.jpg) no-repeat left top; /*图片路径*/
+            border: none; /*去掉边框*/
+            height: 24px; /*图片高度*/
+            color: Black;
+            vertical-align: middle;
+            text-align: center;
         }
-       .title
-       {
-       	background-image:url(../img/table-head.jpg);
-       	height:30px;
-       	text-align:30px;
-        	font-size:13px;
-        	color:#0a4869;
-        	font-weight:bold;
-       }
+        .title
+        {
+            background-image: url(../img/table-head.jpg);
+            height: 30px;
+            text-align: 30px;
+            font-size: 13px;
+            color: #0a4869;
+            font-weight: bold;
+        }
     </style>
     <script type="text/javascript">
         var ihight;
@@ -114,7 +114,7 @@
             $("#txtRoleName").val(treeNode.name); //右侧表格显示组织名称
             $("#txtRoleId").val(treeNode.id);
             roleId = treeNode.id;
-            Grid(treeNode.id);  
+            Grid(treeNode.id);
         }
 
         function Grid(id) {
@@ -152,53 +152,53 @@
                         AddShow(id);
                     }
                 },
-//                {
-//                    id: 'btnedit',
-//                    text: '编辑人员',
-//                    iconCls: 'icon-edit',
-//                    handler: function () {
-//                        var rows = $('#grid').datagrid('getSelections');
-//                        var id = "";
-//                        $.each(rows, function (i, n) {
-//                            id += "" + n.id + ",";
-//                        });
-//                        id = id.substring(0, id.length - 1);
-//                        //var idlist = new Array();
-//                        //idlist = id.split(",");
-//                        //var idlength = idlist.length;
-//                        //$('#txtHide').val(idlist[idlength - 1]);
-//                        //EditShow(idlist[idlength - 1]);
-//                        $('#txtHide').val(id);
-//                        EditShow(id);
-//                    }
-//                },
+                //                {
+                //                    id: 'btnedit',
+                //                    text: '编辑人员',
+                //                    iconCls: 'icon-edit',
+                //                    handler: function () {
+                //                        var rows = $('#grid').datagrid('getSelections');
+                //                        var id = "";
+                //                        $.each(rows, function (i, n) {
+                //                            id += "" + n.id + ",";
+                //                        });
+                //                        id = id.substring(0, id.length - 1);
+                //                        //var idlist = new Array();
+                //                        //idlist = id.split(",");
+                //                        //var idlength = idlist.length;
+                //                        //$('#txtHide').val(idlist[idlength - 1]);
+                //                        //EditShow(idlist[idlength - 1]);
+                //                        $('#txtHide').val(id);
+                //                        EditShow(id);
+                //                    }
+                //                },
 		        {
-		            id: 'btnremove',
-		            text: '删除人员',
-		            iconCls: 'icon-remove',
-		            handler: function () {
-		                var rows = $('#grid').datagrid('getSelections');
-		                var id = "";
-		                var name = "";
-		                $.each(rows, function (i, n) {
-		                    id += "'" + n.id + "',";
-		                    name += n.name + ',';
-		                });
-		                name = name.substring(0, name.length - 1);
-		                id = id.substring(0, id.length - 1);
-                        //var idlist = new Array();
-                        //idlist = id.split(",");
-                        //var idlength = idlist.length;
-                        //$.messager.confirm('删除人员信息', '你确定要删除 ' + idlist[idlength - 1] + '  吗?', function (ok) {
-                        $.messager.confirm('删除人员信息', '你确定要删除 ' + id + '  吗?', function (ok) {
-		                    if (ok) {
-		                        Remove(id);
-		                    } else {
-		                        //$.messager.alert('删除人员信息', '删除已取消!', 'info');
-		                    }
-		                });
-		            }
-		        }],
+		        id: 'btnremove',
+		        text: '删除人员',
+		        iconCls: 'icon-remove',
+		        handler: function () {
+		            var rows = $('#grid').datagrid('getSelections');
+		            var id = "";
+		            var name = "";
+		            $.each(rows, function (i, n) {
+		                id += "'" + n.id + "',";
+		                name += n.name + ',';
+		            });
+		            name = name.substring(0, name.length - 1);
+		            id = id.substring(0, id.length - 1);
+		            //var idlist = new Array();
+		            //idlist = id.split(",");
+		            //var idlength = idlist.length;
+		            //$.messager.confirm('删除人员信息', '你确定要删除 ' + idlist[idlength - 1] + '  吗?', function (ok) {
+		            $.messager.confirm('删除人员信息', '你确定要删除 ' + id + '  吗?', function (ok) {
+		                if (ok) {
+		                    Remove(id);
+		                } else {
+		                    //$.messager.alert('删除人员信息', '删除已取消!', 'info');
+		                }
+		            });
+		        }
+		    }],
                 onDblClickRow: function (rowIndex, rowData) {
                     $('#grid').datagrid('clearSelections');
                     $('#txtHide').val(rowData.id);
@@ -243,27 +243,27 @@
                 $("#Par").show();
                 $("#slclass").show();
             } else {
-            $.post("ManageRoleUser.aspx", { param: 'JudgeMember', userID: escape($("#txtUserID").val()) }, function (data) {
-                if (Number(data.judge) == 1) {
-                    $('#txtPwd').val('');
-                    $('#txtPwd2').val('');
-                    $.messager.alert('添加人员信息', '已经存在用户名为：' + $("#txtUserID").val() + '的人员,不能重复添加!', 'error');
-                }
-                else if ($("#txtPwd").val() != $("#txtPwd2").val()) {
-                    $.messager.alert('添加人员信息', '密码输入不一致，请重新输入密码', 'error');
-                }
-                else {
-                    $.post("ManageRoleUser.aspx", { param: 'AddMember', userID: $("#txtUserID").val(), userName: escape($("#txtUserName").val()), pwd: escape($("#txtPwd").val()),
-                        img: escape($("#flImg").val()), par: $("#Par").val(), treeNodeId: $('#txtRoleId').val()
-                    }, function (data) {
-                        //Tree($('#txtID').val());
-                        //$('#dv_add').hide();
-                        $('#dv_add').dialog('close');
-                        $.messager.alert('添加人员信息', data.info, 'info');
-                        Grid($('#txtRoleId').val())
-                    }, 'json');
-                }
-            }, 'json');
+                $.post("ManageRoleUser.aspx", { param: 'JudgeMember', userID: escape($("#txtUserID").val()) }, function (data) {
+                    if (Number(data.judge) == 1) {
+                        $('#txtPwd').val('');
+                        $('#txtPwd2').val('');
+                        $.messager.alert('添加人员信息', '已经存在用户名为：' + $("#txtUserID").val() + '的人员,不能重复添加!', 'error');
+                    }
+                    else if ($("#txtPwd").val() != $("#txtPwd2").val()) {
+                        $.messager.alert('添加人员信息', '密码输入不一致，请重新输入密码', 'error');
+                    }
+                    else {
+                        $.post("ManageRoleUser.aspx", { param: 'AddMember', userID: $("#txtUserID").val(), userName: escape($("#txtUserName").val()), pwd: escape($("#txtPwd").val()),
+                            img: escape($("#flImg").val()), par: $("#Par").val(), treeNodeId: $('#txtRoleId').val()
+                        }, function (data) {
+                            //Tree($('#txtID').val());
+                            //$('#dv_add').hide();
+                            $('#dv_add').dialog('close');
+                            $.messager.alert('添加人员信息', data.info, 'info');
+                            Grid($('#txtRoleId').val())
+                        }, 'json');
+                    }
+                }, 'json');
             }
         }
         function EditShow(id) {
@@ -339,8 +339,8 @@
                 $.messager.alert('删除人员信息', data.info, 'info');
             }, 'json');
         }
-        </script>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
         function pageHeight() {
             if ($.browser.msie) {
                 return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight :
@@ -363,35 +363,60 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tr><td colspan="3" class="title">&nbsp;角色用户管理</td></tr>
-    <tr>
-		<td valign="middle" class="style1">&nbsp;角色列表</td>
-		<td class="style2"><img alt="" src="../img/table-head-3.jpg" /></td>
-		<td valign="middle" class="style3">&nbsp;角色名称</td>
-	</tr>
-    <tr>
-        <td align="left" valign="top" width="300px">
-            <ul id="rolesTree" class="ztree"></ul>          
-        </td>
-        <td class="style5"></td>
-        <td>
-           <div>
-               <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0"> 
-               <tr style=" height:40px"><td style="background-color:#ffffff" align="center">
-                   <input id="txtRoleName" type="text" runat="server" size="35" value="尚未选择任何角色" disabled="disabled" style="border: solid 0px #E0ECF9; background-color:#ffffff; text-align:center; color:#000000;"/>
-                        <input id="txtRoleId" type="text" runat="server" size="5" />
-               </td></tr>
-               <tr><td style=" height:1px; background-color:#99bbe8;"></td></tr>
-               <tr><td><div><table id="grid" width="100%" height="100%"></table></div></td></tr>
-               </table>
-           </div>
-        </td>
-    </tr>
-    </table>
+        <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="3" class="title">
+                    &nbsp;角色用户管理
+                </td>
+            </tr>
+            <tr>
+                <td valign="middle" class="style1">
+                    &nbsp;角色列表
+                </td>
+                <td class="style2">
+                    <img alt="" src="../img/table-head-3.jpg" />
+                </td>
+                <td valign="middle" class="style3">
+                    &nbsp;角色名称
+                </td>
+            </tr>
+            <tr>
+                <td align="left" valign="top" width="300px">
+                    <ul id="rolesTree" class="ztree">
+                    </ul>
+                </td>
+                <td class="style5">
+                </td>
+                <td>
+                    <div>
+                        <table height="100%" width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr style="height: 40px">
+                                <td style="background-color: #ffffff" align="center">
+                                    <input id="txtRoleName" type="text" runat="server" size="35" value="尚未选择任何角色" disabled="disabled"
+                                        style="border: solid 0px #E0ECF9; background-color: #ffffff; text-align: center;
+                                        color: #000000;" />
+                                    <input id="txtRoleId" type="text" runat="server" size="5" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 1px; background-color: #99bbe8;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <table id="grid" width="100%" height="100%">
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
     </form>
-
     <div id="dv_add" data-options="iconCls:'icon-save'" style="padding: 5px; width: 700px;
         height: 280px;">
         <div id="dv_Member_info">
@@ -434,7 +459,8 @@
                         照片
                     </td>
                     <td class="admincls0" colspan="3">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="flImg" type="file" style="width: 280px;" /></td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="flImg" type="file" style="width: 280px;" />
+                    </td>
                 </tr>
             </table>
         </div>
@@ -495,6 +521,5 @@
             </table>
         </div>
     </div>
-
 </body>
 </html>
