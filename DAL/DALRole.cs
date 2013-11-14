@@ -155,7 +155,7 @@ namespace DAL
         {
             bool result = false;
             string errMsg = "";
-            string sql = "select count(*) from T_SYS_MEMBERGRP where T_GRPID='" + id + "'";
+            string sql = "select count(*) from Administrator.T_SYS_MEMBERGRP where T_GRPID='" + id + "'";
             int count = dl.RunRowCount(sql, out errMsg);
             if (count > 0)
                 result = true;
@@ -173,9 +173,9 @@ namespace DAL
             int t1 = eCount - sCount + 1;
             int t2 = sCount - 1;
             string rlDBType = dl.init();
-            string sql = "select top " + t1 + " * from (select ID_KEY,T_USERID,T_USERNAME from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "')as b where (b.ID_KEY not in ( select top " + t2 + " ID_KEY from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'))";
-            string sql1 = "select * from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME,rownumber() over(order by ID_KEY asc ) as rowid from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "') as b where b.rowid between " + sCount + " and " + eCount + "";
-            string sql2 = "select * from(select ID_KEY,T_USERID,T_USERNAME,ROWNUM rn from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "' and ROWNUM <= " + eCount + ")WHERE rn >= " + sCount + "";
+            string sql = "select top " + t1 + " * from (select ID_KEY,T_USERID,T_USERNAME from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "')as b where (b.ID_KEY not in ( select top " + t2 + " ID_KEY from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'))";
+            string sql1 = "select * from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME,rownumber() over(order by ID_KEY asc ) as rowid from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "') as b where b.rowid between " + sCount + " and " + eCount + "";
+            string sql2 = "select * from(select ID_KEY,T_USERID,T_USERNAME,ROWNUM rn from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "' and ROWNUM <= " + eCount + ")WHERE rn >= " + sCount + "";
 
             string errMsg;
             DataTable dt = null;
@@ -219,9 +219,9 @@ namespace DAL
         public int GetUserCountByRole(string id)
         {
             string rlDBType = dl.init();
-            string sql = "select COUNT(*) from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'";
-            string sql1 = "select count(*) from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "')as b";
-            string sql2 = "select count(*) from ( select ID_KEY,T_USERID,T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from T_SYS_MEMBERINFO left JOIN T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "')";
+            string sql = "select COUNT(*) from(select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID)as a where a.T_GRPID='" + id + "'";
+            string sql1 = "select count(*) from ( select a.ID_KEY,a.T_USERID,a.T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY)as a where a.T_GRPID='" + id + "')as b";
+            string sql2 = "select count(*) from ( select ID_KEY,T_USERID,T_USERNAME from (select T_SYS_MEMBERINFO.ID_KEY,T_SYS_MEMBERINFO.T_USERID,T_SYS_MEMBERINFO.T_USERNAME,T_SYS_MEMBERGRP.T_GRPID from Administrator.T_SYS_MEMBERINFO left JOIN Administrator.T_SYS_MEMBERGRP ON T_SYS_MEMBERGRP.T_USERID=T_SYS_MEMBERINFO.T_USERID ORDER BY T_SYS_MEMBERINFO.ID_KEY) where T_GRPID='" + id + "')";
             string errMsg;
             int count = 0;
             if (rlDBType == "SQL")
@@ -277,7 +277,7 @@ namespace DAL
             {
                 try
                 {
-                    string sql = "select count(*) from T_SYS_MEMBERINFO where T_USERID='" + id + "'";
+                    string sql = "select count(*) from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
                     count = dl.RunRowCount(sql, out errMsg);
                     if (count > 0)
                         result = true;
@@ -291,7 +291,7 @@ namespace DAL
             {
                 try
                 {
-                    string sql = "select count(*) from T_SYS_MEMBERINFO where T_USERID='" + id + "'";
+                    string sql = "select count(*) from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
                     count = dl.RunRowCount(sql, out errMsg);
                     if (count > 0)
                         result = true;
@@ -305,7 +305,7 @@ namespace DAL
             {
                 try
                 {
-                    string sql = "select count(*) from T_SYS_MEMBERINFO where T_USERID='" + id + "'";
+                    string sql = "select count(*) from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
                     DataTable dt = dl.RunDataTable(sql, out errMsg);
                     count = int.Parse(dt.Rows[0]["count(*)"].ToString());
                     if (count > 0)
@@ -466,9 +466,9 @@ namespace DAL
             string errMsg;
             DataTable dt = null;
             if (i == 1)
-                sql = "select T_USERID,T_USERNAME,T_PASSWD from T_SYS_MEMBERINFO where T_USERID='" + id + "'";
+                sql = "select T_USERID,T_USERNAME,T_PASSWD from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
             else
-                sql = "select * from T_SYS_MEMBERINFO where T_USERID='" + id + "'";
+                sql = "select * from Administrator.T_SYS_MEMBERINFO where T_USERID='" + id + "'";
             
             try
             {
@@ -640,7 +640,7 @@ namespace DAL
         {
             string errMsg;
             bool result = false;
-            string sql = "delete from T_SYS_MEMBERINFO where T_USERID in (" + id + ");delete from T_SYS_MEMBERGRP where T_USERID in (" + id + ");";
+            string sql = "delete from Administrator.T_SYS_MEMBERINFO where T_USERID in (" + id + ");delete from Administrator.T_SYS_MEMBERGRP where T_USERID in (" + id + ");";
             try
             {
                 result = dl.RunNonQuery(sql, out errMsg);
@@ -659,7 +659,7 @@ namespace DAL
         public bool UpdataWebMenuXml(byte[] fileBytes)
         {
             string errMsg = "";
-            string sql1 = "select * from T_SYS_MENU where T_XMLID='WebMenu'";
+            string sql1 = "select * from Administrator.T_SYS_MENU where T_XMLID='WebMenu'";
             DataTable dt = dl.RunDataTable(sql1,out errMsg);
             if (dt.Rows.Count == 0 || dt == null)
             {
@@ -672,7 +672,7 @@ namespace DAL
         public bool IsEmptyXml()
         {
             string errMsg = "";
-            string sql = "select * from T_SYS_MENU where T_XMLID='WebMenu'";
+            string sql = "select * from Administrator.T_SYS_MENU where T_XMLID='WebMenu'";
             DataTable dt = dl.RunDataTable(sql, out errMsg);
             if (dt.Rows.Count == 0 || dt == null)
             {
@@ -692,7 +692,7 @@ namespace DAL
         {
             DataTable dt = null;
             string errMsg="";
-            string sql = "select * from T_SYS_MEMBERINFO where T_USERID='" + userName + "'";
+            string sql = "select * from Administrator.T_SYS_MEMBERINFO where T_USERID='" + userName + "'";
             dt = dl.RunDataTable(sql,out errMsg);
             return dt;
         }
@@ -700,7 +700,7 @@ namespace DAL
         {
             DataTable dt = null;
             string errMsg = "";
-            string sql = "select * from T_SYS_MEMBERGRP where T_USERID='" + userId + "'";
+            string sql = "select * from Administrator.T_SYS_MEMBERGRP where T_USERID='" + userId + "'";
             dt = dl.RunDataTable(sql, out errMsg);
             string roleId = dt.Rows[0]["T_GRPID"].ToString();
             return roleId;
