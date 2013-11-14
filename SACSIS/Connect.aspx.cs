@@ -42,7 +42,7 @@ namespace Web
             string roleId = bl.GetRoleId(userId);
             dt = new DataTable();
             GetTreeList();
-            DataRow[] _dr = dt.Select("PID=" + id);
+            DataRow[] _dr = dt.Select("PID=" + id );
 
             IList<Hashtable> list = new List<Hashtable>();
             for (int i = 0; i < _dr.Length; i++)
@@ -155,11 +155,11 @@ namespace Web
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="TreeNodeId"></param>
-        public void GetTreeNodeSunList(DataTable dt, string TreeNodeId,string roleId)
+        public void GetTreeNodeSunList(DataTable dt, string TreeNodeId, string roleId)
         {
 
             DataRow[] irows = null;
-            irows = dt.Select("PID='" + TreeNodeId + "'");
+            irows = dt.Select("PID=" + TreeNodeId );
             if (irows.Length > 0)
             {
                 for (int k = 0; k < irows.Length; k++)
@@ -171,7 +171,7 @@ namespace Web
                         //icon:"../img/right1.bmp
                         PTreeNodes += "{id:'" + irows[k][0] + "',pId:'" + irows[k][2] + "',link:'" + irows[k][6] + "',name:'" + irows[k][1] + "',t:'" + irows[k][2] + "',icon:'../img/right1.bmp'},";
                     }
-                    GetTreeNodeSunList(dt, irows[k][0].ToString(),roleId);
+                    GetTreeNodeSunList(dt, irows[k][0].ToString(), roleId);
                 }
             }
         }

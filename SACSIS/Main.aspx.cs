@@ -23,7 +23,7 @@ namespace Web
             }
             if (!Page.IsPostBack)
             {
-               // DownLoadXml("Webmenu");//下载XML文件至指定路径
+                DownLoadXml("Webmenu");//下载XML文件至指定路径
                 GetMenuRoot();
             }
 
@@ -46,7 +46,7 @@ namespace Web
             dt = new DataTable();
             GetTreeList();
             DataRow[] dr = null;
-            dr = dt.Select("PID=ALL");
+            dr = dt.Select("PID=00");
             int c = 0;
             for (int i = 0; i < dr.Length; i++)
             {
