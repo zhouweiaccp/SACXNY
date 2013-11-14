@@ -46,7 +46,7 @@ namespace Web
             dt = new DataTable();
             GetTreeList();
             DataRow[] dr = null;
-            dr = dt.Select("PID=00");
+            dr = dt.Select("PID=ALL");
             int c = 0;
             for (int i = 0; i < dr.Length; i++)
             {

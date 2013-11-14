@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <rquuest>
-  <parment id="00" name="全公司1" pId="000" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
-  <parment id="0" name="全公司" pId="00" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
-  <parment id="1" name="风电" pId="00" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="2" name="光伏" pId="00" order="2" visible="1" owner=",1,2," FileName="" />
-  <parment id="3" name="水电" pId="00" order="3" visible="1" owner=",1,2," FileName="" />
-  <parment id="4" name="火电" pId="00" order="4" visible="1" owner=",1,2," FileName="" />
-  <parment id="5" name="分布式" pId="00" order="5" visible="1" owner=",1,2," FileName="" />
-  <parment id="6" name="生物质" pId="00" order="6" visible="1" owner=",1,2," FileName="" />
-  <parment id="7" name="系统管理" pId="00" order="7" visible="1" owner=",1," FileName="" />
+  <parment id="ALL" name="全公司1" pId="000" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
+  <parment id="0" name="全公司" pId="ALL" order="0" visible="1" owner=",1,2," FileName="../Html/qgs_sczl.html" />
+  <parment id="1" name="风电" pId="ALL" order="1" visible="1" owner=",1,2," FileName="" />
+  <parment id="2" name="光伏" pId="ALL" order="2" visible="1" owner=",1,2," FileName="" />
+  <parment id="3" name="水电" pId="ALL" order="3" visible="1" owner=",1,2," FileName="" />
+  <parment id="4" name="火电" pId="ALL" order="4" visible="1" owner=",1,2," FileName="" />
+  <parment id="5" name="分布式" pId="ALL" order="5" visible="1" owner=",1,2," FileName="" />
+  <parment id="6" name="生物质" pId="ALL" order="6" visible="1" owner=",1,2," FileName="" />
+  <parment id="7" name="系统管理" pId="ALL" order="7" visible="1" owner=",1," FileName="" />
   <parment id="8" name="运营总览" pId="1" order="1" visible="1" owner=",1,2," FileName="" />
   <parment id="9" name="生产总览" pId="8" order="1" visible="1" owner=",1,2," FileName="../Html/fd_sczl.html" />
   <parment id="10" name="场站信息" pId="8" order="2" visible="1" owner=",1,2," FileName="../Html/fd_czxx.html" />
