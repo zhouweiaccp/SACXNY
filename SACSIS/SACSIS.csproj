@@ -664,6 +664,7 @@
     <Content Include="Js\jQueryZtree\json.js" />
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
+    <Content Include="Trend\BGFJDB.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -729,11 +730,17 @@
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trend\BGFJDB.aspx.cs">
+      <DependentUpon>BGFJDB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Trend\BGFJDB.aspx.designer.cs">
+      <DependentUpon>BGFJDB.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\" />
-    <Folder Include="Trend\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />

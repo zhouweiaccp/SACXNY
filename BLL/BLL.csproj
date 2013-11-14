@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLLRole.cs" />
+    <Compile Include="FaultBLL.cs" />
+    <Compile Include="FormBLL.cs" />
+    <Compile Include="PeriodBLL.cs" />
+    <Compile Include="PointBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DAL;
+using System.Collections;
+
+namespace BLL
+{
+    public class PointBLL
+    {
+        PointDAL point = new PointDAL();
+        /// <summary>
+        /// 获取实时数据
+        /// </summary>
+        /// <param name="point">测点名称</param>
+        /// <param name="sTime">开始时间</param>
+        /// <param name="type">查询类型   日:1 月:2 年:3</param>
+        /// <returns></returns>
+        public string GetVal(string points, string sTime, string type)
+        {
+            return point.GetVal(points, sTime, type);
+        }
+
+        /// <summary>
+        /// 获取多个数据测点的历史值
+        /// </summary>
+        /// <param name="points">测点集合</param>
+        /// <param name="sTime">开始时间</param>
+        /// <param name="eTime">结束时间</param>
+        /// <param name="seconds">间隔时间  秒</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetVal(string[] points, string[] pointNames, string sTime, string eTime, int seconds)
+        {
+            return point.GetVal(points, pointNames, sTime, eTime, seconds);
+        }
+
+        /// <summary>
+        /// 获取多个数据测点的历史值
+        /// </summary>
+        /// <param name="points">测点集合</param>
+        /// <param name="sTime">开始时间</param>
+        /// <param name="eTime">结束时间</param>
+        /// <param name="seconds">间隔时间  秒</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetValToTable(string[] points, string[] pointNames, string sTime, string eTime, int seconds)
+        {
+            return point.GetValToTable(points, pointNames, sTime, eTime, seconds);
+        }
+
+
+
+    }
+}
