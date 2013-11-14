@@ -62,18 +62,18 @@
             overflow: hidden;
             text-align: center;
             font-size: 13px;
-            color: #555656;
+            color: #ffffff;
             background: url("img/MENU_1.jpg") no-repeat;
             margin-top: 0px;
         }
         .menu01
         {
-            color: #ffffff;
+            color: #555656;
             background: url("img/MENU_1_checked.jpg") no-repeat;
         }
         .menu02
         {
-            color: #555656;
+            color: #ffffff;
             background: url("img/MENU_1.jpg") no-repeat;
         }
     </style>

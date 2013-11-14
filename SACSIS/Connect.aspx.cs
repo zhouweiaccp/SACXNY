@@ -42,7 +42,7 @@ namespace Web
             string roleId = bl.GetRoleId(userId);
             dt = new DataTable();
             GetTreeList();
-            DataRow[] _dr = dt.Select("PID=" + id );
+            DataRow[] _dr = dt.Select("PID='" + id + "'");
 
             IList<Hashtable> list = new List<Hashtable>();
             for (int i = 0; i < _dr.Length; i++)
@@ -114,7 +114,7 @@ namespace Web
         public DataRow[] GetMenuRoot()
         {
             DataRow[] dr = null;
-            dr = dt.Select("PID=0");
+            dr = dt.Select("PID='0'");
             return dr;
         }
         #endregion
@@ -159,7 +159,7 @@ namespace Web
         {
 
             DataRow[] irows = null;
-            irows = dt.Select("PID=" + TreeNodeId );
+            irows = dt.Select("PID='" + TreeNodeId + "'");
             if (irows.Length > 0)
             {
                 for (int k = 0; k < irows.Length; k++)

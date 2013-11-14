@@ -23,7 +23,7 @@ namespace Web
             }
             if (!Page.IsPostBack)
             {
-                DownLoadXml("Webmenu");//下载XML文件至指定路径
+                //DownLoadXml("Webmenu");//下载XML文件至指定路径
                 GetMenuRoot();
             }
 
@@ -46,7 +46,7 @@ namespace Web
             dt = new DataTable();
             GetTreeList();
             DataRow[] dr = null;
-            dr = dt.Select("PID=00");
+            dr = dt.Select("PID='00'");
             int c = 0;
             for (int i = 0; i < dr.Length; i++)
             {
@@ -54,7 +54,7 @@ namespace Web
                 if (nodeRoleId.Contains(roleId))
                 {
                     c = c + 1;
-                    DataRow[] _dr = dt.Select("PID=" + dr[i][0]);
+                    DataRow[] _dr = dt.Select("PID='" + dr[i][0] + "'");
                     if (_dr.Length > 0)
                     {
                         if (i == 0)
