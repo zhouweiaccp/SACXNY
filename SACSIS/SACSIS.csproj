@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>C:\Users\Administrator\Desktop\DLL\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -83,6 +84,7 @@
     <Content Include="css\zTreeStyle\img\zTreeStandard.gif" />
     <Content Include="css\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Form\UpData.aspx" />
     <Content Include="img\banner.jpg" />
     <Content Include="img\banner_02.jpg" />
     <Content Include="img\bg08.jpg" />
@@ -823,6 +825,13 @@
     <Compile Include="Connect.aspx.designer.cs">
       <DependentUpon>Connect.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Form\UpData.aspx.cs">
+      <DependentUpon>UpData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Form\UpData.aspx.designer.cs">
+      <DependentUpon>UpData.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -847,6 +856,7 @@
     </Compile>
     <Compile Include="Trend\TRadio.aspx.cs">
       <DependentUpon>TRadio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Trend\TRadio.aspx.designer.cs">
       <DependentUpon>TRadio.aspx</DependentUpon>
