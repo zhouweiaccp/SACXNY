@@ -26,7 +26,7 @@ namespace DAL
 
             DataTable dt = null;
 
-            sql = " select u.T_PERIODID,u.T_UNITID,u.T_UNITDESC,u.T_MACHINEID,p.T_FAULTTYPE from Administrator.T_BASE_POINTS_FD as p inner join Administrator.T_BASE_UNIT_FD as u on ";
+            sql = " select u.T_PERIODID,u.T_UNITID,u.T_UNITDESC,u.T_MACHINEID,p.T_FAULTTYPE from Administrator.T_BASE_POINTS as p inner join Administrator.T_BASE_UNIT as u on ";
 
             sql += "u.T_UNITID = p.T_UNITID where u.T_PERIODID='" + perid + "'";
 

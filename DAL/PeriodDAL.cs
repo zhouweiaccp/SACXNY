@@ -30,7 +30,7 @@ namespace DAL
         public IList<Hashtable> GetPeriod(string orgID)
         {
             IList<Hashtable> list = new List<Hashtable>();
-            sql = "select T_PERIODID,T_PERIODDESC from Administrator.T_BASE_PERIOD_FD where T_ORGID='" + orgID + "'";
+            sql = "select T_PERIODID,T_PERIODDESC from Administrator.T_BASE_PERIOD where T_ORGID='" + orgID + "'";
 
             dt = DBdb2.RunDataTable(sql, out errMsg);
 
@@ -47,7 +47,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetUnit(string periodId)
         {
-            sql = "select T_UNITID,T_UNITDESC,T_MACHINEID,I_FLAG from Administrator.T_BASE_UNIT_FD where T_PERIODID='" + periodId + "'";
+            sql = "select T_UNITID,T_UNITDESC,T_MACHINEID,I_FLAG from Administrator.T_BASE_UNIT where T_PERIODID='" + periodId + "'";
 
             dt = db.RunDataTable(sql, out errMsg);
 
@@ -91,7 +91,7 @@ namespace DAL
             else if (type == "5")
                 column = "T_USINGTIMETAG";
 
-            sql = "select " + column + " from Administrator.T_BASE_POINTS_FD where T_PERIODID='" + prid + "' and T_UNITID in(" + jz + ")";
+            sql = "select " + column + " from Administrator.T_BASE_POINTS where T_PERIODID='" + prid + "' and T_UNITID in(" + jz + ")";
 
             dt = db.RunDataTable(sql, out errMsg);
 
@@ -118,7 +118,7 @@ namespace DAL
             else if (type == "5")
                 column = "T_USINGTIMETAG";
 
-            sql = "select " + column + " from Administrator.T_BASE_POINTS_ORG_FD where T_ORGID in(" + orgID + ")";
+            sql = "select " + column + " from Administrator.T_BASE_POINTS_ORG where T_ORGID in(" + orgID + ")";
 
             dt = db.RunDataTable(sql, out errMsg);
 
@@ -134,7 +134,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetPoinsMap(string orgid)
         {
-            sql = "select T_WINDTAG,T_POWERTAG from Administrator.T_BASE_POINTS_ORG_FD where T_ORGID in(" + orgid + ")";
+            sql = "select T_WINDTAG,T_POWERTAG from Administrator.T_BASE_POINTS_ORG where T_ORGID in(" + orgid + ")";
 
             dt = db.RunDataTable(sql, out errMsg);
 
