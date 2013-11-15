@@ -28,22 +28,56 @@ namespace SACSIS.Form
         private static string utype = "";   //上传类型  1 指标   2 组织维度   3 时间维度
         private static string orgId = "";
 
+
+        private static string[] sends = null;
+        private static string time = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request["id"] != null)
+            {
+                sends = Request["id"].Split('@');
+                if (sends[1] == "1")
+                {
+                    dv_day.Visible = true;
+                    dv_month.Visible = false;
+                    dv_year.Visible = false;
+                }
+                else if (sends[1] == "2")
+                {
+                    dv_day.Visible = false;
+                    dv_month.Visible = true;
+                    dv_year.Visible = false;
+                }
+                else if (sends[1] == "3")
+                {
+                    dv_day.Visible = false;
+                    dv_month.Visible = false;
+                    dv_year.Visible = true;
+                }
+
+                orgId = sends[2];
+                fid = sends[0];
+
+                txtDay.Value = DateTime.Now.ToString("yyyy-MM-dd");
+                txtMonth.Value = DateTime.Now.ToString("yyyy-MM");
+                txtYear.Value = DateTime.Now.ToString("yyyy-MM");
+            }
             string param = Request["param"];
             if (param != "")
             {
-                if (param == "query")
+                if (param == "Init")
                 {
-                    string time = Request["time"];
-                    string _type = Request["timeType"];
+                    ShowInfo();
+                }
+                else if (param == "query")
+                {
                     string value = HttpUtility.UrlDecode(Request["value"]);
-                    if (_type == "1")
-                        time += " 0:00:00";
-                    else if (_type == "2")
-                        time += "-1 0:00:00";
-                    else if (_type == "3")
-                        time += "-1-1 0:00:00";
+                    if (sends[1] == "1")
+                        time = Request["dTime"] + " 0:00:00";
+                    else if (sends[1] == "2")
+                        time = Request["mTime"] + "-1 0:00:00";
+                    else if (sends[1] == "3")
+                        time = Request["yTime"] + "-1-1 0:00:00";
                     if (utype == "1")
                     {
                         UpDates(time, value);
@@ -57,33 +91,61 @@ namespace SACSIS.Form
 
                     }
                 }
-                else if (param == "reckon")
-                {
-                    string value = HttpUtility.UrlDecode(Request["value"]);
-                    Reckon(value);
-                }
-                else if (Request.QueryString["fID"] != null)
-                {
-                    fid = Request.QueryString["fID"].ToString();
-                    orgId = Request.QueryString["orgID"];
-                    treeID = Request["treeId"];
-                    if (orgId != null)
-                    {
-                        if (orgId.Split(',').Length > 1)
-                            orgId = orgId.Split(',')[1].ToString();
-                    }
-                    else
-                        orgId = "10001";
-                }
             }
-            else
-            {
-                //fid = "SCRL";
-                if (Request["treeId"] != "")
-                    treeID = Request["treeId"];
-                //orgId = "15248";
-                ShowInfo(orgId);
-            }
+            //    if (param == "query")
+            //    {
+            //        string time = Request["time"];
+            //        string _type = Request["timeType"];
+            //        string value = HttpUtility.UrlDecode(Request["value"]);
+            //        if (_type == "1")
+            //            time += " 0:00:00";
+            //        else if (_type == "2")
+            //            time += "-1 0:00:00";
+            //        else if (_type == "3")
+            //            time += "-1-1 0:00:00";
+            //        if (utype == "1")
+            //        {
+            //            UpDates(time, value);
+            //        }
+            //        else if (utype == "2")
+            //        {
+            //            UpDates(tableName, time, timeName, columns, org, value);
+            //        }
+            //        else
+            //        {
+
+            //        }
+            //    }
+            //    else if (param == "reckon")
+            //    {
+            //        string value = HttpUtility.UrlDecode(Request["value"]);
+            //        Reckon(value);
+            //    }
+            //    else if (Request.QueryString["fID"] != null)
+            //    {
+            //        fid = Request.QueryString["fID"].ToString();
+            //        orgId = Request.QueryString["orgID"];
+            //        treeID = Request["treeId"];
+            //        if (orgId != null)
+            //        {
+            //            if (orgId.Split(',').Length > 1)
+            //                orgId = orgId.Split(',')[1].ToString();
+            //        }
+            //        else
+            //            orgId = "10001";
+            //    }
+            //}
+            //else
+            //{
+            //    //fid = "SCRL";
+            //    if (Request["treeId"] != "")
+            //        treeID = Request["treeId"];
+            //    //orgId = "15248";
+            //    ShowInfo(orgId);
+            //}
+
+
+
         }
 
         string showMessage = "";
@@ -208,7 +270,7 @@ namespace SACSIS.Form
         {
             //添加数据库列  填报数据
             //if (bll.CreateColumns(tableName, columns) && bll.UpZBData(tableName, time, timeName,treeID,orgId, value))
-            if (bll.UpZBData(tableName, time, timeName, treeID, orgId, value, fid))
+            if (bll.UpZBData(tableName, time, timeName, orgId, value, fid))
                 showMessage = "数据填报成功!";
             else
                 showMessage = "数据填报失败!";
@@ -251,11 +313,11 @@ namespace SACSIS.Form
         /// <summary>
         /// 初始化填报页面
         /// </summary>
-        public void ShowInfo(string orgID)
+        public void ShowInfo()
         {
 
             //数据填报详细信息
-            dt = bll.GetCreateInfo(treeID, orgID, fid);//SCYXQKHZB  FDQQXMBB
+            dt = bll.GetCreateInfo(fid);//SCYXQKHZB  FDQQXMBB
             if (dt.Rows.Count > 0)
             {
                 timeType = dt.Rows[0]["T_TIMETYPE"].ToString();//时间类型
@@ -269,7 +331,7 @@ namespace SACSIS.Form
                 if (formType == "0")
                 {
                     //获取到所有的表单数据分类  类型
-                    DataTable dtType = bll.GetDataType(fid, treeID, orgID);
+                    DataTable dtType = bll.GetDataType(fid);
                     DataRow[] dr = null;
                     for (int v = 0; v < dtType.Rows.Count; v++)
                     {
@@ -298,11 +360,11 @@ namespace SACSIS.Form
                                 cl = cl.Substring(0, cl.Length - 1);
 
                                 if (timeType == "1")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), treeID, orgID);
+                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId);
                                 else if (timeType == "2")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", treeID, orgID);
+                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId);
                                 else if (timeType == "3")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", treeID, orgID);
+                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId);
 
                                 int k = 0;
                                 for (int i = 0; i < dr.Length / 3; i++)
@@ -630,11 +692,11 @@ namespace SACSIS.Form
                                 }
                                 st.Append("</tr>");
                                 if (timeType == "1")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), treeID, orgID, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), treeID, orgId, fid);
                                 else if (timeType == "2")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", treeID, orgID, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", treeID, orgId, fid);
                                 else if (timeType == "3")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", treeID, orgID, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", treeID, orgId, fid);
 
                             }
                             else

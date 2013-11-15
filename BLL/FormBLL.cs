@@ -26,13 +26,11 @@ namespace BLL
         /// <summary>
         /// 获取填报数据信息
         /// </summary>
-        /// <param name="treeId">菜单树ID</param>
-        /// <param name="orgId">组织机构ID</param>
         /// // <param name="formID">表单ID</param>
         /// <returns></returns>
-        public DataTable GetCreateInfo(string treeId, string orgId, string formID)
+        public DataTable GetCreateInfo(string formID)
         {
-            return dal.GetCreateInfo(treeId, orgId, formID);
+            return dal.GetCreateInfo(formID);
         }
         #endregion
 
@@ -56,14 +54,13 @@ namespace BLL
         /// <param name="table">数据存储表名称</param>
         /// <param name="time">数据填报时间</param>
         /// <param name="timeName">数据存储表  时间字段名称</param>
-        /// <param name="treeName">组织机构树名称</param>
         /// <param name="time">组织机构编号</param>
         /// <param name="value">填报的数据集</param>
         /// <param name="formID">表单编号</param>
         /// <returns></returns>
-        public bool UpZBData(string table, string time, string timeName, string treeName, string orgId, string value, string formID)
+        public bool UpZBData(string table, string time, string timeName, string orgId, string value, string formID)
         {
-            return dal.UpZBData(table, time, timeName, treeName, orgId, value, formID);
+            return dal.UpZBData(table, time, timeName, orgId, value, formID);
         }
         #endregion
 
@@ -108,12 +105,11 @@ namespace BLL
         /// <param name="tableName">查询表名称</param>
         /// <param name="timeType">时间字段名称</param>
         /// <param name="time">查询时间</param>
-        /// /// <param name="treeName">组织机构树名称</param>
         /// <param name="orgId">组织机构ID</param>
         /// <returns></returns>
-        public DataTable GetCreateValueZB(string columns, string tableName, string timeType, string time, string treeName, string orgId)
+        public DataTable GetCreateValueZB(string columns, string tableName, string timeType, string time, string orgId)
         {
-            return dal.GetCreateValueZB(columns, tableName, timeType, time, treeName, orgId);
+            return dal.GetCreateValueZB(columns, tableName, timeType, time, orgId);
         }
         #endregion
 
@@ -184,12 +180,10 @@ namespace BLL
         /// 获取表单数据类型
         /// </summary>
         /// <param name="formID"></param>
-        /// <param name="xmlName"></param>
-        /// <param name="orgID"></param>
         /// <returns></returns>
-        public DataTable GetDataType(string formID, string xmlName, string orgID)
+        public DataTable GetDataType(string formID)
         {
-            return dal.GetDataType(formID, xmlName, orgID);
+            return dal.GetDataType(formID);
         }
         #endregion
     }
