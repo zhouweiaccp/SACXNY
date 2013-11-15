@@ -171,7 +171,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <div id="dv_connect" style="background-color: Lime;">
+                <div id="dv_connect">
                     <iframe width="100%" src="" id="frm" frameborder="0" name="frm" scrolling="no"></iframe>
                 </div>
             </td>
