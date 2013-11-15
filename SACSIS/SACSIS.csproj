@@ -771,6 +771,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
     <Content Include="Trend\BGFJDB.aspx" />
+    <Content Include="Trend\TRadio.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -843,6 +844,12 @@
     </Compile>
     <Compile Include="Trend\BGFJDB.aspx.designer.cs">
       <DependentUpon>BGFJDB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Trend\TRadio.aspx.cs">
+      <DependentUpon>TRadio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Trend\TRadio.aspx.designer.cs">
+      <DependentUpon>TRadio.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
