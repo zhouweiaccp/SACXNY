@@ -84,6 +84,7 @@
     <Content Include="css\zTreeStyle\img\zTreeStandard.gif" />
     <Content Include="css\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Datafile\Get_Chart_Data.aspx" />
     <Content Include="Form\UpData.aspx" />
     <Content Include="img\banner.jpg" />
     <Content Include="img\banner_02.jpg" />
@@ -101,10 +102,12 @@
     <Content Include="img\table-head-3.jpg" />
     <Content Include="img\table-head.jpg" />
     <Content Include="Js\Chart.js" />
+    <Content Include="Js\ChartManage.js" />
     <Content Include="Js\data.js" />
     <Content Include="Js\exporting.js" />
     <Content Include="Js\highcharts.js" />
     <Content Include="Js\jquery-1.8.2.min.js" />
+    <Content Include="Js\jquery.blockUI.js" />
     <Content Include="Js\jquery.easyui.min.js" />
     <Content Include="Js\jQueryEasyUI\css\djxt.css" />
     <Content Include="Js\jQueryEasyUI\themes\black\accordion.css" />
@@ -773,6 +776,8 @@
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
     <Content Include="Trend\BGFJDB.aspx" />
+    <Content Include="Trend\ChartManage.aspx" />
+    <Content Include="Trend\TendManage.aspx" />
     <Content Include="Trend\TRadio.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -825,6 +830,10 @@
     <Compile Include="Connect.aspx.designer.cs">
       <DependentUpon>Connect.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Datafile\Get_Chart_Data.aspx.cs">
+      <DependentUpon>Get_Chart_Data.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Form\UpData.aspx.cs">
       <DependentUpon>UpData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -853,6 +862,20 @@
     </Compile>
     <Compile Include="Trend\BGFJDB.aspx.designer.cs">
       <DependentUpon>BGFJDB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Trend\ChartManage.aspx.cs">
+      <DependentUpon>ChartManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Trend\ChartManage.aspx.designer.cs">
+      <DependentUpon>ChartManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Trend\TendManage.aspx.cs">
+      <DependentUpon>TendManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Trend\TendManage.aspx.designer.cs">
+      <DependentUpon>TendManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Trend\TRadio.aspx.cs">
       <DependentUpon>TRadio.aspx</DependentUpon>

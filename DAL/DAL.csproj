@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAlGet_chart_Data.cs" />
+    <Compile Include="DALPubMehtod.cs" />
     <Compile Include="DALRole.cs" />
     <Compile Include="FaultDAL.cs" />
     <Compile Include="FormDAL.cs" />

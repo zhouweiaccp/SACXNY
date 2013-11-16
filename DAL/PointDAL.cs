@@ -322,6 +322,122 @@ namespace DAL
             return val;
         }
 
+
+        /// <summary>
+        /// 查询某段时间测点集合的历史值 -刘海杰
+        /// </summary>
+        /// <param name="names">测点集合</param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetHistValAndTIme1(string[] points, DateTime st, DateTime et)
+        {
+            ArrayList list = new ArrayList();
+            Plink pk = new Plink();
+            IList<Hashtable> listdata = new List<Hashtable>();
+
+            Hashtable ht = new Hashtable();
+            ArrayList ld = new ArrayList();
+            ArrayList lt = new ArrayList();
+            for (int i = 0; i < points.Length; i++)
+            {
+                ht = new Hashtable();
+                lt = new ArrayList();
+                ht.Add("name", points[i].Split('|')[1]);
+                ht.Add("yAxis", i);
+                DateTime _sTime = new DateTime(1970, 1, 1);
+                int seconds = Convert.ToInt32((et - st).TotalSeconds) / 600;
+                DateTime dtt = st;
+                Plink.OpenPi();
+                while (dtt < et)
+                {
+                    ld = new ArrayList();
+                    pk.GetHisValue(points[i].Split('|')[0], dtt.ToString("yyyy-MM-dd HH:mm:ss"), ref drv);
+                    if (drv > 0)
+                    {
+                        drv = getDouble(drv, 2);
+                    }
+                    string timeStamp = DateTimeToUTC(dtt).ToString();
+                    DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                    long lTime = long.Parse(timeStamp + "0000000");
+                    TimeSpan toNow = new TimeSpan(lTime);
+                    DateTime dtResult = dtStart.Add(toNow);
+                    ld.Add(Convert.ToInt64((dtResult - _sTime).TotalMilliseconds.ToString()));
+                    ld.Add(drv);
+                    lt.Add(ld);
+                    // TimeSpan toNow1 = new TimeSpan(seconds);
+                    dtt = dtt.AddSeconds(seconds);
+                }
+                ht.Add("data", lt);
+                listdata.Add(ht);
+                //lt = new ArrayList();
+                //ht = new Hashtable();
+            }
+
+            return listdata;
+        }
+
+        //将一个事件对象转换为UTC格式的时间
+        public static int DateTimeToUTC(DateTime DT)
+        {
+            long a = new DateTime(1970, 1, 1, 0, 0, 0, 0).Ticks;
+            int rtnInt = 0;
+            rtnInt = (int)((DT.Ticks - 8 * 3600 * 1e7 - a) / 1e7);
+            return rtnInt;
+        }
+        /// <summary>
+        /// 查询某段时间测点集合的历史值 -刘海杰
+        /// </summary>
+        /// <param name="names">测点集合</param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetHistValAndTIme2(string[] points, DateTime st, DateTime et, int jiange)
+        {
+            ArrayList list = new ArrayList();
+            Plink pk = new Plink();
+            IList<Hashtable> listdata = new List<Hashtable>();
+
+            Hashtable ht = new Hashtable();
+            ArrayList ld = new ArrayList();
+            ArrayList lt = new ArrayList();
+            for (int i = 0; i < points.Length; i++)
+            {
+                ht = new Hashtable();
+                ht.Add("name", points[i].Split('|')[1]);
+                ht.Add("yAxis", i);
+                DateTime _sTime = new DateTime(1970, 1, 1);
+                // int seconds = Convert.ToInt32((et - st).TotalSeconds) / 600;
+                DateTime dtt = st;
+                Plink.OpenPi();
+                while (dtt < et)
+                {
+                    ld = new ArrayList();
+                    pk.GetHisValue(points[i].Split('|')[0], dtt.ToString("yyyy-MM-dd HH:mm:ss"), ref drv);
+                    if (drv > 0)
+                    {
+                        drv = getDouble(drv, 2);
+                    }
+                    string timeStamp = DateTimeToUTC(dtt).ToString();
+                    DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                    long lTime = long.Parse(timeStamp + "0000000");
+                    TimeSpan toNow = new TimeSpan(lTime);
+                    DateTime dtResult = dtStart.Add(toNow);
+                    ld.Add(Convert.ToInt64((dtResult - _sTime).TotalMilliseconds.ToString()));
+                    ld.Add(drv);
+                    lt.Add(ld);
+                    // TimeSpan toNow1 = new TimeSpan(seconds);
+                    dtt = dtt.AddSeconds(jiange);
+                }
+                ht.Add("data", lt);
+                listdata.Add(ht);
+                //lt = new ArrayList();
+                //ht = new Hashtable();
+            }
+
+            return listdata;
+        }
+
         #region 四舍五入
         /// <summary>
         /// 四舍五入

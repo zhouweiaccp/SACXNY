@@ -48,7 +48,29 @@ namespace BLL
             return point.GetValToTable(points, pointNames, sTime, eTime, seconds);
         }
 
+        /// <summary>
+        /// 查询某段时间测点集合的历史值-刘海杰
+        /// </summary>
+        /// <param name="names">测点集合</param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetHistValAndTIme1(string[] points, DateTime st, DateTime et)
+        {
+            return point.GetHistValAndTIme1(points, st, et);
+        }
 
+        /// <summary>
+        /// 查询某段时间测点集合的历史值-刘海杰
+        /// </summary>
+        /// <param name="names">测点集合</param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetHistValAndTIme2(string[] points, DateTime st, DateTime et, int jiange)
+        {
+            return point.GetHistValAndTIme2(points, st, et, jiange);
+        }
 
     }
 }
