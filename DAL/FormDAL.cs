@@ -120,9 +120,8 @@ namespace DAL
         /// <param name="id">填报字段名称集合</param>
         /// <param name="orgId">组织维度集合</param>
         /// <param name="value">填报数据集合</param>
-        /// <param name="xmlName">组织机构集合名称</param>
         /// <returns></returns>
-        public bool UpData(string table, string time, string timeName, string id, string orgId, string value, string xmlName)
+        public bool UpData(string table, string time, string timeName, string id, string orgId, string value)
         {
             sql = "";
             id = id.Replace('*', ',');
@@ -138,20 +137,20 @@ namespace DAL
                 orgIds += "'" + org[i] + "',";
             }
             orgIds = orgIds.Substring(0, orgIds.Length - 1);
-            sql = "delete from " + table + " where T_TREEID='" + xmlName + "' and T_TIME='" + time + "' and T_ORGID in(" + orgIds + ")";
+            sql = "delete from Administrator." + table + " where T_TIME='" + time + "' and T_ORGID in(" + orgIds + ");";
 
             judge = dl.RunNonQuery(sql, out errMsg);
             //}
 
             for (int k = 0; k < num; k++)
             {
-                sql += "insert into " + table + "(" + id + ") values (";
+                sql += "insert into Administrator." + table + "(" + id + ") values (";
 
-                for (int i = 0; i < count - 3; i++)
+                for (int i = 0; i < count - 2; i++)
                 {
-                    sql += "'" + ht[i + (count - 3) * k].Split('~')[1].ToString() + "',";
+                    sql += "'" + ht[i + (count - 2) * k].Split('~')[1].ToString() + "',";
                 }
-                sql += "'" + xmlName + "','" + org[k].ToString() + "','" + time + "')";
+                sql += "'" + org[k].ToString() + "','" + time + "');";
                 judge = dl.RunNonQuery(sql, out errMsg);
 
                 sql = "";
@@ -173,7 +172,7 @@ namespace DAL
         public DataTable GetCreateValueZB(string columns, string tableName, string timeType, string time, string orgId)
         {
 
-            sql = "select " + columns + " from " + tableName + " where " + timeType + "='" + time + "' and T_ORGID='" + orgId + "';";
+            sql = "select " + columns + " from Administrator." + tableName + " where " + timeType + "='" + time + "' and T_ORGID='" + orgId + "';";
 
             dt = dl.RunDataTable(sql, out errMsg);
             //}
@@ -187,15 +186,14 @@ namespace DAL
         /// <param name="tableName">查询表名称</param>
         /// <param name="timeType">时间字段名称</param>
         /// <param name="time">查询时间</param>
-        /// /// <param name="treeName">组织机构树名称</param>
         /// <param name="orgId">组织机构ID</param>
         /// <param name="fid">表单编号</param>
         /// <returns></returns>
-        public DataTable GetCreateValue(string columns, string tableName, string timeType, string time, string treeName, string orgId, string fid)
+        public DataTable GetCreateValue(string columns, string tableName, string timeType, string time, string orgId, string fid)
         {
             columns = columns.Replace('*', ',');
 
-            sql = "select " + columns + "T_ORGID from Administrator." + tableName + " where " + timeType + "='" + time + "' and T_TREEID='" + treeName + "' and T_ORGID in(select T_PARAID from Administrator.T_INFO_FORMPARA where T_ORGID='" + orgId + "' and T_PARATYPE='2' and T_FORMID='" + fid + "')";
+            sql = "select " + columns + "T_ORGID from Administrator." + tableName + " where " + timeType + "='" + time + "' and T_ORGID in(select T_PARAID from Administrator.T_INFO_FORMPARA where T_ORGID='" + orgId + "' and T_PARATYPE='2' and T_FORMID='" + fid + "')";
 
             dt = dl.RunDataTable(sql, out errMsg);
 
@@ -205,13 +203,11 @@ namespace DAL
         /// <summary>
         /// 获取填报公式等级
         /// </summary>
-        /// <param name="treeName">组织机构数名称</param>
-        /// <param name="orgId">组织机构编码</param>
         /// <param name="formID">表单编号</param>
         /// <returns></returns>
-        public DataTable GetFormGrade(string treeName, string orgId, string formID)
+        public DataTable GetFormGrade(string formID)
         {
-            sql = "select distinct I_LEVEL From T_INFO_FORMPARA where T_TREEID='" + treeName + "' and T_ORGID='" + orgId + "' and T_FORMID='" + formID + "' order by I_LEVEL asc;";
+            sql = "select distinct I_LEVEL From Administrator.T_INFO_FORMPARA where T_FORMID='" + formID + "' order by I_LEVEL asc;";
 
             dt = dl.RunDataTable(sql, out errMsg);
 
@@ -221,14 +217,12 @@ namespace DAL
         /// <summary>
         /// 搜索公式
         /// </summary>
-        /// <param name="treeName">组织机构数名称</param>
-        /// <param name="orgId">组织机构编码</param>
         /// <param name="formID">表单编号</param>
         /// <param name="grade">优先级</param>
         /// <returns></returns>
-        public DataTable GetFormGradeList(string treeName, string orgId, string formID, string grade)
+        public DataTable GetFormGradeList(string formID, string grade)
         {
-            sql = "select T_PARAID,T_PARAFIELD,T_FORMULA,T_FORMULAPARA,T_ORGID,I_ORDER From T_INFO_FORMPARA where T_TREEID='" + treeName + "' and T_ORGID='" + orgId + "' and T_FORMID='" + formID + "' and T_FORMULA!='';";
+            sql = "select T_PARAID,T_PARAFIELD,T_FORMULA,T_FORMULAPARA,I_ORDER From Administrator.T_INFO_FORMPARA where T_FORMID='" + formID + "' and T_FORMULA!='';";
 
             dt = dl.RunDataTable(sql, out errMsg);
 
@@ -238,14 +232,12 @@ namespace DAL
         /// <summary>
         /// 获取组织机构数据  数据填报
         /// </summary>
-        /// <param name="treeID">XML名称</param>
-        /// <param name="orgID">组织机构编码</param>
         /// <param name="formId">表单编号</param>
         /// <param name="type">组织维度</param>
         /// <returns></returns>
-        public DataTable GetDataOrgInfo(string treeID, string orgID, string formId, string type)
+        public DataTable GetDataOrgInfo(string formId, string type)
         {
-            sql = "select T_PARAID  from T_INFO_FORMPARA where T_TREEID='" + treeID + "' and T_FORMID='" + formId + "' and T_ORGID='" + orgID + "' and T_PARATYPE='" + type + "'";
+            sql = "select T_PARAID  from Administrator.T_INFO_FORMPARA where  T_FORMID='" + formId + "' and T_PARATYPE='" + type + "'";
 
             dt = dl.RunDataTable(sql, out errMsg);
 
@@ -256,14 +248,12 @@ namespace DAL
         /// <summary>
         /// 获取组织机构数据  数据填报
         /// </summary>
-        /// <param name="treeID">XML名称</param>
-        /// <param name="orgID">组织机构编码</param>
         /// <param name="formId">表单编号</param>
         /// <param name="type">组织维度</param>
         /// <returns></returns>
-        public DataTable GetDataParameter(string treeID, string orgID, string formId, string key)
+        public DataTable GetDataParameter(string formId, string key)
         {
-            sql = "select I_ORDER,T_PARAID  from T_INFO_FORMPARA where T_TREEID='" + treeID + "' and T_FORMID='" + formId + "' and T_ORGID='" + orgID + "' and T_PARAID in(" + key + ")";
+            sql = "select I_ORDER,T_PARAID  from Administrator.T_INFO_FORMPARA where T_FORMID='" + formId + "' and T_PARAID in(" + key + ")";
 
             dt = dl.RunDataTable(sql, out errMsg);
 

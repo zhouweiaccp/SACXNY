@@ -60,7 +60,7 @@ namespace SACSIS.Form
 
                 txtDay.Value = DateTime.Now.ToString("yyyy-MM-dd");
                 txtMonth.Value = DateTime.Now.ToString("yyyy-MM");
-                txtYear.Value = DateTime.Now.ToString("yyyy-MM");
+                txtYear.Value = DateTime.Now.ToString("yyyy");
             }
             string param = Request["param"];
             if (param != "")
@@ -90,6 +90,11 @@ namespace SACSIS.Form
                     {
 
                     }
+                }
+                else if (param == "reckon")
+                {
+                    string value = HttpUtility.UrlDecode(Request["value"]);
+                    Reckon(value);
                 }
             }
             //    if (param == "query")
@@ -168,13 +173,13 @@ namespace SACSIS.Form
             DataTable dtGrade = new DataTable();
             string formula = "";
             //获取公式等级
-            dtGrade = bll.GetFormGrade(treeID, orgId, fid);
+            dtGrade = bll.GetFormGrade(fid);
 
             Microsoft.JScript.Vsa.VsaEngine ve = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();
             for (int i = 0; i < dtGrade.Rows.Count; i++)
             {
                 DataTable dtGradeList = new DataTable();
-                dtGradeList = bll.GetFormGradeList(treeID, orgId, fid, dtGrade.Rows[i][0].ToString());
+                dtGradeList = bll.GetFormGradeList(fid, dtGrade.Rows[i][0].ToString());
                 if (formType == "0")
                 {
                     for (int j = 0; j < dtGradeList.Rows.Count; j++)
@@ -197,7 +202,7 @@ namespace SACSIS.Form
                         string[] cs = dtGradeList.Rows[j]["T_FORMULAPARA"].ToString().Split(',');
 
                         DataTable dtOrg = new DataTable();
-                        dtOrg = bll.GetDataOrgInfo(treeID, orgId, fid, "2");
+                        dtOrg = bll.GetDataOrgInfo(fid, "2");
 
                         string[] points = new string[cs.Length * dtOrg.Rows.Count];
                         string[] formulas = new string[dtOrg.Rows.Count];
@@ -214,7 +219,7 @@ namespace SACSIS.Form
                         }
                         keyPara = keyPara.Substring(0, keyPara.Length - 1);
 
-                        DataTable dtParam = bll.GetDataParameter(treeID, orgId, fid, keyPara);
+                        DataTable dtParam = bll.GetDataParameter(fid, keyPara);
 
                         #region 还原公式
                         int num = 0;
@@ -244,8 +249,9 @@ namespace SACSIS.Form
                         {
                             for (int l = 0; l < points.Length; l++)
                             {
-                                if (formulas[k].Contains(points[l]))
-                                    formulas[k] = formulas[k].Replace(points[l], ht[points[l]].ToString());
+                                if (points[l] != null)
+                                    if (formulas[k].Contains(points[l]))
+                                        formulas[k] = formulas[k].Replace(points[l], ht[points[l]].ToString());
                             }
                             key += orgKey[k] + "*" + Microsoft.JScript.Eval.JScriptEvaluate(formulas[k], ve).ToString() + ";";
                         }
@@ -290,7 +296,7 @@ namespace SACSIS.Form
         {
             //添加数据库列  填报数据
             // if (bll.CreateColumns(tableName, columns) && bll.UpData(table, time, tName, columnsID, oId, values))
-            if (bll.UpData(table, time, tName, columnsID, oId, values, treeID))
+            if (bll.UpData(table, time, tName, columnsID, oId, values))
                 showMessage = "数据填报成功!";
             else
                 showMessage = "数据填报失败!";
@@ -346,7 +352,7 @@ namespace SACSIS.Form
                                 if (v == 0)
                                 {
                                     st.Append("<tr><th class=\"adminth\" colspan=\"6\" style=\"color:black;\">" + title + "</th></tr>");
-                                    if (dtType.Rows[v][0] != null && dtType.Rows[v][0].ToString() != "")
+                                    if (dtType.Rows[v][0] != null && dtType.Rows[v][0].ToString() != "" && dtType.Rows[v][0].ToString() != " ")
                                         st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"6\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
                                 }
                                 else
@@ -692,11 +698,11 @@ namespace SACSIS.Form
                                 }
                                 st.Append("</tr>");
                                 if (timeType == "1")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), treeID, orgId, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId, fid);
                                 else if (timeType == "2")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", treeID, orgId, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId, fid);
                                 else if (timeType == "3")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", treeID, orgId, fid);
+                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId, fid);
 
                             }
                             else
@@ -730,7 +736,7 @@ namespace SACSIS.Form
                                 org += drOrg[i][6] + "*";
                         }
                         st.Append("</table>");
-                        columns += "T_TREEID*T_ORGID*" + timeName;
+                        columns += "T_ORGID*" + timeName;
                         org = org.Substring(0, org.Length - 1);
                         if (id.Length > 0)
                             id = id.Substring(0, id.Length - 1);

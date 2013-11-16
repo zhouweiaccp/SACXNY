@@ -59,23 +59,23 @@
                 });
             });
 
-            //            //公式计算
-            //            $("#btnReckon").click(function () {
-            //                var keyValue = '';
-            //                var key = ids.split('*');
-            //                for (var i = 0; i < key.length; i++) {
-            //                    keyValue += key[i] + '~' + jQuery('#' + key[i]).val() + '`';
-            //                }
-            //                keyValue = keyValue.substring(0, keyValue.length - 1);
-            //                $.post("UpData.aspx", { param: 'reckon', value: escape(keyValue) }, function (data) {
-            //                    var val = data.key;
-            //                    var key = val.split(';');
-            //                    for (var i = 0; i < key.length; i++) {
-            //                        var value = key[i].toString().split('*');
-            //                        $("#" + value[0]).val(value[1]);
-            //                    }
-            //                }, 'json');
-            //            });
+            //公式计算
+            $("#btnReckon").click(function () {
+                var keyValue = '';
+                var key = ids.split('*');
+                for (var i = 0; i < key.length; i++) {
+                    keyValue += key[i] + '~' + jQuery('#' + key[i]).val() + '`';
+                }
+                keyValue = keyValue.substring(0, keyValue.length - 1);
+                $.post("UpData.aspx", { param: 'reckon', value: escape(keyValue) }, function (data) {
+                    var val = data.key;
+                    var key = val.split(';');
+                    for (var i = 0; i < key.length; i++) {
+                        var value = key[i].toString().split('*');
+                        $("#" + value[0]).val(value[1]);
+                    }
+                }, 'json');
+            });
         });
 
         //        orgId = getCookie('O_ID'); 
@@ -136,12 +136,12 @@
                     <input type="text" id="txtDay" style="text-align: center;" runat="server" readonly="readonly"
                         onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" class="Wdate" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
-                <div id="dv_month" style="margin-top: 5px; height: 30px; display: none;" runat="server">
+                <div id="dv_month" style="margin-top: 5px; height: 30px;" runat="server">
                     &nbsp; &nbsp 开始时间: &nbsp; &nbsp;
                     <input type="text" id="txtMonth" style="text-align: center;" runat="server" readonly="readonly"
                         onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})" class="Wdate" />
                 </div>
-                <div id="dv_year" style="margin-top: 5px; height: 30px; display: none;" runat="server">
+                <div id="dv_year" style="margin-top: 5px; height: 30px;" runat="server">
                     &nbsp; &nbsp 开始时间: &nbsp; &nbsp;
                     <input type="text" id="txtYear" style="text-align: center;" runat="server" readonly="readonly"
                         onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy'})" class="Wdate" />

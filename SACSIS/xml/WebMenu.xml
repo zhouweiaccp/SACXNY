@@ -30,7 +30,7 @@
   <parment id="47" name="计划电量维护" pId="35" order="4" visible="1" owner=",1,2," FileName="" />
   <parment id="40" name="运营指标维护" pId="35" order="5" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1YYZB@1@MGY1" />
   <parment id="41" name="生产日数据维护" pId="35" order="6" visible="1" owner=",1,2," FileName="" />
-  <parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="" />
+  <parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@3@MGY1" />
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName=""/>
   <parment id="36" name="玫瑰营一期" pId="24" order="1" visible="1" owner=",1,2," FileName=""/>
   <parment id="43" name="电量数据维护" pId="36" order="1" visible="1" owner=",1,2," FileName=""/>

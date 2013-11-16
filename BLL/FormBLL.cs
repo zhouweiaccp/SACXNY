@@ -74,11 +74,10 @@ namespace BLL
         /// <param name="id">填报字段名称集合</param>
         /// <param name="orgId">组织维度集合</param>
         /// <param name="value">填报数据集合</param>
-        /// <param name="xmlName">组织机构集合名称</param>
         /// <returns></returns>
-        public bool UpData(string table, string time, string timeName, string id, string orgId, string value, string xmlName)
+        public bool UpData(string table, string time, string timeName, string id, string orgId, string value)
         {
-            return dal.UpData(table, time, timeName, id, orgId, value, xmlName);
+            return dal.UpData(table, time, timeName, id, orgId, value);
         }
         #endregion
 
@@ -86,14 +85,12 @@ namespace BLL
         /// <summary>
         /// 获取组织机构数据  数据填报
         /// </summary>
-        /// <param name="treeID">XML名称</param>
-        /// <param name="orgID">组织机构编码</param>
         /// <param name="formId">表单编号</param>
         /// <param name="type">组织维度</param>
         /// <returns></returns>
-        public DataTable GetDataParameter(string treeID, string orgID, string formId, string key)
+        public DataTable GetDataParameter(string formId, string key)
         {
-            return dal.GetDataParameter(treeID, orgID, formId, key);
+            return dal.GetDataParameter(formId, key);
         }
         #endregion
 
@@ -125,9 +122,9 @@ namespace BLL
         /// <param name="orgId">组织机构ID</param>
         /// <param name="fid">表单编号</param>
         /// <returns></returns>
-        public DataTable GetCreateValue(string columns, string tableName, string timeType, string time, string treeName, string orgId, string fid)
+        public DataTable GetCreateValue(string columns, string tableName, string timeType, string time, string orgId, string fid)
         {
-            return dal.GetCreateValue(columns, tableName, timeType, time, treeName, orgId, fid);
+            return dal.GetCreateValue(columns, tableName, timeType, time, orgId, fid);
         }
         #endregion
 
@@ -135,13 +132,12 @@ namespace BLL
         /// <summary>
         /// 获取填报公式等级
         /// </summary>
-        /// <param name="treeName">组织机构数名称</param>
         /// <param name="orgId">组织机构编码</param>
         /// <param name="formID">表单编号</param>
         /// <returns></returns>
-        public DataTable GetFormGrade(string treeName, string orgId, string formID)
+        public DataTable GetFormGrade(string formID)
         {
-            return dal.GetFormGrade(treeName, orgId, formID);
+            return dal.GetFormGrade(formID);
         }
         #endregion
 
@@ -149,14 +145,12 @@ namespace BLL
         /// <summary>
         /// 搜索公式
         /// </summary>
-        /// <param name="treeName">组织机构数名称</param>
-        /// <param name="orgId">组织机构编码</param>
         /// <param name="formID">表单编号</param>
         /// <param name="grade">优先级</param>
         /// <returns></returns>
-        public DataTable GetFormGradeList(string treeName, string orgId, string formID, string grade)
+        public DataTable GetFormGradeList(string formID, string grade)
         {
-            return dal.GetFormGradeList(treeName, orgId, formID, grade);
+            return dal.GetFormGradeList(formID, grade);
         }
         #endregion
 
@@ -164,14 +158,12 @@ namespace BLL
         /// <summary>
         /// 获取组织机构数据  数据填报
         /// </summary>
-        /// <param name="treeID">XML名称</param>
-        /// <param name="orgID">组织机构编码</param>
         /// <param name="formId">表单编号</param>
         /// <param name="type">组织维度</param>
         /// <returns></returns>
-        public DataTable GetDataOrgInfo(string treeID, string orgID, string formId, string type)
+        public DataTable GetDataOrgInfo(string formId, string type)
         {
-            return dal.GetDataOrgInfo(treeID, orgID, formId, type);
+            return dal.GetDataOrgInfo(formId, type);
         }
         #endregion
 
