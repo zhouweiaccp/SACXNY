@@ -36,10 +36,10 @@
       <HintPath>..\SAC.DBOperations\bin\Debug\IBM.Data.DB2.dll</HintPath>
     </Reference>
     <Reference Include="SAC.DBOperations">
-      <HintPath>..\SAC.DBOperations\bin\Debug\SAC.DBOperations.dll</HintPath>
+      <HintPath>C:\Users\Administrator\Desktop\DLL\SAC.DBOperations.dll</HintPath>
     </Reference>
     <Reference Include="SAC.RealTimeDB">
-      <HintPath>..\SAC.RealTimeDB\bin\Debug\SAC.RealTimeDB.dll</HintPath>
+      <HintPath>C:\Users\Administrator\Desktop\DLL\SAC.RealTimeDB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
