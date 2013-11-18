@@ -13,7 +13,7 @@
     <script type="text/javascript">
     	<!--
 
-
+        var num = 0;
         $(function () {
             /*设置风机高度*/
             //            $("#dv_bg").css("height", pageHeight() - 30);
@@ -21,14 +21,28 @@
 
             /*初始化数据*/
             Init();
+
+            //            $("#showPointInfo").hide();
+
+            //            for (var i = 0; i < num; i++) {
+            //                $("#dv_" + i).click(function () {
+            //                    $("#showPointInfo").show();
+            //                    $('#showPointInfo').dialog({});
+            //                });
+            //            }
         });
 
+        function ShowInfo(id) {
+            $("#showPointInfo").show();
+            $('#showPointInfo').dialog({});
+        }
 
 
         /*初始化页面数据   开始*/
         function Init() {
             $.post("Fj_Monitoring.aspx", { param: 'Init' }, function (data) {
                 $("#dv_show").html(data.tb);
+                num = data.num;
             }, 'json');
         }
         /*初始化页面数据   结束*/
@@ -57,50 +71,11 @@
 <body style="background-color: #1c7ab0; text-align: center;">
     <div id="dv_show" style="text-align: center; float: inherit;">
     </div>
-    <table>
-        <tr>
-            <td>
-                <div id="dv_1" style="margin-top: 5px; margin-left: 10px; width: 200px; height: 100px;
-                    background-image: url(../img/bg08.jpg);">
-                    <table style="float: right;">
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-        </tr>
-    </table>
+    <div id="showPointInfo" title="风机详细信息" data-options="iconCls:'icon-save'" style="padding: 5px;
+        width: 840px; height: 540px; display: none;">
+        <div id="dv_info">
+            <img src="testimg/fjjk_dt.jpg" height="491" width="798" />
+        </div>
+    </div>
 </body>
 </html>
