@@ -36,6 +36,7 @@
             //            $.post("Fj_Monitoring.aspx", { param: 'point', id: id }, function (data) {
             $("#showPointInfo").show();
             $('#showPointInfo').dialog({});
+
             //            }, 'json');
         }
 
