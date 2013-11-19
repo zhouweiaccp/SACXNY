@@ -59,6 +59,7 @@
     <Compile Include="PeriodDAL.cs" />
     <Compile Include="Plink.cs" />
     <Compile Include="PointDAL.cs" />
+    <Compile Include="PointsDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

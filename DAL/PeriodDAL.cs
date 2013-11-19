@@ -47,7 +47,8 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetUnit(string periodId)
         {
-            sql = "select T_UNITID,T_UNITDESC,T_MACHINEID,I_FLAG from Administrator.T_BASE_UNIT where T_PERIODID='" + periodId + "'";
+            //sql = "select T_UNITID,T_UNITDESC,T_MACHINEID,I_FLAG from Administrator.T_BASE_UNIT where T_PERIODID='" + periodId + "'";
+            sql = "select u.T_UNITID,u.T_UNITDESC,u.T_MACHINEID,u.I_FLAG,p.T_POWERTAG,p.T_WINDTAG,p.T_WUGONGGLV,p.T_ZHUANZHISUDU    from Administrator.T_BASE_UNIT u left join ADMINISTRATOR.T_BASE_POINTS p on u.T_UNITID=p.T_UNITID where u.T_PERIODID='" + periodId + "'";
 
             dt = db.RunDataTable(sql, out errMsg);
 

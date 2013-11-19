@@ -46,6 +46,7 @@
     <Compile Include="FormBLL.cs" />
     <Compile Include="PeriodBLL.cs" />
     <Compile Include="PointBLL.cs" />
+    <Compile Include="PointsBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
