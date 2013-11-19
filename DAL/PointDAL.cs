@@ -322,6 +322,26 @@ namespace DAL
             return val;
         }
 
+        /// <summary>
+        /// 获取测点最新值
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public double[] GetPointVal(string[] points, string time)
+        {
+            double[] val = new double[points.Length];
+            double v = 0;
+            Plink pk = new Plink();
+            for (int i = 0; i < points.Length; i++)
+            {
+                pk.GetHisValue(points[i], time, ref v);
+                v = getDouble(v, 2);
+                val[i] = v;
+            }
+            return val;
+        }
+
 
         /// <summary>
         /// 查询某段时间测点集合的历史值 -刘海杰

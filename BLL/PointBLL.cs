@@ -72,5 +72,15 @@ namespace BLL
             return point.GetHistValAndTIme2(points, st, et, jiange);
         }
 
+        /// <summary>
+        /// 获取测点最新值
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public double[] GetPointVal(string[] points, string time)
+        {
+            return point.GetPointVal(points, time);
+        }
     }
 }
