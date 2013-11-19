@@ -33,8 +33,10 @@
         });
 
         function ShowInfo(id) {
+            //            $.post("Fj_Monitoring.aspx", { param: 'point', id: id }, function (data) {
             $("#showPointInfo").show();
             $('#showPointInfo').dialog({});
+            //            }, 'json');
         }
 
 
@@ -72,9 +74,44 @@
     <div id="dv_show" style="text-align: center; float: inherit;">
     </div>
     <div id="showPointInfo" title="风机详细信息" data-options="iconCls:'icon-save'" style="padding: 5px;
-        width: 840px; height: 540px; display: none;">
-        <div id="dv_info">
-            <img src="testimg/fjjk_dt.jpg" height="491" width="798" />
+        width: 700px; height: 450px; display: none;">
+        <div id="dv_info" style="background-image: url(../img/fjjk_dt_bg.jpg); width: 680px;
+            height: 420px;">
+            <%--  <img src="../img/fjjk_dt_bg.jpg" height="491" width="798" />--%>
+            <table>
+                <tr>
+                    <td>
+                        <table style="background-image: url(../img/fjjk_dt_tb1.png); height: 372px; width: 240px;">
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table style="background-image: url(../img/fjjk_dt_tb2.png); height: 132px; width: 400px;">
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table style="background-image: url(../img/fjjk_dt_tb1.png); height: 372px; width: 240px;">
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>

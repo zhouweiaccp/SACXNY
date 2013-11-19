@@ -61,8 +61,8 @@
                 $.messager.confirm('提示', '请确定是否删除?', function (r) {
                 if (r) {
                     if ($("#gridItem").datagrid("getSelected") != null) {
-                       
-                        var rows = $("#gridItem").datagrid("getSelected"); // 这段代码是获取当前页的所有行。
+                       //$("#gridItem").datagrid("getSelected"
+                        var rows =$("#gridItem").datagrid("getSelected"); // 这段代码是获取当前页的所有行。
                         var rating = rows.CHARTID;
                         
                         $.post("TendManage.aspx", { chart_id:rating}, function (data) {

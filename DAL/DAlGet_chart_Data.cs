@@ -392,10 +392,10 @@ namespace DAL
         }
         public void Insert_para_id(string id)
         {
-            string sql = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, SQL, REALTIME) SELECT  a.[CHARTID],PARAID ,[PARADESC],[PARATYPE] ,[SQL],[REALTIME]" +
-  "FROM administrator.T_BASE_PARAID_XNY_WIND,(select top 1 CHARTID as CHARTID from administrator.T_INFO_CHART_USERTEMPLATE order by cast(CHARTID as int) desc) as a where [REALTIME] ='" + id + "'";
-            string sql1 = "insert into T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, SQL, REALTIME) SELECT  a.[CHARTID],PARAID ,[PARADESC],[PARATYPE] ,[SQL],[REALTIME]" +
-  "FROM administrator.T_BASE_PARAID_XNY_SUN,(select top 1 CHARTID as CHARTID from administrator.T_INFO_CHART_USERTEMPLATE order by cast(CHARTID as int) desc) as a where [REALTIME] ='" + id + "'";
+            string sql = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, T_SQL, REALTIME) SELECT  a.CHARTID,PARAID ,PARADESC,PARATYPE ,SQL,REALTIME " +
+  "FROM administrator.T_BASE_PARAID_WIND,(select  CHARTID from administrator.T_INFO_CHART_USERTEMPLATE order by cast(CHARTID as int) desc fetch   first  1   rows   only) as a where REALTIME ='" + id + "'";
+            string sql1 = "insert into T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, T_SQL, REALTIME) SELECT  a.CHARTID,PARAID ,PARADESC,PARATYPE ,SQL,REALTIME " +
+  "FROM administrator.T_BASE_PARAID_SUN,(select  CHARTID  from administrator.T_INFO_CHART_USERTEMPLATE order by cast(CHARTID as int) desc   fetch   first  1   rows   only) as a where REALTIME ='" + id + "'";
             dl.RunDataSet(sql, out errMsg);
             dl.RunDataSet(sql1, out errMsg);
             
@@ -408,10 +408,10 @@ namespace DAL
         /// <param name="id"></param>
         public void Insert_paraid_ByChartid(string chart_id, string id)
         {
-            string sql = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, SQL, REALTIME) SELECT  a.[CHARTID],PARAID ,[PARADESC],[PARATYPE] ,[SQL],[REALTIME]" +
-  "FROM administrator.T_BASE_PARAID_XNY_WIND,(select  CHARTID from administrator.T_INFO_CHART_USERTEMPLATE  where [CHARTID]='" + chart_id + "') as a where [REALTIME] ='" + id + "'";
-            string sql1 = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, SQL, REALTIME) SELECT  a.[CHARTID],PARAID ,[PARADESC],[PARATYPE] ,[SQL],[REALTIME]" +
-  "FROM administrator.T_BASE_PARAID_XNY_SUN,(select  CHARTID from administrator.T_INFO_CHART_USERTEMPLATE  where [CHARTID]='" + chart_id + "') as a where [REALTIME] ='" + id + "'";
+            string sql = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, T_SQL, REALTIME) SELECT  a.CHARTID,PARAID ,PARADESC,PARATYPE ,SQL,REALTIME " +
+  "FROM administrator.T_BASE_PARAID_WIND,(select  CHARTID from administrator.T_INFO_CHART_USERTEMPLATE  where CHARTID='" + chart_id + "') as a where REALTIME ='" + id + "'";
+            string sql1 = "insert into administrator.T_INFO_CHART_CHARTPARA(CHARTID,PARAID, PARADESC, PARATYPE, T_SQL, REALTIME) SELECT   a.CHARTID,PARAID ,PARADESC,PARATYPE ,SQL,REALTIME " +
+  "FROM administrator.T_BASE_PARAID_SUN,(select  CHARTID from administrator.T_INFO_CHART_USERTEMPLATE  where CHARTID='" + chart_id + "') as a where REALTIME ='" + id + "'";
             dl.RunDataSet(sql, out errMsg);
             dl.RunDataSet(sql1, out errMsg);
 

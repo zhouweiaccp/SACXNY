@@ -29,9 +29,14 @@ namespace SACSIS.Monitoring
                 {
                     GetInit(id);
                 }
+                else if (param == "point")
+                {
+                    string jzid = Request["id"];
+                }
             }
 
         }
+
 
         //初始化风机信息
         private void GetInit(string id)
