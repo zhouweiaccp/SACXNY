@@ -103,7 +103,9 @@
     <Content Include="img\fjjk_dt_7.jpg" />
     <Content Include="img\fjjk_dt_8.jpg" />
     <Content Include="img\fjjk_dt_9.jpg" />
+    <Content Include="img\fjjk_dt_bg .jpg" />
     <Content Include="img\fjjk_dt_bg.jpg" />
+    <Content Include="img\fjjk_dt_tb.png" />
     <Content Include="img\fjjk_dt_tb1.png" />
     <Content Include="img\fjjk_dt_tb2.png" />
     <Content Include="img\fjjk_dt_tb3.png" />
@@ -792,6 +794,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
     <Content Include="Monitoring\Fj_Monitoring.aspx" />
+    <Content Include="Monitoring\WebForm1.aspx" />
     <Content Include="Trend\BGFJDB.aspx" />
     <Content Include="Trend\ChartManage.aspx" />
     <Content Include="Trend\TendManage.aspx" />
@@ -878,6 +881,13 @@
     </Compile>
     <Compile Include="Monitoring\Fj_Monitoring.aspx.designer.cs">
       <DependentUpon>Fj_Monitoring.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Monitoring\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trend\BGFJDB.aspx.cs">
