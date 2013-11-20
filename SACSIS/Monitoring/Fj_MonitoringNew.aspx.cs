@@ -10,7 +10,7 @@ using System.Data;
 
 namespace SACSIS.Monitoring
 {
-    public partial class Fj_Monitoring : System.Web.UI.Page
+    public partial class Fj_MonitoringNew : System.Web.UI.Page
     {
         private PeriodBLL dll = new PeriodBLL();
         private PointBLL pointdll = new PointBLL();
@@ -39,7 +39,8 @@ namespace SACSIS.Monitoring
                 }
                 else if (param == "fy")
                 {
-                    int num = Convert.ToInt32(Request["num"]);
+                    string nums = Request["num"];
+                    int num = Convert.ToInt32(nums);
                     GetShowList(num);
                 }
             }
@@ -48,9 +49,10 @@ namespace SACSIS.Monitoring
 
         private void GetShowList(int nums)
         {
+            nums = nums - 1;
             int num = 0;
             int zcount = 0;
-            zcount = dt.Rows.Count - 10;
+            zcount = 10;
 
             if (zcount % 6 == 0)
                 num = zcount / 6;
@@ -72,66 +74,66 @@ namespace SACSIS.Monitoring
 
                     for (int k = 0; k < 6; k++)
                     {
-                        points[k * 4] = dt.Rows[k + i * 6][4].ToString();
-                        points[k * 4 + 1] = dt.Rows[k + i * 6][5].ToString();
-                        points[k * 4 + 2] = dt.Rows[k + i * 6][6].ToString();
-                        points[k * 4 + 3] = dt.Rows[k + i * 6][7].ToString();
+                        points[k * 4] = dt.Rows[k + i * 6 + nums * 10][4].ToString();
+                        points[k * 4 + 1] = dt.Rows[k + i * 6 + nums * 10][5].ToString();
+                        points[k * 4 + 2] = dt.Rows[k + i * 6 + nums * 10][6].ToString();
+                        points[k * 4 + 3] = dt.Rows[k + i * 6 + nums * 10][7].ToString();
                     }
                     val = pointdll.GetPointVal(points, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + i * 6 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + i * 6 + nums * 10 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[4] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[6] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[7] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + (i * 6 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 1][0] + "','" + dt.Rows[i * 6 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + (i * 6 + nums * 10 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 1][0] + "','" + dt.Rows[i * 6 + nums * 10 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[8] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[10] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[11] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + (i * 6 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 2][0] + "','" + dt.Rows[i * 6 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + (i * 6 + nums * 10 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 2][0] + "','" + dt.Rows[i * 6 + nums * 10 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[12] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[14] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[15] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + (i * 6 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 3][0] + "','" + dt.Rows[i * 6 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + (i * 6 + nums * 10 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 3][0] + "','" + dt.Rows[i * 6 + nums * 10 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 4][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[17] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 4][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[17] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[16] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[18] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[19] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + (i * 6 + 4) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 4][0] + "','" + dt.Rows[i * 6 + 4][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + (i * 6 + nums * 10 + 4) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 4][0] + "','" + dt.Rows[i * 6 + nums * 10 + 4][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     stb = new StringBuilder();
                     stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 10px;\">");
-                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 5][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[21] + "&nbsp;m/s</td></tr>");
+                    stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 5][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[21] + "&nbsp;m/s</td></tr>");
                     stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[20] + "&nbsp;kw</td></tr>");
                     stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[22] + "&nbsp;kvar</td></tr>");
                     stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[23] + "&nbsp;rpm</td></tr>");
                     stb.Append("</table>");
-                    st.Append("<td><div id=\"dv_" + (i * 6 + 5) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 5][0] + "','" + dt.Rows[i * 6 + 5][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                    st.Append("<td><div id=\"dv_" + (i * 6 + nums * 10 + 5) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 5][0] + "','" + dt.Rows[i * 6 + nums * 10 + 5][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width: 220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                 }
                 else
@@ -152,12 +154,12 @@ namespace SACSIS.Monitoring
 
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"6\"><div id=\"dv_" + i * 6 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"6\"><div id=\"dv_" + i * 6 + nums * 10 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                     }
                     else if (dt.Rows.Count % 6 == 2)
                     {
@@ -174,20 +176,20 @@ namespace SACSIS.Monitoring
                         val = pointdll.GetPointVal(points, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[4] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[6] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[7] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"5\" align=\"left\"><div id=\"dv_" + (i * 6 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 1][0] + "','" + dt.Rows[i * 6 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"5\" align=\"left\"><div id=\"dv_" + (i * 6 + nums * 10 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 1][0] + "','" + dt.Rows[i * 6 + nums * 10 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                     }
                     else if (dt.Rows.Count % 6 == 3)
                     {
@@ -205,28 +207,28 @@ namespace SACSIS.Monitoring
 
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[4] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[6] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[7] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 1][0] + "','" + dt.Rows[i * 6 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 1][0] + "','" + dt.Rows[i * 6 + nums * 10 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[8] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[10] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[11] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"4\" align=\"left\"><div id=\"dv_" + (i * 6 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 2][0] + "','" + dt.Rows[i * 6 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"4\" align=\"left\"><div id=\"dv_" + (i * 6 + nums * 10 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 2][0] + "','" + dt.Rows[i * 6 + nums * 10 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                     }
                     else if (dt.Rows.Count % 6 == 4)
                     {
@@ -244,36 +246,36 @@ namespace SACSIS.Monitoring
 
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + i * 6 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + i * 6 + nums * 10 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[4] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[6] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[7] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 1][0] + "','" + dt.Rows[i * 6 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 1][0] + "','" + dt.Rows[i * 6 + nums * 10 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[8] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[10] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[11] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 2][0] + "','" + dt.Rows[i * 6 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 2][0] + "','" + dt.Rows[i * 6 + nums * 10 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[12] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[14] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[15] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"3\" align=\"left\"><div id=\"dv_" + (i * 6 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 3][0] + "','" + dt.Rows[i * 6 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"3\" align=\"left\"><div id=\"dv_" + (i * 6 + nums * 10 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 3][0] + "','" + dt.Rows[i * 6 + nums * 10 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                     }
                     else if (dt.Rows.Count % 6 == 5)
                     {
@@ -291,50 +293,61 @@ namespace SACSIS.Monitoring
 
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[1] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[0] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[2] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[3] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + i * 6 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 0][0] + "','" + dt.Rows[i * 6][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + i * 6 + nums * 10 + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 0][0] + "','" + dt.Rows[i * 6 + nums * 10][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 1][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[5] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[4] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[6] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[7] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 1][0] + "','" + dt.Rows[i * 6 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 1) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 1][0] + "','" + dt.Rows[i * 6 + nums * 10 + 1][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 2][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[9] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[8] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[10] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[11] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 2][0] + "','" + dt.Rows[i * 6 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 2) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 2][0] + "','" + dt.Rows[i * 6 + nums * 10 + 2][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 3][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[13] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[12] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[14] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[15] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 3][0] + "','" + dt.Rows[i * 6 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"1\"><div id=\"dv_" + (i * 6 + nums * 10 + 3) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 3][0] + "','" + dt.Rows[i * 6 + nums * 10 + 3][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
                         stb = new StringBuilder();
                         stb.Append("<table style=\"float: right; margin-top: 15px; margin-right: 15px;\">");
-                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + 4][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[17] + "&nbsp;m/s</td></tr>");
+                        stb.Append("<tr><td height=\"20px\" width=\"60px\">" + dt.Rows[i * 6 + nums * 10 + 4][1] + "</td><td height=\"20px\" valign=\"middle\" align=\"left\">风&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;速:</td><td height=\"20px\" width=\"60px\">" + val[17] + "&nbsp;m/s</td></tr>");
                         stb.Append("<tr><td height=\"20px\"></td><td height=\"20px\" valign=\"middle\" align=\"left\">有功功率:</td><td height=\"20px\" width=\"60px\">" + val[16] + "&nbsp;kw</td></tr>");
                         stb.Append("<tr><td rowspan=\"2\"><img src=\"../img/fjjk_yx.png\" /></td><td height=\"20px\" valign=\"middle\" align=\"left\">无功功率:</td><td height=\"20px\" width=\"60px\">" + val[18] + "&nbsp;kvar</td></tr>");
                         stb.Append("<tr><td height=\"20px\" valign=\"middle\" align=\"left\">转&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数:</td><td height=\"20px\" width=\"60px\">" + val[19] + "&nbsp;rpm</td></tr>");
                         stb.Append("</table>");
-                        st.Append("<td colspan=\"2\" align=\"left\"><div id=\"dv_" + (i * 6 + 4) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + 4][0] + "','" + dt.Rows[i * 6 + 4][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
+                        st.Append("<td colspan=\"2\" align=\"left\"><div id=\"dv_" + (i * 6 + nums * 10 + 4) + "\" onclick=\"ShowInfo('" + dt.Rows[i * 6 + nums * 10 + 4][0] + "','" + dt.Rows[i * 6 + nums * 10 + 4][1] + "')\" style=\"margin-top: 5px; margin-left: 10px; width:220px; height: 107px;background-image: url(../img/fjjk_bg.jpg);\">" + stb.ToString() + "</div></td>");
 
                     }
                 }
                 st.Append("</tr>");
             }
 
+            st.Append("</table>");
+
+            object obj = new
+            {
+                tb = st.ToString(),
+                num = dt.Rows.Count
+            };
+
+            string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+            Response.Write(result);
+            Response.End();
         }
 
         #region 初始化风机详细信息
@@ -396,21 +409,21 @@ namespace SACSIS.Monitoring
             int total = 0;
 
             dt = dll.GetUnit(id);
-            int num = 0;
+            int num = 2;
 
             if (dt != null && dt.Rows.Count > 0)
             {
-                if (dt.Rows.Count % 6 == 0)
-                    num = dt.Rows.Count / 6;
-                else
-                    num = dt.Rows.Count / 6 + 1;
+                //if (dt.Rows.Count % 6 == 0)
+                //    num = dt.Rows.Count / 6;
+                //else
+                //    num = dt.Rows.Count / 6 + 1;
 
-                if (dt.Rows.Count / 36 == 0)
+                if (dt.Rows.Count / 10 == 0)
                     total = 1;
-                else if (dt.Rows.Count % 36 == 0)
-                    total = dt.Rows.Count / 36;
+                else if (dt.Rows.Count % 10 == 0)
+                    total = dt.Rows.Count / 10;
                 else
-                    total = dt.Rows.Count / 36 + 1;
+                    total = dt.Rows.Count / 10 + 1;
             }
             st.Append("<table>");
             StringBuilder stb = null;

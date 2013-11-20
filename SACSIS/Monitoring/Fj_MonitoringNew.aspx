@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Fj_Monitoring.aspx.cs"
-    Inherits="SACSIS.Monitoring.Fj_Monitoring" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Fj_MonitoringNew.aspx.cs"
+    Inherits="SACSIS.Monitoring.Fj_MonitoringNew" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16,18 +16,18 @@
         $(function () {
             /*初始化数据*/
             Init();
-//            setInterval(function () {
-//                Init();
-//            }, 1000 * 10);
+            //            setInterval(function () {
+            //                Init();
+            //            }, 1000 * 10);
 
-         
+
             var num;
             $("#btnFirst").click(function () {
                 if ($("#sp_num").val() == "1") {
                     $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
                 } else {
                     num = 1;
-                    $.post("Fj_Monitoring.aspx", { param: 'fy', num: num }, function (data) {
+                    $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
 
                     }, 'json');
                 }
@@ -38,18 +38,22 @@
                     $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
                 } else {
                     num = Number($("#txtHide").val()) - 1;
-                    $.post("Fj_Monitoring.aspx", { param: 'fy', num: num }, function (data) {
+                    $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
 
                     }, 'json');
                 }
             });
             $("#btnDown").click(function () {
-                if ((Number($("#txtHide").val()) + 1) > Number($("#sp_num").val())) {
+                var next = (Number($("#txtHide").val()));
+                var all = Number($("#sp_num").text());
+                if (next > all) {
                     $.messager.alert('风机监控', '跳转的页数不能大于总页数!', 'warning');
                 } else {
-                    num = Number($("#txtHide").val()) + 1;
-                    $.post("Fj_Monitoring.aspx", { param: 'fy', num: num }, function (data) {
-
+                    num = next + 1;
+                    $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
+                        $("#dv_show").html(data.tb);
+                        $("#sp_now").text(num);
+                        $("#txtHide").val(num);
                     }, 'json');
                 }
             });
@@ -58,7 +62,7 @@
                     $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
                 } else {
                     num = $("#txtHide").val();
-                    $.post("Fj_Monitoring.aspx", { param: 'fy', num: num }, function (data) {
+                    $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
 
                     }, 'json');
                 }
@@ -71,7 +75,7 @@
                         $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
                     } else {
                         num = $("#txtHide").val();
-                        $.post("Fj_Monitoring.aspx", { param: 'fy', num: num }, function (data) {
+                        $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
 
                         }, 'json');
                     }
@@ -85,7 +89,7 @@
         }
 
         function ShowInfo(id, name) {
-            $.post("Fj_Monitoring.aspx", { param: 'point', id: id }, function (data) {
+            $.post("Fj_MonitoringNew.aspx", { param: 'point', id: id }, function (data) {
                 $("#sp_1").text(name);
                 if (data.val.length > 0) {
                     $("#sp_2").text(data.val[1]); //风速
@@ -129,8 +133,10 @@
 
         /*初始化页面数据   开始*/
         function Init() {
-            $.post("Fj_Monitoring.aspx", { param: 'Init' }, function (data) {
+            $.post("Fj_MonitoringNew.aspx", { param: 'Init' }, function (data) {
                 $("#sp_num").text(data.total);
+                $("#txtHide").text('1');
+                $("#sp_now").text('1');
                 $("#dv_show").html(data.tb);
                 num = data.num;
             }, 'json');
@@ -165,9 +171,9 @@
         <a id="btnFirst" href="#" class="easyui-linkbutton">首&nbsp;&nbsp;页</a> <a id="btnUp"
             href="#" class="easyui-linkbutton">上&nbsp;一&nbsp;页</a> <a id="btnDown" href="#" class="easyui-linkbutton">
                 下&nbsp;一&nbsp;页</a> <a id="btnLost" href="#" class="easyui-linkbutton">尾&nbsp;&nbsp;页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共<span
-                    id="sp_num"></span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;跳转到<input id="txtNum" style="width: 20px;"
-                        value="" /><input id="txtHide" style="display: none;" value="" />页&nbsp;<a id="btnBack"
-                            href="#" class="easyui-linkbutton">跳&nbsp;&nbsp;转</a>
+                    id="sp_num"></span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前为第<span id="sp_now"></span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;跳转到<input
+                        id="txtNum" style="width: 20px;" value="" /><input id="txtHide" style="display: none;"
+                            value="" />页&nbsp;<a id="btnBack" href="#" class="easyui-linkbutton">跳&nbsp;&nbsp;转</a>
     </div>
     <div id="showPointInfo" title="风机详细信息" data-options="iconCls:'icon-save'" style="padding: 5px;
         width: 890px; height: 490px; display: none;">

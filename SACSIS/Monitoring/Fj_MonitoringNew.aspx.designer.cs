@@ -10,6 +10,6 @@
 namespace SACSIS.Monitoring {
     
     
-    public partial class WebForm1 {
+    public partial class Fj_MonitoringNew {
     }
 }
