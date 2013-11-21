@@ -151,7 +151,12 @@
                             showGrid(data);
                         } else {
                             HT();
-                            CHART(data);
+                            //CHART(data);
+                            LoadZXT(data);
+                            $("#grid").show();
+                            $("#grid").css("width", pageWidth() - 380);
+                            $("#grid").css("height", pageHeight() - 500);
+                            showGrid(data);
                         }
                     }, 'json');
                 }
@@ -164,13 +169,55 @@
             }
             var options = {
                 //                width: "auto",
-                rownumbers: true
+                rownumbers: true,
                 //fitColumns: true,
                 //striped: true,
                 //align: 'center',
                 //loadMsg: "正在努力为您加载数据", //加载数据时向用户展示的语句
                 //collapsible: true,
                 //remoteSort: false
+//                onLoadSuccess: function (data) {
+//                //datagrid头部 table 的第一个tr 的td们，即columns的集合
+//                var headerTds = $(".datagrid-header-inner table tr:first-child").children();
+//                //datagrid主体 table 的第一个tr 的td们，即第一个数据行
+//                var bodyTds = $(".datagrid-body table tr:first-child").children();
+//                var totalWidth = 0; //合计宽度，用来为datagrid头部和主体设置宽度
+//                //循环设置宽度
+//                bodyTds.each(function (i, obj) {
+//                    var headerTd = $(headerTds.get(i));
+//                    var bodyTd = $(bodyTds.get(i));
+//                    $("div:first-child", headerTds.get(i)).css("text-align", "center");
+//                    var headerTdWidth = headerTd.width(); //获取第i个头部td的宽度
+//                    //这里加5个像素 是因为数据主体我们取的是第一行数据，不能确保第一行数据宽度最宽，预留5个像素。有兴趣的朋友可以先判断最大的td宽度都在进行设置
+//                    var bodyTdWidth = bodyTd.width() + 5;
+//                    var width = 0;
+//                    //如果头部列名宽度比主体数据宽度宽，则它们的宽度都设为头部的宽度。反之亦然
+//                    if (headerTdWidth > bodyTdWidth) {
+//                        width = headerTdWidth;
+//                        bodyTd.width(width);
+//                        headerTd.width(width);
+//                        totalWidth += width;
+//                    } else {
+//                        width = bodyTdWidth;
+//                        headerTd.width(width);
+//                        bodyTd.width(width);
+//                        totalWidth += width;
+//                    }
+//                });
+//                var headerTable = $(".datagrid-header-inner table:first-child");
+//                var bodyTable = $(".datagrid-body table:first-child");
+//                //循环完毕即能得到总得宽度设置到头部table和数据主体table中
+//                headerTable.width(totalWidth);
+//                bodyTable.width(totalWidth);
+//                bodyTds.each(function (i, obj) {
+//                    var headerTd = $(headerTds.get(i));
+//                    var bodyTd = $(bodyTds.get(i));
+//                    var headerTdWidth = headerTd.width();
+//                    bodyTd.width(headerTdWidth);
+//                });
+//            }
+               
+
             };
             options.columns = eval(data.columns); //把返回的数组字符串转为对象，并赋于datagrid的column属性  
             var dataGrid = $("#grid");
@@ -239,6 +286,47 @@
             }
         }; 
             //-->
+
+
+        function LoadZXT(a)
+        { 
+            $('#container').highcharts({
+                                chart: {
+                                    type: 'column'
+                                },
+                                title: {
+                                    text: ''
+                                },
+                                subtitle: {
+                                    text: ''
+                                },
+                                xAxis: {
+                                    categories: [""
+                ]
+                                },
+                                yAxis: {
+                                    min: 0,
+                                    title: {
+                                        text: ''
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                                    footerFormat: '</table>',
+                                    shared: true,
+                                    useHTML: true
+                                },
+                                plotOptions: {
+                                    column: {
+                                        pointPadding: 0.2,
+                                        borderWidth: 0
+                                    }
+                                },
+                                series: a.listZXT
+                            });
+        }
     </script>
 </head>
 <body style="font-size: 12px;">

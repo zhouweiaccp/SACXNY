@@ -86,6 +86,7 @@
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
     <Content Include="Datafile\Get_Chart_Data.aspx" />
     <Content Include="Form\UpData.aspx" />
+    <Content Include="img\20131115110424.jpg" />
     <Content Include="img\banner.jpg" />
     <Content Include="img\banner_02.jpg" />
     <Content Include="img\bg08.jpg" />
@@ -123,6 +124,7 @@
     <Content Include="Js\ChartManage.js" />
     <Content Include="Js\data.js" />
     <Content Include="Js\exporting.js" />
+    <Content Include="Js\highcharts-more.js" />
     <Content Include="Js\highcharts.js" />
     <Content Include="Js\jquery-1.8.2.min.js" />
     <Content Include="Js\jquery.blockUI.js" />
@@ -793,6 +795,7 @@
     <Content Include="Js\WPPLine.js" />
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
+    <Content Include="MainConnect.aspx" />
     <Content Include="Monitoring\Fj_Monitoring.aspx" />
     <Content Include="Monitoring\Fj_MonitoringNew.aspx" />
     <Content Include="Trend\BGFJDB.aspx" />
@@ -874,6 +877,13 @@
     </Compile>
     <Compile Include="Main.aspx.designer.cs">
       <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MainConnect.aspx.cs">
+      <DependentUpon>MainConnect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MainConnect.aspx.designer.cs">
+      <DependentUpon>MainConnect.aspx</DependentUpon>
     </Compile>
     <Compile Include="Monitoring\Fj_Monitoring.aspx.cs">
       <DependentUpon>Fj_Monitoring.aspx</DependentUpon>

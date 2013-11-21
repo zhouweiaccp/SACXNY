@@ -16,6 +16,7 @@ namespace Web.LineAndChart
     {
         private PeriodBLL _pd = new PeriodBLL();
         private PointBLL _pointbll = new PointBLL();
+        private BLL_STATISCS _sta = new BLL_STATISCS();
 
         private static string _xml = "FD";
         private string result = "";
@@ -58,6 +59,7 @@ namespace Web.LineAndChart
         private void ShowLineYear(string id, string zType, string tType, string time, string gq)
         {
             IList<Hashtable> list = new List<Hashtable>();
+            IList<Hashtable> listDl = new List<Hashtable>();
             Hashtable ht = new Hashtable();
             string _news = "";
             string _old = "";
@@ -92,11 +94,41 @@ namespace Web.LineAndChart
                 if (tType == "1")
                 {
                     //柱形图
+                    DataTable newdt = _sta.GetDL(time.ToString() + "-1-1 0:00:00", time.ToString() + "-12-31 23:59:59", "'" + id + "'");
+                    DataTable olddt = _sta.GetDL((int.Parse(time) - 1).ToString() + "-1-1 0:00:00", (int.Parse(time) - 1).ToString() + "-12-31 23:59:59", "'" + id + "'");
+
+                    Hashtable h = new Hashtable();
+                    if (newdt.Rows.Count < 1)
+                    {
+                        h.Add("name", "今年");
+                        h.Add("data", new double[1] { 0 });
+                    }
+                    else
+                    {
+                        h.Add("name", "今年");
+                        h.Add("data", new double[1] { Convert.ToDouble(newdt.Rows[0]["RESULT"]) });
+                    }
+                    listDl.Add(h);
+
+                    h = new Hashtable();
+                    if (olddt.Rows.Count < 1)
+                    {
+                        h.Add("name", "去年");
+                        h.Add("data", new double[1] { 0 });
+                    }
+                    else
+                    {
+                        h.Add("name", "去年");
+                        h.Add("data", new double[1] { Convert.ToDouble(olddt.Rows[0]["RESULT"]) });
+                    }
+                    listDl.Add(h);
 
                 }
                 else if (tType == "2")
                 {
                     //曲线
+                    DataTable newdt = _sta.GetDlByTimeAndUnits(time.ToString() + "-1 0:00:00", time.ToString() + "-31 23:59:59", "'" + id + "'");
+                    DataTable olddt = _sta.GetDL((int.Parse(time) - 1).ToString() + "-1-1 0:00:00", (int.Parse(time) - 1).ToString() + "-12-31 23:59:59", "'" + id + "'");
 
                 }
             }
@@ -115,7 +147,8 @@ namespace Web.LineAndChart
 
             object obj = new
             {
-                list = list
+                list = list,
+                listDl=listDl
             };
 
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);

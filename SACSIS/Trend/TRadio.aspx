@@ -125,6 +125,13 @@
                                 ShowLineDay(data, 'container');
                             }
                         }
+                        else {
+                            if ($("#TType").val() == "1") {
+                                ShowDl(data, 'container');
+                            } else { //type="2"
+                                ShowDl(data, 'container');
+                            }
+                        }
                     },
                     eror: function (data) {
                         alert(data);
@@ -293,6 +300,46 @@
                             fontSize: '10px'
                         }
                     }
+                });
+            }
+
+            function ShowDl(data, dv) {
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: dv, /*绑定标签*/
+                        type: 'column'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        categories: [""
+                ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: ''
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: data.listDl
                 });
             }
 

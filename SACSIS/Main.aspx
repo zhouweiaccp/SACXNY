@@ -104,7 +104,7 @@
             }
         }
         function Menu() {
-            window.frm.location.href = "../Html/qgs_sczl.html";
+            window.frm.location.href = "../MainConnect.aspx";
         }
 
         function changeMenu(t) {

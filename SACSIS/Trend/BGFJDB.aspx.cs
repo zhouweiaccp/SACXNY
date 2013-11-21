@@ -17,6 +17,7 @@ namespace Web.LineAndChart
     {
         private PeriodBLL _pd = new PeriodBLL();
         private PointBLL _pb = new PointBLL();
+        private BLL_STATISCS _sta = new BLL_STATISCS();
 
         private static string _xml = "FD";
         private string result = "";
@@ -36,7 +37,14 @@ namespace Web.LineAndChart
                     string idpt = HttpUtility.UrlDecode(Request["id_pt"]);
                     string namebg = HttpUtility.UrlDecode(Request["name_bg"]);
                     string namept = HttpUtility.UrlDecode(Request["name_pt"]);
-                    GetList(idbg, idpt, namebg, namept, tyep, sTime, eTime, gq);
+                    if (tyep == "1" || tyep == "2")
+                    {
+                        GetList(idbg, idpt, namebg, namept, tyep, sTime, eTime, gq);
+                    }
+                    else if (tyep == "3" || tyep == "4")
+                    {
+                        GetList(idbg, idpt, namebg, namept, tyep, sTime, eTime, gq);
+                    }
                 }
                 else if (param == "Init")
                 {
@@ -103,7 +111,9 @@ namespace Web.LineAndChart
         {
             IList<Hashtable> listTitle = new List<Hashtable>();  //Table表格存放列名
             IList<Hashtable> listData = new List<Hashtable>();   //Table 表格具体数据
+            IList<Hashtable> listZXT = new List<Hashtable>();
             IList<Hashtable> list = new List<Hashtable>();
+
 
             if (idbg.Length > 0 && idpt.Length > 0)
             {
@@ -146,80 +156,90 @@ namespace Web.LineAndChart
                 if (type == "1" || type == "2")
                 {
                     list = _pb.GetVal(_points, namebg.Split(','), sTime, eTime, 15 * 60);
-                    //listData = _pb.GetValToTable(_points, namebg.Split(','), sTime, eTime, 15 * 60); ;
-                }
-            }
+                    //listData = _pb.GetValToTable(_points, namebg.Split(','), sTime, eTime, 15 * 60); 
 
-            int day = Convert.ToDateTime(eTime).Day - Convert.ToDateTime(sTime).Day;
-            int hour = Convert.ToDateTime(eTime).Hour - Convert.ToDateTime(sTime).Hour;
-            int minute = Convert.ToDateTime(eTime).Minute - Convert.ToDateTime(sTime).Minute;
-            int second = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
+                    int day = Convert.ToDateTime(eTime).Day - Convert.ToDateTime(sTime).Day;
+                    int hour = Convert.ToDateTime(eTime).Hour - Convert.ToDateTime(sTime).Hour;
+                    int minute = Convert.ToDateTime(eTime).Minute - Convert.ToDateTime(sTime).Minute;
+                    int second = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
 
-            second = day * 24 * 3600 + hour * 3600 + minute * 60 * second;
+                    second = day * 24 * 3600 + hour * 3600 + minute * 60 * second;
 
-            int num = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
-            num = second / 15 / 60;
-            if (second % 15 / 60 != 0)
-                num += 1;
+                    int num = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
+                    num = second / 15 / 60;
+                    if (second % 15 / 60 != 0)
+                        num += 1;
 
 
-            for (int i = 0; i < num; i++)
-            {
-                sTime = Convert.ToDateTime(sTime).AddSeconds(15 * 60).ToString();
-                eTime = sTime;
-                Hashtable ht = new Hashtable();
-                ht.Add("时间", eTime);
-                //listData.Add(ht);
+                    for (int i = 0; i < num; i++)
+                    {
+                        sTime = Convert.ToDateTime(sTime).AddSeconds(15 * 60).ToString();
+                        eTime = sTime;
+                        Hashtable ht = new Hashtable();
+                        ht.Add("时间", eTime);
+                        //listData.Add(ht);
 
-                foreach (Hashtable htv in list)
+                        foreach (Hashtable htv in list)
+                        {
+                            ArrayList listD = (ArrayList)htv["data"];
+                            ArrayList listV = (ArrayList)listD[i];
+                            string tname = htv["name"].ToString();
+                            string vname = "";
+                            if (listV.Count > 1)
+                                vname = listV[1].ToString();
+                            else
+                                vname = "0";
+                            ht.Add(tname, vname);//vname is value ? wo  d  jiu shi  zheme shezhi d 
+                        }
+
+                        listData.Add(ht);
+                    }
+                } 
+                else if(type == "3" || type == "4")
                 {
-                    ArrayList listD = (ArrayList)htv["data"];
-                    ArrayList listV = (ArrayList)listD[i];
-                    string tname = htv["name"].ToString();
-                    string vname = "";
-                    if (listV.Count > 1)
-                        vname = listV[1].ToString();
-                    else
-                        vname = "0";
-                    ht.Add(tname, vname);//vname is value ? wo  d  jiu shi  zheme shezhi d 
+                    //表格数据
+                    DataTable dtGrid = _sta.GetDlByTimeAndUnits(sTime, eTime, idbg);
+                    List<string> liststr = new List<string>();
+                    var q =
+                        from t in dtGrid.AsEnumerable()
+                        group t by new { t1 = t.Field<DateTime>("T_TIME") } into m
+                        select new
+                            {
+                                T_TIME = m.Key.t1
+                            };
+                    q.ToList().ForEach(a => liststr.Add(a.T_TIME.ToString()));
+                    for (int m = 0; m < liststr.Count; m++)
+                    {
+                        
+                         Hashtable ht = new Hashtable();
+                         ht.Add("时间",liststr[m]);
+                         for (int o = 0; o < namebg.Split(',').Length; o++)
+                         {
+                             DataRow[] dr = dtGrid.Select("T_TIME='" + liststr[m] + "' and T_UNITDESC='" + namebg.Split(',')[o] + "'");
+                             ht.Add(namebg.Split(',')[o], dr[0]["D_VALUE"].ToString());
+                         }
+
+                         listData.Add(ht);
+                    }
+
+                    //柱形图数据
+                    DataTable dt = _sta.GetDL(sTime, eTime, idbg);
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        Hashtable ht = new Hashtable();
+                        ht.Add("name", dt.Rows[i]["T_UNITDESC"]);
+                        ht.Add("data", new double[1] { Convert.ToDouble(dt.Rows[i]["RESULT"]) });
+                        listZXT.Add(ht);
+                    }
                 }
-
-                listData.Add(ht);
             }
-            // if (type == "3")
-            //    {
-            //        string[] titles = name.Split(',');
-            //        double[] val = new double[titles.Length];
-            //        for (int i = 0; i < titles.Length; i++)
-            //        {
-            //            val[i] = rand.Next(15000, 60000);
-            //        }
-            //        ht = new Hashtable();
-            //        ht.Add("name", titles);
-            //        ht.Add("value", val);
-            //        list.Add(ht);
-            //    }
-            //    else if (type == "4")
-            //    {
-            //        string[] titles = name.Split(',');
-            //        double[] val = new double[titles.Length];
-            //        for (int i = 0; i < titles.Length; i++)
-            //        {
-            //            val[i] = rand.Next(0, 10);
-            //        }
-            //        ht = new Hashtable();
-            //        ht.Add("name", titles);
-            //        ht.Add("value", val);
-            //        list.Add(ht);
-            //    }
-
-
 
             object obj = new
             {
                 columns = ListToString(listTitle),
                 rows = listData,
-                list = list
+                list = list,
+                listZXT = listZXT,          //柱形图
             };
 
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
@@ -261,8 +281,6 @@ namespace Web.LineAndChart
             columns.Append("]]");
             return columns.ToString();
         }
-
-
 
         #region 获取风场  工期  机组信息
         Hashtable _ht = null;

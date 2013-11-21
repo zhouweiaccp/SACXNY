@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BLLGet_chart_Data.cs" />
     <Compile Include="BLLRole.cs" />
+    <Compile Include="BLL_STATISCS.cs" />
     <Compile Include="FaultBLL.cs" />
     <Compile Include="FormBLL.cs" />
     <Compile Include="PeriodBLL.cs" />
