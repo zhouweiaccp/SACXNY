@@ -49,11 +49,18 @@ namespace SACSIS.Monitoring
 
         private void GetShowList(int nums)
         {
-            nums = nums - 1;
+
             int num = 0;
             int zcount = 0;
-            zcount = 10;
-
+            if (dt.Rows.Count - nums * 36 > 0)
+            {
+                zcount = 36;
+            }
+            else
+            {
+                zcount = dt.Rows.Count % 36;
+            }
+            nums = nums - 1;
             if (zcount % 6 == 0)
                 num = zcount / 6;
             else
@@ -409,7 +416,7 @@ namespace SACSIS.Monitoring
             int total = 0;
 
             dt = dll.GetUnit(id);
-            int num = 2;
+            int num = 6;
 
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -418,12 +425,12 @@ namespace SACSIS.Monitoring
                 //else
                 //    num = dt.Rows.Count / 6 + 1;
 
-                if (dt.Rows.Count / 10 == 0)
+                if (dt.Rows.Count / 36 == 0)
                     total = 1;
-                else if (dt.Rows.Count % 10 == 0)
-                    total = dt.Rows.Count / 10;
+                else if (dt.Rows.Count % 36 == 0)
+                    total = dt.Rows.Count / 36;
                 else
-                    total = dt.Rows.Count / 10 + 1;
+                    total = dt.Rows.Count / 36 + 1;
             }
             st.Append("<table>");
             StringBuilder stb = null;

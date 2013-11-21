@@ -16,37 +16,41 @@
         $(function () {
             /*初始化数据*/
             Init();
-            //            setInterval(function () {
-            //                Init();
-            //            }, 1000 * 10);
+            setInterval(function () {
+                Init();
+            }, 1000 * 10);
 
 
             var num;
             $("#btnFirst").click(function () {
-                if ($("#sp_num").val() == "1") {
-                    $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
+                if ($("#txtHide").val() == "1") {
+                    $.messager.alert('风机监控', '已经是第1页,不能进行跳转!', 'warning');
                 } else {
                     num = 1;
                     $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
-
+                        $("#dv_show").html(data.tb);
+                        $("#sp_now").text(num);
+                        $("#txtHide").val(num);
                     }, 'json');
                 }
 
             });
             $("#btnUp").click(function () {
-                if ($("#sp_num").val() == "1") {
-                    $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
+                if ($("#txtHide").val() == "1") {
+                    $.messager.alert('风机监控', '已经是第1页,不能进行跳转!', 'warning');
                 } else {
-                    num = Number($("#txtHide").val()) - 1;
+                    num = Number($("#txtHide").val() - 1);
                     $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
-
+                        $("#dv_show").html(data.tb);
+                        $("#sp_now").text(num);
+                        $("#txtHide").val(num);
                     }, 'json');
                 }
             });
             $("#btnDown").click(function () {
                 var next = (Number($("#txtHide").val()));
                 var all = Number($("#sp_num").text());
-                if (next > all) {
+                if (next >= all) {
                     $.messager.alert('风机监控', '跳转的页数不能大于总页数!', 'warning');
                 } else {
                     num = next + 1;
@@ -58,25 +62,29 @@
                 }
             });
             $("#btnLost").click(function () {
-                if ($("#sp_num").val() == "1") {
-                    $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
-                } else {
-                    num = $("#txtHide").val();
-                    $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
-
-                    }, 'json');
-                }
+                num = $("#sp_num").text();
+                $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
+                    $("#dv_show").html(data.tb);
+                    $("#sp_now").text(num);
+                    $("#txtHide").val(num);
+                }, 'json');
             });
             $("#btnBack").click(function () {
-                if (("#sp_num").val() == null || ("#sp_num").val() == '') {
+                if ($("#txtNum").val() == null || $("#txtNum").val() == '') {
                     $.messager.alert('风机监控', '跳转页数不能为空!', 'warning');
                 } else {
-                    if ($("#sp_num").val() == "1") {
-                        $.messager.alert('风机监控', '只有1页,不能进行跳转!', 'warning');
+                    var now = $("#txtHide").val();
+                    num = $("#txtNum").val();
+                    if (Number(num) > Number(now)) {
+                        $.messager.alert('风机监控', '跳转的页数不能大于总页数!', 'warning');
+                    } else if (Number(num) == Number(now)) {
+                        $.messager.alert('风机监控', '要跳转的页数为当前页，不需要跳转!', 'warning');
                     } else {
-                        num = $("#txtHide").val();
-                        $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
 
+                        $.post("Fj_MonitoringNew.aspx", { param: 'fy', num: num }, function (data) {
+                            $("#dv_show").html(data.tb);
+                            $("#sp_now").text(num);
+                            $("#txtHide").val(num);
                         }, 'json');
                     }
                 }
@@ -135,7 +143,7 @@
         function Init() {
             $.post("Fj_MonitoringNew.aspx", { param: 'Init' }, function (data) {
                 $("#sp_num").text(data.total);
-                $("#txtHide").text('1');
+                $("#txtHide").val('1');
                 $("#sp_now").text('1');
                 $("#dv_show").html(data.tb);
                 num = data.num;
