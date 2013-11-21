@@ -86,6 +86,27 @@
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
     <Content Include="Datafile\Get_Chart_Data.aspx" />
     <Content Include="Form\UpData.aspx" />
+    <Content Include="Html\fd_czxx.html" />
+    <Content Include="Html\fjfb.html" />
+    <Content Include="Html\testimg\fd-czxx.jpg" />
+    <Content Include="Html\testimg\fd-sczl-gs.jpg" />
+    <Content Include="Html\testimg\fd-sczl.jpg" />
+    <Content Include="Html\testimg\fjfb.jpg" />
+    <Content Include="Html\testimg\fjjk.jpg" />
+    <Content Include="Html\testimg\fjjk_dt.jpg" />
+    <Content Include="Html\testimg\qgs-sczl.jpg" />
+    <Content Include="Html\testimg\syz_dq.jpg" />
+    <Content Include="Html\testimg\syz_svg.jpg" />
+    <Content Include="Html\testimg\syz_zb.jpg" />
+    <Content Include="Html\testimg\平均气温.jpg" />
+    <Content Include="Html\testimg\平均风速.jpg" />
+    <Content Include="Html\testimg\最高温度.jpg" />
+    <Content Include="Html\testimg\最高风速.jpg" />
+    <Content Include="Html\testimg\预测风速趋势图.jpg" />
+    <Content Include="Html\testimg\风功率对比曲线图.jpg" />
+    <Content Include="Html\testimg\风功率预测趋势图.jpg" />
+    <Content Include="Html\testimg\风向.jpg" />
+    <Content Include="Html\testimg\风速对比曲线图.jpg" />
     <Content Include="img\20131115110424.jpg" />
     <Content Include="img\banner.jpg" />
     <Content Include="img\banner_02.jpg" />
@@ -935,6 +956,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.ini" />
+    <None Include="Html\testimg\Thumbs.db" />
     <None Include="Js\jQueryEasyUI\themes\black\images\Thumbs.db" />
     <None Include="Js\jQueryEasyUI\themes\bootstrap\images\Thumbs.db" />
     <None Include="Js\jQueryEasyUI\themes\default\images\Thumbs.db" />

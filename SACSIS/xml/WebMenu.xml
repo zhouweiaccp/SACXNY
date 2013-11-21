@@ -10,7 +10,7 @@
   <parment id="6" name="生物质" pId="00" order="6" visible="1" owner=",1,2," FileName="" />
   <parment id="7" name="系统管理" pId="00" order="7" visible="1" owner=",1," FileName="" />
   <parment id="8" name="运营总览" pId="1" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="9" name="生产总览" pId="8" order="1" visible="1" owner=",1,2," FileName="../Html/fd_sczl.html" />
+  <parment id="9" name="生产总览" pId="8" order="1" visible="1" owner=",1,2," FileName="" />
   <parment id="10" name="场站信息" pId="8" order="2" visible="1" owner=",1,2," FileName="../Html/fd_czxx.html" />
   <parment id="11" name="实时画面" pId="1" order="2" visible="1" owner=",1,2," FileName="" />
   <parment id="12" name="玫瑰营一期" pId="11" order="1" visible="1" owner=",1,2," FileName="../Html/fjfb.html" />
