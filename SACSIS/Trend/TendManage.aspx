@@ -67,7 +67,9 @@
                         
                         $.post("TendManage.aspx", { chart_id:rating}, function (data) {
                           GridSta();
+                          $('#gridItem').datagrid('reload'); 
             }, 'json');
+            
                        // $('#gridItem').datagrid('deleteRow', $("#gridItem").datagrid("getSelected").ID - 1);
                     }
                     else
@@ -142,6 +144,11 @@ var num =-1;
                     if (rows[i]["ID"] - 1 != index) {
                         $(".datagrid-row[datagrid-row-index=" + i + "] input[type='checkbox']")[0].checked = false;
                     }
+                    else
+                    {
+                    $(".datagrid-row[datagrid-row-index=" + i + "] input[type='checkbox']")[0].checked = true;
+                    }
+
                 }
             },
         onClickRow:function(index,row){  

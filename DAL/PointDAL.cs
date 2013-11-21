@@ -85,7 +85,7 @@ namespace DAL
                     listPoint.Add(Convert.ToInt64((Convert.ToDateTime(eTime) - _sTime).TotalMilliseconds.ToString()));
                     pk.GetHisValue(points[i], eTime, ref drv);
                     if (drv > 0)
-                        //drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 2);
                         listPoint.Add(drv);
                     _st = Convert.ToDateTime(eTime).AddSeconds(seconds).ToString();
                     listD.Add(listPoint);

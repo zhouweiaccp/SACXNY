@@ -23,14 +23,11 @@
   <parment id="28" name="生产指标同比" pId="16" order="4" visible="1" owner=",1,2," FileName="../Trend/TRadio.aspx" />
   <parment id="17" name="统计报表" pId="1" order="5" visible="1" owner=",1,2," FileName="" />
   <parment id="23" name="数据修正" pId="1" order="11" visible="1" owner=",1,2," FileName="" />
-  <parment id="35" name="玫瑰营一期" pId="23" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="140" name="生产数据日填报" pId="35" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="38" name="生产数据月填报" pId="35" order="2" visible="1" owner=",1,2," FileName="" />
-  <parment id="39" name="生产数据年填报" pId="35" order="3" visible="1" owner=",1,2," FileName="../Html/UpdateYear.aspx" />
-  <parment id="47" name="计划电量维护" pId="35" order="4" visible="1" owner=",1,2," FileName="" />
-  <parment id="40" name="运营指标维护" pId="35" order="5" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1YYZB@1@MGY1" />
-  <parment id="41" name="生产日数据维护" pId="35" order="6" visible="1" owner=",1,2," FileName="" />
-  <parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@3@MGY1" />
+  <parment id="35" name="福新公司" pId="23" order="1" visible="1" owner=",1,2," FileName="" />
+  <parment id="140" name="日经济数据修正" pId="35" order="1" visible="1" owner=",1,2," FileName="" />
+  <parment id="38" name="月项目进度修正" pId="35" order="2" visible="1" owner=",1,2," FileName="" />
+  <parment id="39" name="年项目进度修正" pId="35" order="3" visible="1" owner=",1,2," FileName="" />
+  <!--<parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@3@MGY1" />-->
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName=""/>
   <parment id="36" name="玫瑰营一期" pId="24" order="1" visible="1" owner=",1,2," FileName=""/>
   <parment id="43" name="电量数据维护" pId="36" order="1" visible="1" owner=",1,2," FileName=""/>
