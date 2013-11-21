@@ -31,9 +31,9 @@
   <parment id="17" name="统计报表" pId="1" order="5" visible="1" owner=",1,2," FileName="" />
   <parment id="23" name="数据修正" pId="1" order="11" visible="1" owner=",1,2," FileName="" />
   <parment id="35" name="福新公司" pId="23" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="140" name="日经济数据修正" pId="35" order="1" visible="1" owner=",1,2," FileName="" />
-  <parment id="38" name="月项目进度修正" pId="35" order="2" visible="1" owner=",1,2," FileName="" />
-  <parment id="39" name="年项目进度修正" pId="35" order="3" visible="1" owner=",1,2," FileName="" />
+  <parment id="140" name="日经济数据修正" pId="35" order="1" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=FXGSRJJSJ@1@FXGS" />
+  <parment id="38" name="月项目进度修正" pId="35" order="2" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=YXMJDSJ@2@FXGS" />
+  <parment id="39" name="年项目进度修正" pId="35" order="3" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=NJHTCRL@3@FXGS" />
   <!--<parment id="42" name="在建容量" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@3@MGY1" />-->
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName=""/>
   <parment id="36" name="玫瑰营一期" pId="24" order="1" visible="1" owner=",1,2," FileName=""/>
