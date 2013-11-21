@@ -14,7 +14,7 @@
 
 div.zTreeDemoBackground
 {
-	width: 180px;
+	width: 130px;
 	/*	height: 582px;*/
 	text-align: left;
 }
@@ -24,7 +24,7 @@ ul.ztree
 	float:left;
 	margin-top: 0px;
 /*	border: 1px solid #617775;*/
-	width: 150px;
+	width: 120px;
 /*	height: 580px;*/
 	overflow-y: scroll;
 	overflow-x: auto;

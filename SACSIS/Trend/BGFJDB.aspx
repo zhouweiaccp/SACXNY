@@ -83,7 +83,7 @@
 
         $(function () {
 
-            $("#dv_lien").css("width", pageWidth() - 380);
+            $("#dv_lien").css("width", pageWidth() - 300);
             /*设置风机高度*/
             $("#dv_bg").css("height", pageHeight() - 30);
             $("#tree_bg").css("height", pageHeight() - 40);
@@ -334,7 +334,7 @@
     <script src="../Js/data.js" type="text/javascript"></script>
     <script src="../Js/exporting.js" type="text/javascript"></script>
     <div id="dv_body">
-        <div id="dv_jz" style="width: 340px; float: left;">
+        <div id="dv_jz" style="width: 260px; float: left;">
             <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
                 <ul id="tree_bg" class="ztree">
                 </ul>

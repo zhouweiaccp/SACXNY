@@ -83,7 +83,7 @@
         /*初始化数据*/
         $(function () {
 
-            $("#dv_lien").css("width", pageWidth() - 210);
+            $("#dv_lien").css("width", pageWidth() - 170);
             /*设置风机高度*/
             $("#dv_bg").css("height", pageHeight() - 30);
             $("#tree_bg").css("height", pageHeight() - 40);
@@ -503,7 +503,7 @@
 <body style="font-size: 12px">
     <script src="../js/highcharts.js" type="text/javascript"></script>
     <script src="../js/data.js" type="text/javascript"></script>
-    <div id="dv_jz" style="width: 190px; float: left;">
+    <div id="dv_jz" style="width: 150px; float: left;">
         <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
             <ul id="tree_bg" class="ztree">
             </ul>
