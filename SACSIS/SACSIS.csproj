@@ -86,7 +86,6 @@
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
     <Content Include="Datafile\Get_Chart_Data.aspx" />
     <Content Include="Form\UpData.aspx" />
-    <Content Include="Form\WebForm1.aspx" />
     <Content Include="Html\fd_czxx.html" />
     <Content Include="Html\fjfb.html" />
     <Content Include="Html\testimg\fd-czxx.jpg" />
@@ -887,13 +886,6 @@
     </Compile>
     <Compile Include="Form\UpData.aspx.designer.cs">
       <DependentUpon>UpData.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Form\WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Form\WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
