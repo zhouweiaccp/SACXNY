@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using SAC.DBOperations;
+using System.Text.RegularExpressions;
 
 namespace DAL
 {
@@ -17,6 +18,7 @@ namespace DAL
         private bool judge = false;
         private DataTable dt = new DataTable();
         private DBLink dl = new DBLink();
+        private string pJudge = @"^\d+(\.)?\d*$";
 
         /// <summary>
         /// 创建数据表
@@ -100,7 +102,10 @@ namespace DAL
             sql += timeName + ") values (";
             for (int i = 0; i < ht.Length; i++)
             {
-                sql += "'" + ht[i].Split('~')[1].ToString() + "',";
+                if (Regex.IsMatch(ht[i].Split('~')[1].ToString().Trim(), pJudge))
+                    sql += ht[i].Split('~')[1].ToString().Trim() + ",";
+                else
+                    sql += "'" + ht[i].Split('~')[1].ToString() + "',";
             }
 
             sql += "'" + time + "');";
@@ -148,7 +153,10 @@ namespace DAL
 
                 for (int i = 0; i < count - 2; i++)
                 {
-                    sql += "'" + ht[i + (count - 2) * k].Split('~')[1].ToString() + "',";
+                    if (Regex.IsMatch(ht[i + (count - 2) * k].Split('~')[1].ToString().Trim(), pJudge))
+                        sql += ht[i + (count - 2) * k].Split('~')[1].ToString().Trim() + ",";
+                    else
+                        sql += "'" + ht[i + (count - 2) * k].Split('~')[1].ToString() + "',";
                 }
                 sql += "'" + org[k].ToString() + "','" + time + "');";
                 judge = dl.RunNonQuery(sql, out errMsg);
