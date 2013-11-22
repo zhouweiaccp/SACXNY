@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>华电福新能源股份有限公司生产运营中心系统</title>
+    <title>华电福新能源股份有限公司生产运营监管系统</title>
     <style type="text/css">
         .button
         {
