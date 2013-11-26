@@ -37,9 +37,9 @@ namespace DAL
         /// </summary>
         /// // <param name="formID">表单ID</param>
         /// <returns></returns>
-        public DataTable GetCreateInfo(string formID)
+        public DataTable GetCreateInfo(string formID, string type)
         {
-            sql = "select f.t_formname,f.t_Table,f.T_TIMEFIELD,f.t_orgfield,f.t_timetype,f.i_formtype,fa.t_paraid,fa.t_paradesc,fa.t_Parafield,fa.t_Paratype,fa.t_Formula,fa.t_Formulapara,fa.i_flag,fa.i_Order,fa.i_level,fa.I_INPUTTYPE,fa.I_JUDGESHARE,fa.T_TYPE from Administrator.T_INFO_FORM f inner join Administrator.T_INFO_FORMPARA fa on f.t_Formid = fa.t_Formid where f.T_FORMID='" + formID + "' order by fa.I_ORDER asc";
+            sql = "select f.t_formname,f.t_Table,f.T_TIMEFIELD,f.t_orgfield,f.t_timetype,f.i_formtype,fa.t_paraid,fa.t_paradesc,fa.t_Parafield,fa.t_Paratype,fa.t_Formula,fa.t_Formulapara,fa.i_flag,fa.i_Order,fa.i_level,fa.I_INPUTTYPE,fa.I_JUDGESHARE,fa.T_TYPE from Administrator.T_INFO_FORM f inner join Administrator.T_INFO_FORMPARA fa on f.t_Formid = fa.t_Formid where f.T_FORMID='" + formID + "' and fa.I_INPUTTYPE in(" + type + ") order by fa.I_ORDER asc";
             dt = dl.RunDataTable(sql, out errMsg);
             return dt;
         }
@@ -77,7 +77,7 @@ namespace DAL
         public bool UpZBData(string table, string time, string timeName, string orgId, string value, string formID)
         {
             DataTable dtList = new DataTable();
-            dtList = GetCreateInfo(formID);
+            dtList = GetCreateInfo(formID, "1,2,3,4,5,6,7,8,9,10,11,12,13");
             sql = "";
             sql = "delete from Administrator." + table + " where T_ORGID='" + orgId + "' and " + timeName + "='" + time + "';";
 

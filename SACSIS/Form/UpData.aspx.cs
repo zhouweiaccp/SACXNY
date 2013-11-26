@@ -14,7 +14,7 @@ namespace SACSIS.Form
     public partial class UpData : System.Web.UI.Page
     {
         private static string treeID = "";
-        private static string fid = "";
+        private static string fid = "FXGSRJJSJ";
 
         private DataTable dt = null;
 
@@ -97,59 +97,6 @@ namespace SACSIS.Form
                     Reckon(value);
                 }
             }
-            //    if (param == "query")
-            //    {
-            //        string time = Request["time"];
-            //        string _type = Request["timeType"];
-            //        string value = HttpUtility.UrlDecode(Request["value"]);
-            //        if (_type == "1")
-            //            time += " 0:00:00";
-            //        else if (_type == "2")
-            //            time += "-1 0:00:00";
-            //        else if (_type == "3")
-            //            time += "-1-1 0:00:00";
-            //        if (utype == "1")
-            //        {
-            //            UpDates(time, value);
-            //        }
-            //        else if (utype == "2")
-            //        {
-            //            UpDates(tableName, time, timeName, columns, org, value);
-            //        }
-            //        else
-            //        {
-
-            //        }
-            //    }
-            //    else if (param == "reckon")
-            //    {
-            //        string value = HttpUtility.UrlDecode(Request["value"]);
-            //        Reckon(value);
-            //    }
-            //    else if (Request.QueryString["fID"] != null)
-            //    {
-            //        fid = Request.QueryString["fID"].ToString();
-            //        orgId = Request.QueryString["orgID"];
-            //        treeID = Request["treeId"];
-            //        if (orgId != null)
-            //        {
-            //            if (orgId.Split(',').Length > 1)
-            //                orgId = orgId.Split(',')[1].ToString();
-            //        }
-            //        else
-            //            orgId = "10001";
-            //    }
-            //}
-            //else
-            //{
-            //    //fid = "SCRL";
-            //    if (Request["treeId"] != "")
-            //        treeID = Request["treeId"];
-            //    //orgId = "15248";
-            //    ShowInfo(orgId);
-            //}
-
-
 
         }
 
@@ -321,9 +268,9 @@ namespace SACSIS.Form
         /// </summary>
         public void ShowInfo()
         {
-
+            int kind_count = 0;
             //数据填报详细信息
-            dt = bll.GetCreateInfo(fid);//SCYXQKHZB  FDQQXMBB
+            dt = bll.GetCreateInfo(fid, "1,2");//SCYXQKHZB  FDQQXMBB
             if (dt.Rows.Count > 0)
             {
                 timeType = dt.Rows[0]["T_TIMETYPE"].ToString();//时间类型
@@ -349,294 +296,591 @@ namespace SACSIS.Form
 
                             if (formType == "0")
                             {
-                                if (v == 0)
+                                int countJudge = 0;
+                                for (int n = 0; n < dt.Rows.Count; n++)
                                 {
-                                    st.Append("<tr><th class=\"adminth\" colspan=\"6\" style=\"color:black;\">" + title + "</th></tr>");
-                                    if (dtType.Rows[v][0] != null && dtType.Rows[v][0].ToString() != "" && dtType.Rows[v][0].ToString() != " ")
+                                    if (dt.Rows[n]["I_INPUTTYPE"].ToString() == "2")
+                                    {
+                                        countJudge = 1;
+                                        break;
+                                    }
+                                }
+                                if (countJudge == 0)
+                                {
+                                    #region 短文本 数字
+                                    if (v == 0)
+                                    {
+                                        st.Append("<tr><th class=\"adminth\" colspan=\"6\" style=\"color:black;\">" + title + "</th></tr>");
+                                        if (dtType.Rows[v][0] != null && dtType.Rows[v][0].ToString() != "" && dtType.Rows[v][0].ToString() != " ")
+                                            st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"6\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
+                                    }
+                                    else
                                         st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"6\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
-                                }
-                                else
-                                    st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"6\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
-                                string cl = "";
-                                for (int i = 0; i < dr.Length; i++)
-                                {
-                                    cl += dr[i][8] + ",";
-                                }
-
-                                cl = cl.Substring(0, cl.Length - 1);
-
-                                if (timeType == "1")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId);
-                                else if (timeType == "2")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId);
-                                else if (timeType == "3")
-                                    dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId);
-
-                                int k = 0;
-                                for (int i = 0; i < dr.Length / 3; i++)
-                                {
-                                    if (i % 2 == 0)
+                                    string cl = "";
+                                    for (int i = 0; i < dr.Length; i++)
                                     {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
-                                        {
-                                            st.Append("<tr>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 2][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 2][8].ToString()] + "\"/></td>");
-                                            st.Append("</tr>");
-                                        }
-                                        else
-                                        {
-                                            st.Append("<tr>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 2][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\"/></td>");
-                                            st.Append("</tr>");
-                                        }
+                                        cl += dr[i][8] + ",";
                                     }
-                                    else
-                                    {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
-                                        {
-                                            st.Append("<tr>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 2][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 2][8].ToString()] + "\"/></td>");
-                                            st.Append("</tr>");
-                                        }
-                                        else
-                                        {
-                                            st.Append("<tr>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 2][7] + "</td>");
-                                            st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\"/></td>");
-                                            st.Append("</tr>");
-                                        }
-                                    }
-                                    id += dr[k][6] + "*" + dr[k + 1][6] + "*" + dr[k + 2][6] + "*";
-                                    k += 3;
-                                }
 
-                                int num = dr.Length % 3;
+                                    cl = cl.Substring(0, cl.Length - 1);
 
-                                if (num == 1)
-                                {
-                                    if (dr.Length / 3 % 2 == 0)
+                                    if (timeType == "1")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId);
+                                    else if (timeType == "2")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId);
+                                    else if (timeType == "3")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId);
+
+                                    int k = 0;
+                                    for (int i = 0; i < dr.Length / 3; i++)
                                     {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
+                                        if (i % 2 == 0)
                                         {
-                                            //if (dr.Length != 1)
-                                            //{
-                                            st.Append("<tr>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                            st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                            st.Append("</tr>");
-                                            //}
-                                            //else
-                                            //{
-                                            //    st.Append("<tr>");
-                                            //    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                            //    st.Append("<td class=\"admincls0\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"\"/></td>");
-                                            //    st.Append("</tr>");
-                                            //}
-                                        }
-                                        else
-                                        {
-                                            if (dr.Length != 1)
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
                                             {
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 2][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 2][8].ToString()] + "\"/></td>");
                                                 st.Append("</tr>");
                                             }
                                             else
                                             {
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("</tr>");
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
-                                        {
-                                            if (dr.Length != 1)
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("</tr>");
-                                            }
-                                            else
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 2][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\"/></td>");
                                                 st.Append("</tr>");
                                             }
                                         }
                                         else
                                         {
-                                            if (dr.Length != 1)
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
                                             {
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                st.Append("<tr>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 2][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 2][8].ToString()] + "\"/></td>");
                                                 st.Append("</tr>");
                                             }
                                             else
                                             {
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 2][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[k + 2][6] + "\" type=\"text\"/></td>");
                                                 st.Append("</tr>");
-                                                st.Append("<tr>");
                                             }
                                         }
+                                        id += dr[k][6] + "*" + dr[k + 1][6] + "*" + dr[k + 2][6] + "*";
+                                        k += 3;
                                     }
-                                    id += dr[dr.Length - 1][6];
-                                }
-                                else if (num == 2)
-                                {
-                                    if (dr.Length / 3 % 2 == 0)
+
+                                    int num = dr.Length % 3;
+
+                                    if (num == 1)
                                     {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
+                                        if (dr.Length / 3 % 2 == 0)
                                         {
-                                            if (dt.Rows.Count != 2)
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
                                             {
+                                                //if (dr.Length != 1)
+                                                //{
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                st.Append("</tr>");
+                                                //}
+                                                //else
+                                                //{
+                                                //    st.Append("<tr>");
+                                                //    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                //    st.Append("<td class=\"admincls0\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"\"/></td>");
+                                                //    st.Append("</tr>");
+                                                //}
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"5\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                    st.Append("<tr>");
+                                                }
+                                            }
+                                        }
+                                        id += dr[dr.Length - 1][6];
+                                    }
+                                    else if (num == 2)
+                                    {
+                                        if (dr.Length / 3 % 2 == 0)
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dt.Rows.Count != 2)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length != 2)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\"  align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dr.Length / 3 % 2 == 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length / 3 % 2 == 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                        }
+                                        id += dr[dr.Length - 2][6] + "*" + dr[dr.Length - 1][6];
+                                    }
+
+                                    string index = id.Remove(0, id.Length - 1);
+                                    if (index == "*")
+                                        id = id.Substring(0, id.Length - 1);
+
+                                    columns = id;
+                                    columns = columns + "*" + timeName;
+
+                                    st.Append("</table>");
+                                    utype = "1";
+                                    #endregion
+                                }
+                                else
+                                {
+                                    #region 长文本
+                                    if (v == 0)
+                                    {
+                                        st.Append("<tr><th class=\"adminth\" colspan=\"4\" style=\"color:black;\">" + title + "</th></tr>");
+                                        if (dtType.Rows[v][0] != null && dtType.Rows[v][0].ToString() != "" && dtType.Rows[v][0].ToString() != " ")
+                                            st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"4\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
+                                    }
+                                    else
+                                        st.Append("<tr><td class=\"adminth\" align=\"center\"  color=\"black\" colspan=\"4\" height=\"30px\"><h3>" + dtType.Rows[v][0] + "</h3></td></tr>");
+                                    string cl = "";
+                                    for (int i = 0; i < dr.Length; i++)
+                                    {
+                                        cl += dr[i][8] + ",";
+                                    }
+
+                                    cl = cl.Substring(0, cl.Length - 1);
+
+                                    if (timeType == "1")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId);
+                                    else if (timeType == "2")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId);
+                                    else if (timeType == "3")
+                                        dtValue = bll.GetCreateValueZB(cl, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId);
+
+                                    int k = 0;
+                                    for (int i = 0; i < dr.Length / 2; i++)
+                                    {
+                                        if (i % 2 == 0)
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                st.Append("<tr>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
                                                 st.Append("</tr>");
                                             }
                                             else
                                             {
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
                                                 st.Append("</tr>");
                                             }
                                         }
                                         else
                                         {
-                                            if (dr.Length != 2)
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
                                             {
                                                 st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k][8].ToString()] + "\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k + 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[k + 1][8].ToString()] + "\"/></td>");
+                                                st.Append("</tr>");
+                                            }
+                                            else
+                                            {
+                                                st.Append("<tr>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k + 1][7] + "</td>");
+                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[k + 1][6] + "\" type=\"text\"/></td>");
+                                                st.Append("</tr>");
+                                            }
+                                        }
+                                        id += dr[k][6] + "*" + dr[k + 1][6] + "*";
+                                        k += 2;
+                                    }
+
+                                    int num = dr.Length % 2;
+
+                                    if (num == 1)
+                                    {
+                                        if (dr.Length / 2 % 2 == 0)
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                st.Append("<tr>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\"  align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\"></td>");
                                                 st.Append("<td class=\"admincls0\" align=\"center\"></td>");
                                                 st.Append("</tr>");
                                             }
                                             else
                                             {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls0\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("</tr>");
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
                                             }
                                         }
+                                        else
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length != 1)
+                                                {
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                    st.Append("<tr>");
+                                                }
+                                            }
+                                        }
+                                        id += dr[dr.Length - 1][6];
+                                    }
+                                    else if (num == 2)
+                                    {
+                                        if (dr.Length / 2 % 2 == 0)
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dt.Rows.Count != 2)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length != 2)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\"  align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls0\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (dtValue != null && dtValue.Rows.Count > 0)
+                                            {
+                                                if (dr.Length / 2 % 2 == 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (dr.Length / 3 % 2 == 1)
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                                else
+                                                {
+                                                    st.Append("<tr>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
+                                                    st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_txt\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
+                                                    st.Append("</tr>");
+                                                }
+                                            }
+                                        }
+                                        id += dr[dr.Length - 2][6] + "*" + dr[dr.Length - 1][6];
+                                    }
+
+                                    DataTable dt_kind = bll.GetCreateInfo(fid, "3");//获取大量文本列
+                                    if (dt_kind != null && dt_kind.Rows.Count > 0)
+                                    {
+                                        id += "~";
+                                        for (int ke = 0; ke < dt_kind.Rows.Count; ke++)
+                                        {
+                                            st.Append("<tr>");
+                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dt_kind.Rows[ke][7] + "</td>");
+                                            st.Append("<td class=\"admincls0\" colspan=" + (dr.Length) + " align=\"center\"><textarea name=\"content_" + ke + "\" style=\"width: 800px; height: 200px;\"></textarea>&nbsp;</td>");
+                                            st.Append("</tr>");
+                                            id += dt_kind.Rows[ke][6] + "~";
+                                            kind_count++;
+                                        }
+
+                                        string index = id.Remove(0, id.Length - 1);
+                                        if (index == "~")
+                                            id = id.Substring(0, id.Length - 1);
+
+                                        columns = id;
                                     }
                                     else
                                     {
-                                        if (dtValue != null && dtValue.Rows.Count > 0)
-                                        {
-                                            if (dr.Length / 3 % 2 == 1)
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("</tr>");
-                                            }
-                                            else
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 2][8].ToString()] + "\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\" value=\"" + dtValue.Rows[0][dr[dr.Length - 1][8].ToString()] + "\"/></td>");
-                                                st.Append("</tr>");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (dr.Length / 3 % 2 == 1)
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\"></td>");
-                                                st.Append("</tr>");
-                                            }
-                                            else
-                                            {
-                                                st.Append("<tr>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 2][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 2][6] + "\" type=\"text\"/></td>");
-                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[dr.Length - 1][7] + "</td>");
-                                                st.Append("<td class=\"admincls1\" colspan=\"3\" align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class=\"ipt_zb\" id=\"" + dr[dr.Length - 1][6] + "\" type=\"text\"/></td>");
-                                                st.Append("</tr>");
-                                            }
-                                        }
+                                        string index = id.Remove(0, id.Length - 1);
+                                        if (index == "*")
+                                            id = id.Substring(0, id.Length - 1);
+
+                                        columns = id;
                                     }
-                                    id += dr[dr.Length - 2][6] + "*" + dr[dr.Length - 1][6];
+
+                                    columns = columns + "*" + timeName;
+
+                                    st.Append("</table>");
+                                    utype = "1";
+                                    #endregion
                                 }
-
-                                string index = id.Remove(0, id.Length - 1);
-                                if (index == "*")
-                                    id = id.Substring(0, id.Length - 1);
-
-                                columns = id;
-                                columns = columns + "*" + timeName;
-
-                                st.Append("</table>");
-                                utype = "1";
                             }
                         }
                     }
@@ -656,91 +900,205 @@ namespace SACSIS.Form
                     st.Append("<table class=\"admintable\">");
                     if (drOrg.Length > 0)
                     {
-                        for (int i = -1; i < drOrg.Length; i++)
+                        int countJudge = 0;
+                        for (int n = 0; n < dt.Rows.Count; n++)
                         {
-                            if (i == -1)
+                            if (dt.Rows[n]["I_INPUTTYPE"].ToString() == "2")
                             {
-                                st.Append("<tr>");
-                                //循环指标
-                                for (int k = -1; k < dr.Length; k++)
-                                {
-                                    if (k == -1)
-                                    {
-                                        st.Append("<td class=\"admincls1\" align=\"center\" width=\"200px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");
-                                    }
-                                    else
-                                    {
-                                        if (dr.Length == 1)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"80%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 2)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"40%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 3)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"30%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 4)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"22%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 5)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"18%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 6)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"16%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 7)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"13%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 8)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"11%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 9)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"10%\">" + dr[k][7] + "</td>");
-                                        else if (dr.Length == 10)
-                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"9%\">" + dr[k][7] + "</td>");
-                                        else
-                                            st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
-                                        columns += dr[k][8].ToString() + "*";
-                                        //columns += dr[k][6].ToString() + "*";
-                                    }
-                                }
-                                st.Append("</tr>");
-                                if (timeType == "1")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId, fid);
-                                else if (timeType == "2")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId, fid);
-                                else if (timeType == "3")
-                                    dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId, fid);
-
+                                countJudge = 1;
+                                break;
                             }
-                            else
+                        }
+
+                        if (countJudge == 0)
+                        {
+                            #region 二维数据表 短文本 数字
+                            for (int i = -1; i < drOrg.Length; i++)
                             {
-                                st.Append("<tr>");
-                                st.Append("<td class=\"admincls0\" align=\"center\"><div style=\"width:200px;\">" + drOrg[i][7] + "</div></td>");
-                                //循环输入框
-                                for (int k = 0; k < dr.Length; k++)
+                                if (i == -1)
                                 {
-                                    if (dtValue != null && dtValue.Rows.Count > 0)
+                                    st.Append("<tr>");
+                                    //循环指标
+                                    for (int k = -1; k < dr.Length; k++)
                                     {
-                                        for (int d = 0; d < dtValue.Rows.Count; d++)
+                                        if (k == -1)
                                         {
-                                            if (dtValue.Rows[d]["T_ORGID"].ToString().Trim() == drOrg[i][6].ToString().Trim())
-                                            {
-                                                st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\" value=\"" + dtValue.Rows[d][dr[k][8].ToString()] + "\"/>&nbsp;</td>");
-                                                break;
-                                            }
+                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"200px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");
+                                        }
+                                        else
+                                        {
+                                            if (dr.Length == 1)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"80%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 2)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"40%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 3)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"30%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 4)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"22%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 5)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"18%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 6)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"16%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 7)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"13%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 8)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"11%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 9)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"10%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 10)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"9%\">" + dr[k][7] + "</td>");
+                                            else
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                            columns += dr[k][8].ToString() + "*";
+                                            //columns += dr[k][6].ToString() + "*";
                                         }
                                     }
-                                    else
-                                    {
-                                        st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\"/>&nbsp;</td>");
-                                    }
+                                    st.Append("</tr>");
+                                    if (timeType == "1")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId, fid);
+                                    else if (timeType == "2")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId, fid);
+                                    else if (timeType == "3")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId, fid);
 
-                                    id += drOrg[i][6] + dr[k][6].ToString() + k + "*";
                                 }
-                                st.Append("</tr>");
+                                else
+                                {
+                                    st.Append("<tr>");
+                                    st.Append("<td class=\"admincls0\" align=\"center\"><div style=\"width:200px;\">" + drOrg[i][7] + "</div></td>");
+                                    //循环输入框
+                                    for (int k = 0; k < dr.Length; k++)
+                                    {
+                                        if (dtValue != null && dtValue.Rows.Count > 0)
+                                        {
+                                            for (int d = 0; d < dtValue.Rows.Count; d++)
+                                            {
+                                                if (dtValue.Rows[d]["T_ORGID"].ToString().Trim() == drOrg[i][6].ToString().Trim())
+                                                {
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_txt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\" value=\"" + dtValue.Rows[d][dr[k][8].ToString()] + "\"/>&nbsp;</td>");
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_txt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\"/>&nbsp;</td>");
+                                        }
+
+                                        id += drOrg[i][6] + dr[k][6].ToString() + k + "*";
+                                    }
+                                    st.Append("</tr>");
+                                }
+                                if (i != -1)
+                                    org += drOrg[i][6] + "*";
                             }
-                            if (i != -1)
-                                org += drOrg[i][6] + "*";
+                            st.Append("</table>");
+                            columns += "T_ORGID*" + timeName;
+                            org = org.Substring(0, org.Length - 1);
+                            if (id.Length > 0)
+                                id = id.Substring(0, id.Length - 1);
+                            utype = "2";
+                            #endregion
                         }
-                        st.Append("</table>");
-                        columns += "T_ORGID*" + timeName;
-                        org = org.Substring(0, org.Length - 1);
-                        if (id.Length > 0)
-                            id = id.Substring(0, id.Length - 1);
-                        utype = "2";
+                        else
+                        {
+                            #region 二维数据长文本
+                            for (int i = -1; i < drOrg.Length; i++)
+                            {
+                                if (i == -1)
+                                {
+                                    st.Append("<tr>");
+                                    //循环指标
+                                    for (int k = -1; k < dr.Length; k++)
+                                    {
+                                        if (k == -1)
+                                        {
+                                            st.Append("<td class=\"admincls1\" align=\"center\" width=\"200px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");
+                                        }
+                                        else
+                                        {
+                                            if (dr.Length == 1)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"80%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 2)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"40%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 3)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"30%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 4)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"22%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 5)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"18%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 6)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"16%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 7)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"13%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 8)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"11%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 9)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"10%\">" + dr[k][7] + "</td>");
+                                            else if (dr.Length == 10)
+                                                st.Append("<td class=\"admincls1\" align=\"center\" width=\"9%\">" + dr[k][7] + "</td>");
+                                            else
+                                                st.Append("<td class=\"admincls1\" align=\"center\">" + dr[k][7] + "</td>");
+                                            columns += dr[k][8].ToString() + "*";
+                                            //columns += dr[k][6].ToString() + "*";
+                                        }
+                                    }
+                                    st.Append("</tr>");
+                                    if (timeType == "1")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.ToString("yyyy-MM-dd 0:00:00"), orgId, fid);
+                                    else if (timeType == "2")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year + "-" + DateTime.Now.Month + "-1 0:00:00", orgId, fid);
+                                    else if (timeType == "3")
+                                        dtValue = bll.GetCreateValue(columns, tableName, timeName, DateTime.Now.Year.ToString() + "-1-1 0:00:00", orgId, fid);
+
+                                }
+                                else
+                                {
+                                    st.Append("<tr>");
+                                    st.Append("<td class=\"admincls0\" align=\"center\"><div style=\"width:200px;\">" + drOrg[i][7] + "</div></td>");
+                                    //循环输入框
+                                    for (int k = 0; k < dr.Length; k++)
+                                    {
+                                        if (dtValue != null && dtValue.Rows.Count > 0)
+                                        {
+                                            for (int d = 0; d < dtValue.Rows.Count; d++)
+                                            {
+                                                if (dtValue.Rows[d]["T_ORGID"].ToString().Trim() == drOrg[i][6].ToString().Trim())
+                                                {
+                                                    st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_txt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\" value=\"" + dtValue.Rows[d][dr[k][8].ToString()] + "\"/>&nbsp;</td>");
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            st.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_txt\" id=\"" + drOrg[i][6] + dr[k][6] + k + "\" type=\"text\"/>&nbsp;</td>");
+                                        }
+
+                                        id += drOrg[i][6] + dr[k][6].ToString() + k + "*";
+                                    }
+                                    st.Append("</tr>");
+                                }
+                                if (i != -1)
+                                    org += drOrg[i][6] + "*";
+                            }
+                            st.Append("</table>");
+                            columns += "T_ORGID*" + timeName;
+                            org = org.Substring(0, org.Length - 1);
+                            if (id.Length > 0)
+                                id = id.Substring(0, id.Length - 1);
+                            utype = "2";
+                            #endregion
+                        }
+
+                        //DataTable dt_area = bll.GetCreateInfo(fid, "3");
+                        //if (dt_area != null && dt_area.Rows.Count > 0)
+                        //{
+                        //    st.Append("<tr>");
+                        //    st.Append("<td class=\"admincls1\" align=\"center\"></td>");
+                        //    st.Append("<td class=\"admincls0\" colspan=" + (dr.Length - 1) + " align=\"center\"><textarea name=\"content_0\" style=\"width: 800px; height: 200px;\"></textarea>&nbsp;</td>");
+                        //    st.Append("</tr>");
+                        //}
                     }
                     else
                     {
@@ -771,6 +1129,7 @@ namespace SACSIS.Form
 
             object obj = new
             {
+                kind_count = kind_count,
                 num = timeType,
                 key = id,
                 table = st.ToString()

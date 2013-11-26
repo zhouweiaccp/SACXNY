@@ -28,9 +28,9 @@ namespace BLL
         /// </summary>
         /// // <param name="formID">表单ID</param>
         /// <returns></returns>
-        public DataTable GetCreateInfo(string formID)
+        public DataTable GetCreateInfo(string formID, string type)
         {
-            return dal.GetCreateInfo(formID);
+            return dal.GetCreateInfo(formID, type);
         }
         #endregion
 
