@@ -123,6 +123,7 @@
                         keyValue += key[6] + '~' + connect_6.html() + '`';
                         keyValue += key[7] + '~' + connect_7.html() + '`';
                         keyValue += key[8] + '~' + connect_8.html() + '`';
+
                     }
                 } else {
                     var key = ids.split('*');
