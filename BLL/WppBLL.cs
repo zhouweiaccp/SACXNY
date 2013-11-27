@@ -74,7 +74,6 @@ namespace BLL
 
         #endregion
 
-
         #region 获得风速，功率 根据机组ID，开始时间，结束实际，工期ID
        /// <summary>
        /// 
@@ -89,6 +88,53 @@ namespace BLL
             return wd.GetWppNWSpeed(idpt,gq,sTime,eTime);
         }
 
+        #endregion
+
+
+        #region 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="gq"></param>
+      /// <param name="unitID"></param>
+      /// <param name="NWSpeed"></param>
+      /// <param name="bt"></param>
+      /// <param name="et"></param>
+      /// <returns></returns>
+        public DataTable GetAvgPower(string gq, string unitID, string NWSpeed, string bt, string et)
+        {
+            return wd.GetAvgPower(gq, unitID, NWSpeed, bt, et);
+        }
+
+        #endregion
+        #region 获取公司信息
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_machineIDs"></param>
+        /// <returns></returns>
+        public DataTable dtGetCompany()
+        {
+            return wd.dtGetCompany();
+        }
+
+        #endregion
+
+        #region 获取风场信息  根据公司编号
+        /// <summary>
+        /// 获取工期信息
+        /// </summary>
+        /// <param name="orgID">组织机构编号</param>
+        /// <returns></returns>
+        public DataTable GetOrg(string comID)
+        {
+            return wd.GetOrg(comID);
+        }
+
+        public IList<Hashtable> GetOrgs(string periodId)
+        {
+            return wd.GetOrgs(periodId);
+        }
         #endregion
     }
 }

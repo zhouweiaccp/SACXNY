@@ -25,7 +25,6 @@ namespace DAL
         {
             IList<Hashtable> list = new List<Hashtable>();
             sql = "select T_PERIODID,T_PERIODDESC from Administrator.T_BASE_PERIOD where T_ORGID='" + orgID + "'";
-
             dt = DBdb2.RunDataTable(sql, out errMsg);
 
             list = DataTableToList(dt);
@@ -89,7 +88,7 @@ namespace DAL
         /// <returns></returns>
         public DataTable GetWppNWSpeed(string _machineIDs)
         {
-            sql = "select T_NWSPEED,T_NPOWER from Administrator.T_BASE_NORMWPP where T_MACHINEID='" + _machineIDs + "'";
+            sql = "select T_NWSPEED,T_NPOWER from Administrator.T_BASE_NORMWPP where T_MACHINEID='" + _machineIDs + "' order by ID_KEY";
 
             dt = db.RunDataTable(sql, out errMsg);
 
@@ -113,6 +112,62 @@ namespace DAL
             dt = db.RunDataTable(sql, out errMsg);
 
             return dt;
+        }
+        #endregion
+
+        #region 获取风速，功率  根据机组ID，开始时间，结束实际，工期ID
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idpt"></param>
+        /// <param name="gq"></param>
+        /// <param name="sTime"></param>
+        /// <param name="eTime"></param>
+        /// <returns></returns>
+        public DataTable GetAvgPower(string gq, string unitID, string NWSpeed, string bt, string et)
+        {
+            sql = "select avg(T_NPOWER) from Administrator.T_INFO_WPP where T_PERIODID='" + gq + "' and T_UNITID= " + unitID + " and T_NWSPEED=" + NWSpeed + " and T_TIME between '" + bt + "' and '" + et + "'";
+            
+
+            dt = db.RunDataTable(sql, out errMsg);
+
+            return dt;
+        }
+        #endregion
+
+        #region 获取公司信息
+        public DataTable dtGetCompany()
+        {
+            sql = "SELECT * FROM Administrator.T_BASE_COMPANY";
+
+
+            dt = db.RunDataTable(sql, out errMsg);
+
+            return dt;
+        }
+        #endregion
+
+        #region 获取风场信息  根据公司编号
+       
+        public DataTable GetOrg(string comID)
+        {
+            IList<Hashtable> list = new List<Hashtable>();
+            sql = "SELECT * FROM ADMINISTRATOR.T_BASE_ORG where T_COMID='" + comID + "'";
+
+            dt = DBdb2.RunDataTable(sql, out errMsg);
+
+            //list = DataTableToList(dt);
+            return dt;
+        }
+
+
+        public IList<Hashtable> GetOrgs(string comID)
+        {
+            IList<Hashtable> list = new List<Hashtable>();
+
+            dt = GetOrg(comID);
+            list = DataTableToList(dt);
+            return list;
         }
         #endregion
 
