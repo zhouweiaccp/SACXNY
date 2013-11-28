@@ -391,6 +391,12 @@
         /*初始化页面数据   开始*/
         function Init() {
             $.post("GLFSQX.aspx", { param: 'Init' }, function (data) {
+                if (data.intNumber == 1) {
+                    $("#divGQ").hide();
+                }
+                else {
+                    $("#divGQ").show();
+                }
                 var lists = data.list;
                 $("#FValue").empty();
                 if (lists != null) {

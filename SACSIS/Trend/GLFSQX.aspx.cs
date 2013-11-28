@@ -463,6 +463,7 @@ namespace SACSIS.Trend
             IList<Hashtable> _fc = new List<Hashtable>();       //风场
             string _str_b = "";
             string _str_f = "";
+            int a = 0;
             if (_dtCompany.Rows.Count > 0)
             {
                 for (int i = 0; i < _dtCompany.Rows.Count; i++)
@@ -494,6 +495,10 @@ namespace SACSIS.Trend
                     _ht = _fc[0];
 
                     string _pid = _ht["T_PERIODID"].ToString();
+                    if (_pid.Equals("全部"))
+                    {
+                        a = 1;
+                    }
                     DataTable _dtUnit = _wd.GetUnit(_pid);
                     if (_dtUnit.Rows.Count > 0)
                     {
@@ -517,7 +522,8 @@ namespace SACSIS.Trend
                 listB = _str_b,
                 listC = _fgs,
                 listF = _str_f,
-                lt = _fc
+                lt = _fc,
+                intNumber = a
             };
             result = JsonConvert.SerializeObject(obj);
             Response.Write(result);
