@@ -17,7 +17,7 @@ namespace BLL
         /// <param name="pId"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public string GetFaultDataByPerId(string pId, string date)
+        public string GetFaultDataByPerId(string pId, string date, out string id1)
         {
             string id = "", qsrq = "", jsrq = "", errMsg = "";
             DataTable dt = null, dtGzBJ = null;
@@ -54,7 +54,7 @@ namespace BLL
                         for (int j = 0; j < dtGzBJ.Rows.Count; j++)
                         {
                             object obj = dal.GetFaultCount(dt.Rows[i]["t_unitid"].ToString(), dtGzBJ.Rows[j]["T_SectionID"].ToString(), qsrq, jsrq, out errMsg);
-
+                            //obj = 1;
                             if (obj != null && obj.ToString() != "")
                             {
                                 sb.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt\" id=\"" + dt.Rows[i]["t_unitid"].ToString() + "*" + dtGzBJ.Rows[j]["T_SectionID"].ToString() + "\" type=\"text\" value=\"" + obj.ToString() + "\"/></td>");
@@ -72,10 +72,98 @@ namespace BLL
 
                 sb.Append("</table>");
             }
-            id = id.TrimEnd(';');
+            id1 = id.TrimEnd(';');
+            return sb.ToString();
+        }
+
+
+        /// <summary>
+        /// 故障次数数据保存
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="keyNew"></param>
+        /// <param name="keyOld"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public bool SaveData(string date, string keyNew, string keyOld, out string errMsg)
+        {
+            return dal.SavaFaultCount(date, keyNew, keyOld, out errMsg);
+        }
+
+
+        /// <summary>
+        /// 获取风场下的所有风机电量值[电量维护] 每日总电量
+        /// </summary>
+        /// <param name="orgID"></param>
+        /// <param name="treeID"></param>
+        /// <param name="pId"></param>
+        /// <param name="date"></param>
+        /// <param name="id"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public string GetStatiscs(string orgID, string pId, string date, out string id, out string errMsg)
+        {
+            id = "";
+            errMsg = "";
+            string qsrq = "", jsrq = "", value = "";
+            DataTable dt = null;// dtGzBJ = null;
+            StringBuilder sb = new StringBuilder();
+
+            qsrq = DateTime.Parse(date).ToString("yyyy-MM-dd 0:00:00");
+            jsrq = DateTime.Parse(date).ToString("yyyy-MM-dd 23:59:59");
+
+            dt = dal.GetUnitTableByPerID(pId, out errMsg);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                sb.Append("<table class=\"admintable\" width=\"98%\">");
+                sb.Append("<tr><th class=\"adminth\" colspan=\"8\" style=\"color:black;\">电量数据维护</th></tr>");
+                int count = 0;
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    if (i % 4 == 0)
+                    { sb.Append("<tr>"); }
+
+                    value = dal.GetPower(pId, orgID, dt.Rows[i]["t_unitid"].ToString(), qsrq, jsrq, out errMsg);
+
+                    sb.Append("<td class=\"admincls0\" align=\"center\">" + dt.Rows[i]["T_UNITDESC"] + "</td>");
+
+                    if (value == "")
+                        sb.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_zb\" id=\"" + dt.Rows[i]["t_unitid"] + "\" type=\"text\" value=\"0\"/></td>");
+                    else
+                        sb.Append("<td class=\"admincls0\" align=\"center\"><input class=\"ipt_zb\" id=\"" + dt.Rows[i]["t_unitid"] + "\" type=\"text\" value=\"" + value + "\"/></td>");
+
+                    count++;
+                    if (count % 4 == 0)
+                    { sb.Append("</tr>"); }
+
+                    if (value == "")
+                        id += dt.Rows[i]["t_unitid"] + ":0+";
+                    else
+                        id += dt.Rows[i]["t_unitid"] + ":" + value + "+";
+                }
+                sb.Append("</table>");
+            }
+            else
+            { errMsg = "此风场下无风机数据!"; }
+
+            id = id.TrimEnd('+');
 
             return sb.ToString();
         }
 
+        /// <summary>
+        /// 电量数据保存
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="keyNew"></param>
+        /// <param name="keyOld"></param>
+        /// <param name="errMsg"></param>
+        /// <returns></returns>
+        public bool SavePower(string date, string keyNew, string keyOld,string perodID,string orgID, out string errMsg)
+        {
+            return dal.SavaPower(date, keyNew, keyOld, perodID, orgID, out errMsg);
+        }
     }
 }

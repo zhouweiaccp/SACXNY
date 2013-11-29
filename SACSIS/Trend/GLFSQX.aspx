@@ -58,20 +58,20 @@
 
         $(function () {
 
-            $("#dv_lien").css("width", pageWidth() - 20);
-            $("#dv_lien").css("height", pageHeight() - 30);
+            $("#dv_lien").css("width", pageWidth() - 30);
+            $("#dv_lien").css("height", pageHeight() - 80);
             /*曲线高度 */
 
-            $("#tt").css("width", pageWidth() - 205);
-            $("#tt").css("height", pageHeight() - 150);
+            $("#tt").css("width", pageWidth() - 220);
+            $("#tt").css("height", pageHeight() - 80);
 
-            $("#container").css("width", pageWidth() - 205);
-            $("#container").css("height", pageHeight() - 150);
+            $("#container").css("width", pageWidth() - 220);
+            $("#container").css("height", pageHeight() - 420);
 
-            $("#container1").css("width", pageWidth() - 205);
-            $("#container1").css("height", pageHeight() - 150);
+            $("#container1").css("width", pageWidth() - 220);
+            $("#container1").css("height", pageHeight() - 420);
 
-            $("#grid").css("width", pageWidth() - 205);
+            $("#grid").css("width", pageWidth() - 225);
             $("#grid").css("height", pageHeight() - 500);
 
             $("#dv_pt").css("height", pageHeight() - 30);
@@ -90,11 +90,28 @@
                     param: 'org',
                     id: $("#FValue").val()
                 }, function (data) {
+                    $("#GValue").empty();
                     if (data.intNumber == 1) {
                         $("#divGQ").hide();
                     }
                     else {
-                        $("#divGQ").show(); 
+                        $("#divGQ").show();
+
+                    }
+                    var lists = data.list2;
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                    }
+                    if (data.list3 != "" && data.list3 != null) {
+                        var zNodes = eval(data.list3);
+                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                    }
+                    else {
+                        $.messager.alert('选择提示', '没有风机数据', 'warning');
+                        var zNodes = eval(data.list3);
+                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
                     }
                     var lists = data.list1;
                     $("#CValue").empty();
@@ -105,26 +122,6 @@
                     } else {
                         $("#CValue").append("<option value='0'>没有风场数据</option>");
                     }
-
-                    var lists = data.list2;
-                    $("#GValue").empty();
-                    if (lists != null) {
-                        for (var i = 0; i < lists.length; i++) {
-                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
-                        }
-                    } else {
-                        $("#GValue").append("<option value='0'>没有工期数据</option>");
-                    }
-                    if (data.list3 != "" && data.list3 != null) {
-                        var zNodes = eval(data.list3);
-                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-                    }
-                    else {
-                        $.messager.alert('选择提示', '没有风机数据', 'warning');
-                        var zNodes = eval(data.list3);
-                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-
-                    }
                 }, 'json');
             });
 
@@ -133,6 +130,7 @@
                     param: 'gq',
                     id: $("#CValue").val()
                 }, function (data) {
+                    $("#GValue").empty();
                     if (data.intNumber == 1) {
                         $("#divGQ").hide();
                     }
@@ -140,23 +138,19 @@
                         $("#divGQ").show();
                     }
                     var lists = data.list1;
-                    $("#GValue").empty();
                     if (lists != null) {
                         for (var i = 0; i < lists.length; i++) {
                             $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
                         }
-                    } else {
-                        $("#GValue").append("<option value='0'>没有工期数据</option>");
-                    }
-                    if (data.list2 != "" && data.list2 != null) {
-                        var zNodes = eval(data.list2);
-                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-                    }
-                    else {
-                        $.messager.alert('选择提示', '没有风机数据', 'warning');
-                        var zNodes = eval(data.list2);
-                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-
+                        if (data.list2 != "" && data.list2 != null) {
+                            var zNodes = eval(data.list2);
+                            $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                        }
+                        else {
+                            $.messager.alert('选择提示', '没有风机数据', 'warning');
+                            var zNodes = eval(data.list2);
+                            $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                        }
                     }
 
                 }, 'json');
@@ -246,7 +240,7 @@
                 chart = new Highcharts.Chart({
                     chart: {
                         renderTo: 'container1',
-                        zoomType: 'x',
+                        //zoomType: 'x',
                         type: 'scatter'
                     },
                     title: {
@@ -304,11 +298,8 @@
                     function (data) {
                         idpt = '';
                         namept = '';
-                        if (data.intNumber == 11) {
-                            //$.messager.alert('选择提示', '你好你好!', 'warning');
+                        if (data.intNumber == 0) {
                             if (confirm('有两条标准曲线，确定显示')) {
-                                //var treeObj = $.fn.zTree.getZTreeObj("tree_pt");
-                                //treeObj.cancelSelectedNode();
                                 var treeObj = $.fn.zTree.getZTreeObj("tree_pt");
                                 treeObj.checkAllNodes(false)
                                 $.messager.alert('选择提示', '确定!', 'warning');
@@ -324,7 +315,7 @@
                             getLine(data);
                             getLine1(data);
                             $("#grid").show();
-                            
+
                             showGrid(data);
                         }
                     }, 'json');
@@ -338,48 +329,48 @@
             }
             var options = {
                 rownumbers: true,
-                onLoadSuccess: function (data) { 
+                onLoadSuccess: function (data) {
                     //datagrid头部 table 的第一个tr 的td们，即columns的集合
                     var headerTds = $(".datagrid-header-inner table tr:first-child").children();
                     //datagrid主体 table 的第一个tr 的td们，即第一个数据行
                     var bodyTds = $(".datagrid-body table tr:first-child").children();
                     var totalWidth = 0; //合计宽度，用来为datagrid头部和主体设置宽度
-                     //循环设置宽度
-                bodyTds.each(function (i, obj) {
-                    var headerTd = $(headerTds.get(i));
-                    var bodyTd = $(bodyTds.get(i));
-                    $("div:first-child", headerTds.get(i)).css("text-align", "center");
-                    var headerTdWidth = headerTd.width(); //获取第i个头部td的宽度
-                    //这里加5个像素 是因为数据主体我们取的是第一行数据，不能确保第一行数据宽度最宽，预留5个像素。有兴趣的朋友可以先判断最大的td宽度都在进行设置
-                    var bodyTdWidth = bodyTd.width() + 5;
-                    var width = 0;
-                //如果头部列名宽度比主体数据宽度宽，则它们的宽度都设为头部的宽度。反之亦然
-                    if (headerTdWidth > bodyTdWidth) {
-                        width = headerTdWidth;
-                        bodyTd.width(width);
-                        headerTd.width(width);
-                        totalWidth += width;
-                     } 
-                     else {
-                         width = bodyTdWidth;
-                         headerTd.width(width);
-                         bodyTd.width(width);
-                         totalWidth += width;
-                          }
-                       });
-                     var headerTable = $(".datagrid-header-inner table:first-child");
-                     var bodyTable = $(".datagrid-body table:first-child");
-                      //循环完毕即能得到总得宽度设置到头部table和数据主体table中
-                     headerTable.width(totalWidth);
-                     bodyTable.width(totalWidth);
-                 bodyTds.each(function (i, obj) {
-                     var headerTd = $(headerTds.get(i));
-                     var bodyTd = $(bodyTds.get(i));
-                     var headerTdWidth = headerTd.width();
-                     bodyTd.width(headerTdWidth);
-                 });
-                 }
-                                                 
+                    //循环设置宽度
+                    bodyTds.each(function (i, obj) {
+                        var headerTd = $(headerTds.get(i));
+                        var bodyTd = $(bodyTds.get(i));
+                        $("div:first-child", headerTds.get(i)).css("text-align", "center");
+                        var headerTdWidth = headerTd.width(); //获取第i个头部td的宽度
+                        //这里加5个像素 是因为数据主体我们取的是第一行数据，不能确保第一行数据宽度最宽，预留5个像素。有兴趣的朋友可以先判断最大的td宽度都在进行设置
+                        var bodyTdWidth = bodyTd.width() + 5;
+                        var width = 0;
+                        //如果头部列名宽度比主体数据宽度宽，则它们的宽度都设为头部的宽度。反之亦然
+                        if (headerTdWidth > bodyTdWidth) {
+                            width = headerTdWidth;
+                            bodyTd.width(width);
+                            headerTd.width(width);
+                            totalWidth += width;
+                        }
+                        else {
+                            width = bodyTdWidth;
+                            headerTd.width(width);
+                            bodyTd.width(width);
+                            totalWidth += width;
+                        }
+                    });
+                    var headerTable = $(".datagrid-header-inner table:first-child");
+                    var bodyTable = $(".datagrid-body table:first-child");
+                    //循环完毕即能得到总得宽度设置到头部table和数据主体table中
+                    headerTable.width(totalWidth);
+                    bodyTable.width(totalWidth);
+                    bodyTds.each(function (i, obj) {
+                        var headerTd = $(headerTds.get(i));
+                        var bodyTd = $(bodyTds.get(i));
+                        var headerTdWidth = headerTd.width();
+                        bodyTd.width(headerTdWidth);
+                    });
+                }
+
 
             };
             options.columns = eval(data.columns); //把返回的数组字符串转为对象，并赋于datagrid的column属性  
@@ -391,11 +382,23 @@
         /*初始化页面数据   开始*/
         function Init() {
             $.post("GLFSQX.aspx", { param: 'Init' }, function (data) {
+                $("#GValue").empty();
                 if (data.intNumber == 1) {
                     $("#divGQ").hide();
                 }
                 else {
                     $("#divGQ").show();
+                    var lists = data.lt;
+
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                        if (data.listF != "" && data.listF != null) {
+                            var zNodes = eval(data.listF);
+                            $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                        }
+                    }
                 }
                 var lists = data.list;
                 $("#FValue").empty();
@@ -417,31 +420,6 @@
                     $("#CValue").append("<option value='0'>没有风场数据</option>");
                 }
 
-                var lists = data.lt;
-                $("#GValue").empty();
-                if (lists != null) {
-                    for (var i = 0; i < lists.length; i++) {
-                        $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
-                    }
-                } else {
-                    $("#GValue").append("<option value='0'>没有工期数据</option>");
-                }
-
-                /*$("#ZType").empty();
-                $("#ZType").append("<option value='1'>功率</option>");
-                $("#ZType").append("<option value='2'>风速</option>");
-                $("#ZType").append("<option value='3'>发电量</option>");
-                $("#ZType").append("<option value='4'>停机时间</option>");*/
-
-                //                if (data.listB != "" && data.listB != null) {
-                //                    var zNodes = eval(data.listB);
-                //                    $.fn.zTree.init($("#tree_bg"), settingLeft, zNodes);
-                //                }
-
-                if (data.listF != "" && data.listF != null) {
-                    var zNodes = eval(data.listF);
-                    $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-                }
             }, 'json');
         }
         /*初始化页面数据   结束*/
@@ -469,26 +447,27 @@
 </head>
 <body style="font-size: 12px;">
     <div id="dv_body">
-        <div id="dv_jz" style="width: 180px; float: left;">
+        <div id="dv_jz" style="width: 150px; float: left;">
             <div id="dv_pt" class="zTreeDemoBackground left" style="float: left;">
                 <ul id="tree_pt" class="ztree">
                 </ul>
             </div>
         </div>
-        <div id="dv_lien" >
-            <div style="float:left">
-            &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
-            <select id="FValue" style="width: 130px; text-align: center;">
-            </select>
+        <div id="dv_lien">
+            <div style="float: left">
+                &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
+                <select id="FValue" style="width: 130px; text-align: center;">
+                </select>
             </div>
-            <div style="float:left">
-            &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
-            <select id="CValue" style="width: 130px; text-align: center;">
-            </select>
+            <div style="float: left">
+                &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
+                <select id="CValue" style="width: 130px; text-align: center;">
+                </select>
             </div>
-            <div id="divGQ" style="float:left">&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;
-            <select id="GValue" style="width: 130px; text-align: center;">
-            </select>
+            <div id="divGQ" style="float: left">
+                &nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;
+                <select id="GValue" style="width: 130px; text-align: center;">
+                </select>
             </div>
             <br />
             <br />
@@ -500,12 +479,12 @@
                 readonly="readonly" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})"
                 class="Wdate" />
             &nbsp;&nbsp;&nbsp;&nbsp;<a id="btnSearchb" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">查&nbsp;&nbsp;询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <div id="tt" class="easyui-tabs" data-options="tools:'#tab-tools'">
-                <div title="曲线图" id="container" data-options="tools:'#p-tools'" style="margin:5px">
+            <div id="tt" class="easyui-tabs" data-options="tools:'#tab-tools'" style="margin-top: 5px;">
+                <div title="曲线图" id="container" data-options="tools:'#p-tools'" style="margin: 5px">
                 </div>
-                <div title="散点图" id="container1" data-options="tools:'#p-tools'" style="margin:5px">
+                <div title="散点图" id="container1" data-options="tools:'#p-tools'" style="margin: 5px">
                 </div>
-                <table id="grid" style="margin-top: 20px;">
+                <table id="grid" style="margin-top: 20px; margin-left: 5px;">
                 </table>
             </div>
         </div>

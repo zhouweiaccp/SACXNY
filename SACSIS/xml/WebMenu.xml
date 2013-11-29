@@ -37,8 +37,8 @@
   <parment id="42" name="测试二纬" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@1@MGY1" />
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName=""/>
   <parment id="36" name="玫瑰营一期" pId="24" order="1" visible="1" owner=",1,2," FileName=""/>
-  <parment id="43" name="电量数据维护" pId="36" order="1" visible="1" owner=",1,2," FileName=""/>
-  <parment id="44" name="限负荷数据维护" pId="36" order="2" visible="1" owner=",1,2," FileName="../Html/table2(限制负荷数据维护).html"/>
+  <parment id="43" name="电量数据维护" pId="36" order="1" visible="1" owner=",1,2," FileName="../DataMaintenance/FansPower.aspx"/>
+  <parment id="44" name="限负荷数据维护" pId="36" order="2" visible="1" owner=",1,2," FileName="../DataMaintenance/FansFaultCount.aspx"/>
   <parment id="701" name="系统管理" pId="7" order="4" visible="1" owner=",1," FileName="" />
   <parment id="702" name="菜单管理" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManageMenu.aspx" />
   <parment id="705" name="权限分配" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManagePower.aspx" />

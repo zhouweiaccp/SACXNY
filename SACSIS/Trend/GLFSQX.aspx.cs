@@ -57,15 +57,15 @@ namespace SACSIS.Trend
                     GetGQName(id);
                 }
             }
-            else
+            /*else
             {
                 _xml = "FD";// Request["XML"];
-            }
+            }*/
             txtS.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 0:00:00");
             txtE.Value = DateTime.Now.ToString("yyyy-MM-dd 0:00:00");
         }
 
-        #region 获取风场信息
+        #region 获取根据公司风场信息
         private void GetOrgName(string companyID)
         {
             IList<Hashtable> listOrg = new List<Hashtable>();
@@ -88,7 +88,7 @@ namespace SACSIS.Trend
                 
                 if (listGQ != null)
                 {
-                    if (listGQ[0]["T_PERIODID"].ToString().Equals("全部"))
+                    if (listGQ[0]["T_PERIODDESC"].ToString().Equals("全部"))
                     {
                         a = 1;
                     }
@@ -125,7 +125,7 @@ namespace SACSIS.Trend
         #endregion
 
 
-        #region 获取工期信息
+        #region 根据风场获取工期信息
         private void GetGQName(string orgID)
         {
             IList<Hashtable> listOrg = new List<Hashtable>();
@@ -170,7 +170,7 @@ namespace SACSIS.Trend
         }
         #endregion
 
-        #region 获取机组数据
+        #region 根据工期获取机组数据
         private void GetUnit(string gq)
         {
             IList<Hashtable> list = new List<Hashtable>();
@@ -202,11 +202,6 @@ namespace SACSIS.Trend
         //绘制曲线
         private void GetWPPInfo(string strID, string gq, string namept, string bt, string et)
         {
-            /*gq = Request["gq"];
-            bt = Request["sTime"];
-            et = Request["eTime"];
-            strID = HttpUtility.UrlDecode(Request["id_pt"]);
-            namept = HttpUtility.UrlDecode(Request["name_pt"]);*/
             string[] unitID = null;
             string[] namepts = null;
             string title = "风速功率趋势";
@@ -249,16 +244,12 @@ namespace SACSIS.Trend
             
             DataTable _dtMachineID = _wd.GetMachineID(strID, gq);
             DataTable dtNorm = new DataTable();
-            //string _machineIDs = "";
-            //string[] _machineIDs = new string[];
             List<string> _machineIDs = new List<string>();
             if (_dtMachineID != null)
             {
                 if (_dtMachineID.Rows.Count == 1)
                 {
-                    //Page p = (Page)System.Web.HttpContext.Current.Handler;
-                    //p.ClientScript.RegisterStartupScript(p.GetType(), "key", "<script>alert('hello');</script>"); 
-                    intAAAA = 10;
+                    intAAAA = 1;
                     _machineIDs.Add(_dtMachineID.Rows[0][0].ToString());
                     dtNorm = _wd.GetWppNWSpeed(_machineIDs[0]);//T_BASE_NORMWPP 表中的数据
                 }
@@ -271,16 +262,12 @@ namespace SACSIS.Trend
                     }
                 }
             }
-            //DataTable dtNorm = _wd.GetWppNWSpeed(_machineIDs[0]);//T_BASE_NORMWPP 表中的数据
-
             for (int i = 0; i < unitID.Length+1; i++)
             {
                 htLine = new Hashtable();
                 listData = new ArrayList(); //非标准功率曲线
-
                 if (i != 0)
-                {
-                   
+                {                 
                     htLine.Add("name", namepts[i-1]);
                     if (dtNorm != null && dtNorm.Rows.Count > 0)
                     {
@@ -297,8 +284,7 @@ namespace SACSIS.Trend
                             listData.Add(list);
                         }
                         htLine.Add("data", listData);
-                        iList.Add(htLine);
-                        
+                        iList.Add(htLine);                       
                     }
                 }
                 else
@@ -331,9 +317,7 @@ namespace SACSIS.Trend
                 
             }
             listTitle.Add(nameht);
-            //string abc = iList[0]["name"].ToString();
             ArrayList aaa = (ArrayList)iList[0]["data"];
-            //aaa.Count;
             int a = aaa.Count;
             for (int j = 0; j < a; j++)
             {
@@ -359,12 +343,6 @@ namespace SACSIS.Trend
                 }
                 listData1.Add(ht);
             }
-
-            //ht.Add("data", lt);
-            //Hashtable ht1 = new Hashtable();
-            //ht1.Add("type", "scatter");
-            //ht1.Add("name", "散点图");
-           // iList.Add(ht1);
             object obj = new
             {
                 columns = ListToString(listTitle),
@@ -454,10 +432,6 @@ namespace SACSIS.Trend
         private void GetInit()
         {
             DataTable _dtCompany = _wd.dtGetCompany();
-
-            //DataTable _dtXml = GetDataTableXml(_xml);
-            //DataRow[] _drXml = _dtXml.Select("PID=10001");
-
             IList<Hashtable> _company = new List<Hashtable>();  //公司
             IList<Hashtable> _fgs = new List<Hashtable>();       //分公司
             IList<Hashtable> _fc = new List<Hashtable>();       //风场
@@ -485,20 +459,20 @@ namespace SACSIS.Trend
                         _ht.Add("NAME", _dtOrg.Rows[j]["T_ORGDESC"].ToString());   //风场名称
                         _fgs.Add(_ht);
                     }
-                }
-                //_fgs = _wd.GetOrg(_companyId);
-                string _orgid = _dtOrg.Rows[0]["T_ORGID"].ToString();
-                _fc = _wd.GetPeriod(_orgid);
+                    string _orgid = _dtOrg.Rows[0]["T_ORGID"].ToString();
+                    _fc = _wd.GetPeriod(_orgid);
+                }               
                 if (_fc != null)
                 {
                     _ht = new Hashtable();
                     _ht = _fc[0];
 
-                    string _pid = _ht["T_PERIODID"].ToString();
-                    if (_pid.Equals("全部"))
+                    string _pname = _ht["T_PERIODDESC"].ToString();
+                    if (_pname.Equals("全部"))
                     {
                         a = 1;
                     }
+                    string _pid = _ht["T_PERIODID"].ToString();
                     DataTable _dtUnit = _wd.GetUnit(_pid);
                     if (_dtUnit.Rows.Count > 0)
                     {
@@ -531,71 +505,6 @@ namespace SACSIS.Trend
 
         }
         #endregion
-
-
-        /*#region 获取风场  工期  机组信息
-        Hashtable _ht = null;
-        private void GetInit()
-        {
-            //DataTable _dtCompany = _wd.dtGetCompany();
-
-            DataTable _dtXml = GetDataTableXml(_xml);
-            DataRow[] _drXml = _dtXml.Select("PID=10001");
-
-            IList<Hashtable> _company = new List<Hashtable>();  //公司
-            IList<Hashtable> _fc = new List<Hashtable>();       //风场
-            string _str_b = "";
-            string _str_f = "";
-            if (_drXml.Length > 0)
-            {
-                for (int i = 0; i < _drXml.Length; i++)
-                {
-                    _ht = new Hashtable();
-                    _ht.Add("ID", _drXml[i][0].ToString());     //公司编码
-                    _ht.Add("NAME", _drXml[i][1].ToString());   //公司名称
-                    _company.Add(_ht);
-                }
-
-                string _companyId = _drXml[0][0].ToString();
-                _fc = _wd.GetPeriod(_companyId);
-
-                if (_fc != null)
-                {
-                    _ht = new Hashtable();
-                    _ht = _fc[0];
-
-                    string _pid = _ht["T_PERIODID"].ToString();
-                    DataTable _dtUnit = _wd.GetUnit(_pid);
-                    if(_dtUnit.Rows.Count>0)
-                    {
-                         _str_f += "{id:'0',pId:'00',name:'普通风机',t:'普通风机', open:true},";
-                        for (int i = 0; i < _dtUnit.Rows.Count; i++)
-                        {
-                            _str_f += "{id:'" + _dtUnit.Rows[i]["T_UNITID"] + "',pId:'0',name:'" + _dtUnit.Rows[i]["T_UNITDESC"] + "',t:'" + _dtUnit.Rows[i]["T_UNITDESC"] + "', open:true},";
-                        }
-                    }
-                }
-            }
-            if (_str_f != "")
-            {
-                _str_f = _str_f.Substring(0, _str_f.Length - 1);
-                _str_f = "[" + _str_f + "]";
-            }
-
-            object obj = new
-            {
-                list = _company,
-                listB = _str_b,
-                listF = _str_f,
-                lt = _fc
-            };
-            result = JsonConvert.SerializeObject(obj);
-            Response.Write(result);
-            Response.End();
-
-        }
-        #endregion*/
-
 
         #region XML 操作
 

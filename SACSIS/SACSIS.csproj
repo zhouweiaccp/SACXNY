@@ -85,6 +85,8 @@
     <Content Include="css\zTreeStyle\img\zTreeStandard.png" />
     <Content Include="css\zTreeStyle\zTreeStyle.css" />
     <Content Include="Datafile\Get_Chart_Data.aspx" />
+    <Content Include="DataMaintenance\FansFaultCount.aspx" />
+    <Content Include="DataMaintenance\FansPower.aspx" />
     <Content Include="Form\UpData.aspx" />
     <Content Include="Html\fd_czxx.html" />
     <Content Include="Html\fjfb.html" />
@@ -879,6 +881,20 @@
     <Compile Include="Datafile\Get_Chart_Data.aspx.cs">
       <DependentUpon>Get_Chart_Data.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataMaintenance\FansFaultCount.aspx.cs">
+      <DependentUpon>FansFaultCount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataMaintenance\FansFaultCount.aspx.designer.cs">
+      <DependentUpon>FansFaultCount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataMaintenance\FansPower.aspx.cs">
+      <DependentUpon>FansPower.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataMaintenance\FansPower.aspx.designer.cs">
+      <DependentUpon>FansPower.aspx</DependentUpon>
     </Compile>
     <Compile Include="Form\UpData.aspx.cs">
       <DependentUpon>UpData.aspx</DependentUpon>
