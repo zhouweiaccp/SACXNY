@@ -9,6 +9,7 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Collections;
 using BLL;
+using System.Text;
 
 namespace Web.LineAndChart
 {
@@ -59,7 +60,12 @@ namespace Web.LineAndChart
         private void ShowLineYear(string id, string zType, string tType, string time, string gq)
         {
             IList<Hashtable> list = new List<Hashtable>();
+            IList<Hashtable> listTitle = new List<Hashtable>();
             IList<Hashtable> listDl = new List<Hashtable>();
+            IList<Hashtable> listData = new List<Hashtable>();
+            Hashtable hTitle = new Hashtable();
+            
+
             Hashtable ht = new Hashtable();
             string _news = "";
             string _old = "";
@@ -85,8 +91,14 @@ namespace Web.LineAndChart
                     }
                     _news = _pointbll.GetVal(_dtPoint.Rows[0][0].ToString(), time, tType);
                     _old = _pointbll.GetVal(_dtPoint.Rows[0][0].ToString(), Convert.ToDateTime(time).AddYears(-1).ToString(), tType);
+                    listData = _pointbll.GetValList(_dtPoint.Rows[0][0].ToString(), time, tType);
                 }
 
+                //grid columns
+                hTitle.Add("时间", "去年");
+                hTitle.Add("去年", "去年");
+                hTitle.Add("今年", "今年");
+                listTitle.Add(hTitle);
             }
             else
             {
@@ -98,15 +110,25 @@ namespace Web.LineAndChart
                     DataTable olddt = _sta.GetDL((int.Parse(time) - 1).ToString() + "-1-1 0:00:00", (int.Parse(time) - 1).ToString() + "-12-31 23:59:59", "'" + id + "'");
 
                     Hashtable h = new Hashtable();
+                    Hashtable hta = new Hashtable();
+
+                    
+
                     if (newdt.Rows.Count < 1)
                     {
                         h.Add("name", "今年");
                         h.Add("data", new double[1] { 0 });
+
+                        //rows
+                        hta.Add("今年", "0");
                     }
                     else
                     {
                         h.Add("name", "今年");
                         h.Add("data", new double[1] { Convert.ToDouble(newdt.Rows[0]["RESULT"]) });
+
+                        //rows
+                        hta.Add("今年", newdt.Rows[0]["RESULT"].ToString());
                     }
                     listDl.Add(h);
 
@@ -115,21 +137,90 @@ namespace Web.LineAndChart
                     {
                         h.Add("name", "去年");
                         h.Add("data", new double[1] { 0 });
+                        //rows
+                        hta.Add("去年", "0");
                     }
                     else
                     {
                         h.Add("name", "去年");
                         h.Add("data", new double[1] { Convert.ToDouble(olddt.Rows[0]["RESULT"]) });
+                        //rows
+                        hta.Add("去年", olddt.Rows[0]["RESULT"].ToString());
                     }
                     listDl.Add(h);
-
+                    listData.Add(hta);
+                    //grid columns
+                    hTitle.Add("去年", "去年");
+                    hTitle.Add("今年", "今年");
+                    listTitle.Add(hTitle);
                 }
                 else if (tType == "2")
                 {
                     //曲线
-                    DataTable newdt = _sta.GetDlByTimeAndUnits(time.ToString() + "-1 0:00:00", time.ToString() + "-31 23:59:59", "'" + id + "'");
-                    DataTable olddt = _sta.GetDL((int.Parse(time) - 1).ToString() + "-1-1 0:00:00", (int.Parse(time) - 1).ToString() + "-12-31 23:59:59", "'" + id + "'");
+                    DataTable newdt = _sta.GetDlByTimeAndUnits(time + "-1 0:00:00", time + "-" + getDayCountByDate(time) + " 23:59:59", "'" + id + "'");
+                    DataTable olddt = _sta.GetDlByTimeAndUnits((int.Parse(time.Split('-')[0]) - 1).ToString() + "-" + time.Split('-')[1] + "-1 0:00:00", (int.Parse(time.Split('-')[0]) - 1).ToString() + "-" + time.Split('-')[1] + "-" + getDayCountByDate(time) + " 23:59:59", "'" + id + "'");
+                    Hashtable hta = new Hashtable();//存储GRID数据
+                    
+                    if (newdt.Rows.Count >0)
+                    {
+                        for (int i = 0; i < newdt.Rows.Count; i++)
+                        {
+                            _news += newdt.Rows[i][0].ToString() + ",";
+                            hta.Add("时间", newdt.Rows[i]["T_TIME"].ToString());
+                            hta.Add("今年", newdt.Rows[i]["D_VALUE"].ToString());
+                            if (olddt.Rows.Count > 0)
+                            {
+                                DataRow[] ddr = olddt.Select("T_TIME='" + newdt.Rows[i]["T_TIME"].ToString() + "'");
+                                if (ddr.Length > 0)
+                                    hta.Add("去年", ddr[0]["D_VALUE"].ToString());
+                                else
+                                    hta.Add("去年", "0");
+                            }
+                            else
+                            {
+                                hta.Add("去年", "0");
+                            }
+                            listData.Add(hta);
+                            hta = new Hashtable();
+                        }
+                        _news = _news.Substring(0, _news.Length - 1);
+                    }
+                    else
+                    {
+                        _news = "";
 
+                        if (olddt.Rows.Count > 0)
+                        {
+                            for (int m = 0; m < olddt.Rows.Count; m++)
+                            {
+                                hta.Add("时间", olddt.Rows[m]["T_TIME"].ToString());
+                                hta.Add("今年","0");
+                                hta.Add("时间", olddt.Rows[m]["D_VALUE"].ToString());
+                                listData.Add(hta);
+                                hta = new Hashtable();
+                            }
+                        }
+                    }
+
+
+                    if (olddt.Rows.Count >0)
+                    {
+                        for (int j = 0; j < olddt.Rows.Count; j++)
+                        {
+                            _old += olddt.Rows[j][0].ToString() + ",";
+                        }
+                        _old = _old.Substring(0, _old.Length - 1);
+                    }
+                    else
+                    {
+                        _old = "";
+                    }
+
+                    //grid columns
+                    hTitle.Add("时间", "时间");
+                    hTitle.Add("去年", "去年");
+                    hTitle.Add("今年", "今年");
+                    listTitle.Add(hTitle);
                 }
             }
 
@@ -145,15 +236,83 @@ namespace Web.LineAndChart
             ht.Add("data", _old);
             list.Add(ht);
 
+            
+
             object obj = new
             {
+                columns = ListToString(listTitle),
+                rows = listData,
                 list = list,
-                listDl=listDl
+                listDl = listDl
             };
 
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             Response.Write(result);
             Response.End();
+        }
+
+        private string getDayCountByDate(string time)
+        {
+            //int year = int.Parse(time.Split('-')[0]);
+            //string month = time.Split('-')[1];
+            //if (month == "1" || month == "3" || month == "5" || month == "7" || month == "8" || month == "10" || month == "12")
+            //{
+            //    return "31";
+            //}
+            //else if (month == "4" || month == "6" || month == "9" || month == "11")
+            //{
+            //    return "30";
+            //}
+            //else if(month=="2")
+            //{
+            //    if (((0 == year % 4) && (0 != year % 100)) || (0 == year % 400))
+            //    {
+            //        return "29";
+            //    }
+            //    else
+            //    {
+            //    return "28";
+            //    }
+                
+            //}
+
+            return DateTime.DaysInMonth(Convert.ToDateTime(time).Year, Convert.ToDateTime(time).Month).ToString();
+        }
+
+
+        private string ListToString(IList<Hashtable> iList)
+        {
+            int width = 0;
+            StringBuilder columns = new StringBuilder("[[");
+
+            if (iList.Count > 0)
+            {
+                //Hashtable ht = iList[0];
+
+                foreach (Hashtable ht in iList)
+                {
+
+                    ArrayList list = new ArrayList(ht.Keys);
+                    foreach (string skey in list)
+                    {
+                        if (skey.ToString() == "时间")
+                        {
+                            width = 120;
+                        }
+                        else
+                        {
+                            width = 103;
+                        }
+                        columns.AppendFormat("{{field:'{0}',title:'{1}',align:'center',width:{2}}},", skey, skey, width);
+                    }
+                }
+            }
+            if (iList.Count > 0)
+            {
+                columns.Remove(columns.Length - 1, 1);//去除多余的','号  
+            }
+            columns.Append("]]");
+            return columns.ToString();
         }
 
         #region 获取机组数据

@@ -83,7 +83,7 @@
         /*初始化数据*/
         $(function () {
 
-            $("#dv_lien").css("width", pageWidth() - 170);
+            $("#dv_lien").css("width", pageWidth() - 210);
             /*设置风机高度*/
             $("#dv_bg").css("height", pageHeight() - 30);
             $("#tree_bg").css("height", pageHeight() - 40);
@@ -115,7 +115,7 @@
                     type: "POST",
                     dataType: "json",
                     url: "TRadio.aspx",
-                    data: { param: 'lineyear', gq: $("#GValue").val(), zType: $("#ZType").val(), tTtype: $("#TType").val(), id: escape($("#txtID").val()), name: escape($("#txtName").val()), time: GetTime() },
+                    data: { param: 'lineyear', gq: 'MGY3', zType: $("#ZType").val(), tTtype: $("#TType").val(), id: "00016", name: escape($("#txtName").val()), time: GetTime() },
                     success: function (data) {
                         //功率 或 风速 
                         if ($("#ZType").val() == "1" || $("#ZType").val() == "2") {
@@ -129,9 +129,12 @@
                             if ($("#TType").val() == "1") {
                                 ShowDl(data, 'container');
                             } else { //type="2"
-                                ShowDl(data, 'container');
+                                ShowLine(data, 'container');
                             }
                         }
+                        $("#grid").css("width", pageWidth() - 380);
+                        $("#grid").css("height", pageHeight() - 500);
+                        showGrid(data);
                     },
                     eror: function (data) {
                         alert(data);
@@ -304,6 +307,10 @@
             }
 
             function ShowDl(data, dv) {
+
+                LineStyle();
+
+
                 chart = new Highcharts.Chart({
                     chart: {
                         renderTo: dv, /*绑定标签*/
@@ -328,7 +335,7 @@
                     tooltip: {
                         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f}  </b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
@@ -343,7 +350,19 @@
                 });
             }
 
-
+            function showGrid(data) {
+                if (data.rows.length == 0) {
+                    $.messager.alert("结果", "没有数据!", "info", null);
+                }
+                var options = {
+                    //                width: "auto",
+                    rownumbers: true,
+                    columns: eval(data.columns)
+                };
+                var dataGrid = $("#grid");
+                dataGrid.datagrid(options); //根据配置选项，生成datagrid
+                dataGrid.datagrid("loadData", data.rows); //载入本地json格式的数据  
+            }
 
         });
 
@@ -503,7 +522,7 @@
 <body style="font-size: 12px">
     <script src="../js/highcharts.js" type="text/javascript"></script>
     <script src="../js/data.js" type="text/javascript"></script>
-    <div id="dv_jz" style="width: 150px; float: left;">
+    <div id="dv_jz" style="width: 190px; float: left;">
         <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
             <ul id="tree_bg" class="ztree">
             </ul>
@@ -535,6 +554,8 @@
         </div>
         <div id="container" style="margin-top: 10px; min-width: 400px; height: 400px;">
         </div>
+        <table id="grid" style="margin-top: 20px;">
+        </table>
     </div>
     <input type="text" id="txtID" style="display: none;" />
     <input type="text" id="txtName" style="display: none;" />

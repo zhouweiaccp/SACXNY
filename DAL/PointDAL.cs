@@ -85,7 +85,7 @@ namespace DAL
                     listPoint.Add(Convert.ToInt64((Convert.ToDateTime(eTime) - _sTime).TotalMilliseconds.ToString()));
                     pk.GetHisValue(points[i], eTime, ref drv);
                     if (drv > 0)
-                        drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 3);
                         listPoint.Add(drv);
                     _st = Convert.ToDateTime(eTime).AddSeconds(seconds).ToString();
                     listD.Add(listPoint);
@@ -171,175 +171,239 @@ namespace DAL
             Plink pk = new Plink();
             DateTime dt = new DateTime();
             val = "";
+            Plink.OpenPi();
             if (type == "1")
             {
-                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 0:00:00"));
-                //
-                //for (int i = 0; i < 1440; i++)
-                //{
-                //    if (i == 1339)
-                //        dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 23:59:59"));
-                //    else
-                //        dt = dt.AddMinutes(i + 1);
-                //    pk.GetHisValue(point, dt.ToString(), ref drv);
-                //    if (drv > 0)
-                //        drv = getDouble(drv, 2);
-                //    val += drv + ",";
-                //}
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-01-01 23:59:59"));
                 for (int i = 0; i < 365; i++)
                 {
-                    if (i == 364)
-                        dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 23:59:59"));
-                    else
-                        dt = dt.AddMinutes(i + 1);
                     pk.GetHisValue(point, dt.ToString(), ref drv);
                     if (drv > 0)
-                        drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 3);
                     val += drv + ",";
+                    dt = dt.AddDays(1);
                 }
-                //
             }
             else if (type == "2")
             {
                 int month = Convert.ToDateTime(sTime).Month;
                 int year = Convert.ToDateTime(sTime).Year;
 
-                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-1 0:00:00"));
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-1 11:59:59"));
 
                 if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
                 {
-                    //for (int i = 0; i < 1116; i++)
-                    //{
-                    //    if (i == 1115)
-                    //        dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-31 23:59:59"));
-                    //    else
-                    //        dt = dt.AddSeconds((i + 1) * 2400);
-                    //    pk.GetHisValue(point, dt.ToString(), ref drv);
-                    //    if (drv > 0)
-                    //        drv = getDouble(drv, 2);
-                    //    val += drv + ",";
-                    //}
                     for (int i = 0; i < 62; i++)
                     {
-                        if (i == 61)
-                            dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 23:59:59"));
-                        else
-                            dt = dt.AddMinutes(i + 1);
                         pk.GetHisValue(point, dt.ToString(), ref drv);
                         if (drv > 0)
-                            drv = getDouble(drv, 2);
+                            drv = getDouble(drv, 3);
                         val += drv + ",";
+                        dt = dt.AddHours(12);
                     }
-
                 }
-                else if (month == 1 || month == 1 || month == 1 || month == 11)
+                else if (month == 4 || month == 6 || month == 9 || month == 11)
                 {
-
-                    for (int i = 0; i < 1080; i++)
+                    for (int i = 0; i < 60; i++)
                     {
-                        if (i == 1079)
-                            dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-30 23:59:59"));
-                        else
-                            dt = dt.AddSeconds((i + 1) * 2400);
                         pk.GetHisValue(point, dt.ToString(), ref drv);
                         if (drv > 0)
-                            drv = getDouble(drv, 2);
+                            drv = getDouble(drv, 3);
                         val += drv + ",";
+                        dt = dt.AddHours(12);
                     }
-
                 }
                 else
                 {
                     if (year % 4 == 0)
                     {
 
-                        for (int i = 0; i < 1044; i++)
+                        for (int i = 0; i < 58; i++)
                         {
-                            if (i == 1039)
-                                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-29 23:59:59"));
-                            else
-                                dt = dt.AddSeconds((i + 1) * 2400);
                             pk.GetHisValue(point, dt.ToString(), ref drv);
                             if (drv > 0)
-                                drv = getDouble(drv, 2);
+                                drv = getDouble(drv, 3);
                             val += drv + ",";
+                            dt = dt.AddHours(12);
                         }
-
                     }
                     else
                     {
 
-                        for (int i = 0; i < 1008; i++)
+                        for (int i = 0; i < 55; i++)
                         {
-                            if (i == 1007)
-                                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-28 23:59:59"));
-                            else
-                                dt = dt.AddSeconds((i + 1) * 2400);
                             pk.GetHisValue(point, dt.ToString(), ref drv);
                             if (drv > 0)
-                                drv = getDouble(drv, 2);
+                                drv = getDouble(drv, 3);
                             val += drv + ",";
+                            dt = dt.AddHours(12);
                         }
-
                     }
                 }
-
             }
             else if (type == "3")
             {
-                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-1-1 0:00:00"));
-
-                //for (int i = 0; i < 1440; i++)
-                //{
-                //    if (i == 1439)
-                //        dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-12-31 23:59:59"));
-                //    else
-                //        dt = dt.AddSeconds((i + 1) * 21720);
-                //    pk.GetHisValue(point, dt.ToString(), ref drv);
-                //    if (drv > 0)
-                //        drv = getDouble(drv, 2);
-                //    val += drv + ",";
-                //}
-
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 0:14:59"));
                 for (int i = 0; i < 96; i++)
                 {
-                    if (i == 95)
-                        dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-12-31 23:59:59"));
-                    else
-                        dt = dt.AddSeconds((i + 1) * 21720);
                     pk.GetHisValue(point, dt.ToString(), ref drv);
                     if (drv > 0)
-                        drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 3);
                     val += drv + ",";
+                    dt = dt.AddMinutes(15);
                 }
-
             }
 
             if (val.Length > 0)
                 //val = val.Substring(0, val.Length - 1);
                 val = val.Remove(val.LastIndexOf(","), 1);
-
+            Plink.closePi();
             return val;
         }
 
+
+
         /// <summary>
-        /// 获取测点最新值
+        /// 获取实时数据
         /// </summary>
-        /// <param name="points"></param>
-        /// <param name="time"></param>
+        /// <param name="point">测点名称</param>
+        /// <param name="sTime">开始时间</param>
+        /// <param name="type">查询类型   年:1 月:2 日:3</param>
         /// <returns></returns>
-        public double[] GetPointVal(string[] points, string time)
+        public IList<Hashtable> GetValList(string point, string sTime, string type)
         {
-            double[] val = new double[points.Length];
-            double v = 0;
             Plink pk = new Plink();
-            for (int i = 0; i < points.Length; i++)
+            DateTime dt = new DateTime();
+            Hashtable h = new Hashtable();
+            val = "";
+            Plink.OpenPi();
+            if (type == "1")//年比
             {
-                pk.GetHisValue(points[i], time, ref v);
-                v = getDouble(v, 2);
-                val[i] = v;
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-01-01 23:59:59"));
+                for (int i = 0; i < 365; i++)
+                {
+                    h = new Hashtable();
+                    h.Add("时间", dt.ToString("MM-dd HH:ss:mm"));
+                    pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                    if (drv > 0)
+                        drv = getDouble(drv, 3);
+                    h.Add("去年", drv);
+                    pk.GetHisValue(point, dt.ToString(), ref drv);
+                    if (drv > 0)
+                        drv = getDouble(drv, 3);
+                    h.Add("今年", drv);
+                    dt = dt.AddDays(1);
+                    list.Add(h);
+                }
+                
             }
-            return val;
+            else if (type == "2")//月比
+            {
+                int month = Convert.ToDateTime(sTime).Month;
+                int year = Convert.ToDateTime(sTime).Year;
+
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-1 11:59:59"));
+
+                if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+                {
+                    for (int i = 0; i < 62; i++)
+                    {
+                        h = new Hashtable();
+                        h.Add("时间", dt.ToString("MM-dd HH:ss:mm"));
+                        pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                        if (drv > 0)
+                            drv = getDouble(drv, 3);
+                        h.Add("去年", drv);
+                        pk.GetHisValue(point, dt.ToString(), ref drv);
+                        if (drv > 0)
+                            drv = getDouble(drv, 3);
+                        h.Add("今年", drv);
+                        dt = dt.AddHours(12);
+                        list.Add(h);
+                    }
+                }
+                else if (month == 4 || month == 6 || month == 9 || month == 11)
+                {
+                    for (int i = 0; i < 60; i++)
+                    {
+                        h = new Hashtable();
+                        h.Add("时间", dt.ToString("MM-dd HH:ss:mm"));
+                        pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                        if (drv > 0)
+                            drv = getDouble(drv, 3);
+                        h.Add("去年", drv);
+                        pk.GetHisValue(point, dt.ToString(), ref drv);
+                        if (drv > 0)
+                            drv = getDouble(drv, 3);
+                        h.Add("今年", drv);
+                        dt = dt.AddHours(12);
+                        list.Add(h);
+                    }
+                }
+                else
+                {
+                    if (year % 4 == 0)
+                    {
+
+                        for (int i = 0; i < 58; i++)
+                        {
+                            h = new Hashtable();
+                            h.Add("时间", dt.ToString("MM-dd HH:ss:mm"));
+                            pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                            if (drv > 0)
+                                drv = getDouble(drv, 3);
+                            h.Add("去年", drv);
+                            pk.GetHisValue(point, dt.ToString(), ref drv);
+                            if (drv > 0)
+                                drv = getDouble(drv, 3);
+                            h.Add("今年", drv);
+                            dt = dt.AddHours(12);
+                            list.Add(h);
+                        }
+                    }
+                    else
+                    {
+
+                        for (int i = 0; i < 55; i++)
+                        {
+                            h = new Hashtable();
+                            h.Add("时间", dt.ToString("MM-dd HH:ss:mm"));
+                            pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                            if (drv > 0)
+                                drv = getDouble(drv, 3);
+                            h.Add("去年", drv);
+                            pk.GetHisValue(point, dt.ToString(), ref drv);
+                            if (drv > 0)
+                                drv = getDouble(drv, 3);
+                            h.Add("今年", drv);
+                            dt = dt.AddHours(12);
+                            list.Add(h);
+                        }
+                    }
+                }
+            }
+            else if (type == "3")//日比
+            {
+                dt = Convert.ToDateTime(Convert.ToDateTime(sTime).ToString("yyyy-MM-dd 0:14:59"));
+                for (int i = 0; i < 96; i++)
+                {
+                    h = new Hashtable();
+                    h.Add("时间", dt.ToString("HH:ss:mm"));
+                    pk.GetHisValue(point, dt.AddYears(-1).ToString(), ref drv);
+                    if (drv > 0)
+                        drv = getDouble(drv, 3);
+                    h.Add("去年", drv);
+                    pk.GetHisValue(point, dt.ToString(), ref drv);
+                    if (drv > 0)
+                        drv = getDouble(drv, 3);
+                    h.Add("今年", drv);
+                    dt = dt.AddMinutes(15);
+                    list.Add(h);
+                }
+            }
+
+            Plink.closePi();
+            return list;
         }
 
 
@@ -375,7 +439,7 @@ namespace DAL
                     pk.GetHisValue(points[i].Split('|')[0], dtt.ToString("yyyy-MM-dd HH:mm:ss"), ref drv);
                     if (drv > 0)
                     {
-                        drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 3);
                     }
                     string timeStamp = DateTimeToUTC(dtt).ToString();
                     DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
@@ -436,7 +500,7 @@ namespace DAL
                     pk.GetHisValue(points[i].Split('|')[0], dtt.ToString("yyyy-MM-dd HH:mm:ss"), ref drv);
                     if (drv > 0)
                     {
-                        drv = getDouble(drv, 2);
+                        drv = getDouble(drv, 3);
                     }
                     string timeStamp = DateTimeToUTC(dtt).ToString();
                     DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
@@ -456,6 +520,26 @@ namespace DAL
             }
 
             return listdata;
+        }
+
+        /// <summary>
+        /// 获取测点最新值
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public double[] GetPointVal(string[] points, string time)
+        {
+            double[] val = new double[points.Length];
+            double v = 0;
+            Plink pk = new Plink();
+            for (int i = 0; i < points.Length; i++)
+            {
+                pk.GetHisValue(points[i], time, ref v);
+                v = getDouble(v, 2);
+                val[i] = v;
+            }
+            return val;
         }
 
         #region 四舍五入

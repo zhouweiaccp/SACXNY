@@ -1,0 +1,679 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body {
+margin:0;
+padding:0;
+}
+
+.border {
+position:absolute;
+height:100%;
+width:100%;
+margin:0;
+padding:0;
+overflow:hidden;
+background:#E3E9EF;
+clear:both;
+}
+
+.content {
+width:980px;
+height:430px;
+margin:0 auto;
+padding:5px;
+background:#E3E9EF;
+font-size:12px;
+font-family:Arial,"宋体";  
+overflow:hidden;
+clear:both;
+}
+
+.border2 {
+position:absolute;
+height:100%;
+width:100%;
+margin:0;
+padding:0;
+overflow:hidden;
+background:#EFEFEF;
+clear:both;
+}
+
+.content2 {
+width:980px;
+height:1400px;
+margin:0 auto;
+padding:5px;
+background:#EFEFEF;  
+font-size:12px;
+font-family:Arial,"宋体";  
+overflow:hidden;
+clear:both;
+}
+
+.content5 {
+width:1000px;
+height:430px;
+margin:0 auto;
+padding:5px;
+background:#E3E9EF;
+font-size:12px;
+font-family:Arial,"宋体";  
+overflow:hidden;
+clear:both;
+}
+
+.border3 {
+position:absolute;
+height:100%;
+width:100%;
+margin:0;
+padding:0;
+overflow:hidden;
+background:#FFFFFF;
+clear:both;
+}
+
+.content3 {
+/*width:818px;
+height:438px;*/
+width:795px;
+height:400px;
+margin:0 auto;
+padding:5px;
+background:#FFFFFF;
+font-size:12px;
+font-family:Arial,"宋体";  
+overflow:hidden;
+clear:both;
+}
+
+.border4 {
+position:absolute;
+height:100%;
+width:100%;
+margin:0;
+padding:0;
+overflow-x:hidden;
+overflow-y:scroll;
+background:#E3E9EF;
+clear:both;
+}
+
+.content4 {
+width:980px;
+height:400px;
+margin:0 auto;
+padding:5px;
+background:#E3E9EF;
+font-size:12px;
+font-family:Arial,"宋体";  
+overflow-x:hidden;
+overflow-y:scroll;
+clear:both;
+}
+
+.clear {
+clear:both;
+}
+
+
+/*-------------------------新能源-----------------------*/
+/*---地图---*/
+.china_map_a {
+width:468px;
+height:332px;
+margin:0px 0 20px 118px;
+padding:0;
+float:left;
+background:url(images/china_map_a.jpg) no-repeat left;
+}
+
+.china_map_a_exp {
+width:70px;
+height:70px;
+margin:232px 0 0 0px;
+padding:0 20px 0 0;
+float:right;
+background:url(images/china_map_a_exp.jpg) no-repeat left;
+}
+
+.china_map_a_exp ul {
+font-size:12px;
+margin:0;
+padding:0;
+}
+.china_map_a_exp li {
+list-style-type: none;
+line-height:25px;
+font-size:12px;
+margin:0;
+padding:0 0 0 27px;
+}
+
+/*---图表---*/
+.map_chart {
+width:289px;
+height:332px;
+margin:10px 0 0 22px;
+float:left;
+}
+
+.map_chart_a {
+width:289px;
+height:158px;
+margin:0;
+padding:0;
+background:url(images/map_chart_a.jpg) no-repeat left;
+}
+
+.map_chart_b {
+width:289px;
+height:158px;
+margin:8px 0 0 0;
+padding:0;
+background:url(images/map_chart_a.jpg) no-repeat left;
+}
+
+
+/*---表格---*/
+
+table.map_t {
+width:779px;
+empty-cells:show; 
+margin:0 0 0 118px;
+padding:20px 0 0 0;
+font-size:12px;
+font-family:Arial,"宋体";
+line-height:24px;
+color:#181818; 	
+border-collapse:collapse;
+text-align:center;
+clear:both;
+}
+
+.map_t_thead {
+width:779px;
+height:36px;
+font-weight:bold;
+margin:0;
+padding:0;
+color:#181818;
+background:url(images/map_t_bg.jpg) no-repeat;
+}
+
+.map_t_tr {
+background:#DAEAF6;
+border-top:1px solid #E6F6F8;
+padding:0 3px 0 3px;
+}
+
+
+/*-------------------------能源总体分布-----------------------*/
+/*地图*/
+.china_map_b {
+width:425px;
+height:358px;
+margin:27px 0 0 60px;
+padding:0;
+float:left;
+background:url(images/china_map_b.jpg) no-repeat left;
+}
+
+.china_map_b_exp {
+width:70px;
+height:160px;
+margin:200px 35px 0 0;
+padding:0 0 0 0;
+float:left;
+background:url(images/china_map_b_exp.jpg) no-repeat left;
+}
+
+.china_map_b_exp ul {
+font-size:12px;
+margin:0;
+padding:0;
+}
+.china_map_b_exp li {
+list-style-type: none;
+line-height:32px;
+font-size:12px;
+margin:0;
+padding:0 0 0 37px;
+clear:both;
+}
+
+/*主要指标*/
+.key_indicators {
+width:314px;
+height:226px;
+margin:130px 0 0 0;
+padding:0;
+float:left;
+background:url(images/key_indicators.jpg) no-repeat left;
+}
+.key_indicators_l {
+width:400px;
+height:240px;
+margin:40px 0 0 0;
+float:left;
+background:url(images/key_indicators_l.jpg) no-repeat left top;
+}
+.key_indicators_t {
+width:300px;
+height:140px;
+margin:45px 0 0 35px;
+float:left;
+font-size:12px;
+text-align:left;
+}
+
+
+/*-------------------------区域公司分布-----------------------*/
+/*地图*/
+.liaoning_map {
+width:389px;
+height:376px;
+margin:16px 0 0 80px;
+padding:0;
+float:left;
+background:url(images/liaoning_map.jpg) no-repeat left;
+}
+
+.liaoning_map_exp {
+width:70px;
+height:93px;
+margin:270px 40px 20px 0;
+padding:0 5px 0 0;
+float:left;
+background:url(images/liaoning_map_exp.jpg) no-repeat left;
+}
+
+.liaoning_map_exp ul {
+font-size:12px;
+margin:0;
+padding:0;
+clear:both;
+}
+.liaoning_map_exp li {
+list-style-type: none;
+line-height:32px;
+font-size:12px;
+margin:0;
+padding:0 0 0 37px;
+}
+
+
+/*-------------------------领导驾驶舱集团首页-------------------------------*/
+
+.ship_dashboard {
+width:806px;
+height:217px;
+margin:0 0 0 80px;
+padding:0 0 0 0;
+font-family:Arial,"宋体";
+font-size:12px;
+background:url(images/leader_ship_bg.jpg) no-repeat left bottom;
+clear:both;
+}
+
+.ship_chart_a {
+width:375px;
+height:181px;
+margin:5px 0 0 68px;
+padding:0;
+float:left;
+background:url(images/ship_chart_a.jpg) no-repeat;
+}
+
+/*---表格---*/
+.ship_t_a_border{
+width:431px;
+height:auto;
+margin:5px 0 0 10px;
+float:left;
+}
+
+table.ship_t_a {
+width:431px;
+empty-cells:show; 
+margin:0;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+line-height:24px;
+color:#181818; 	
+border-collapse:collapse;
+text-align:center;
+}
+
+.ship_t_a_thead {
+height:31px;
+width:431px;
+font-weight:bold;
+margin:0;
+padding:0;
+color:#F7F7F7;
+background:url(images/ship_t_a_bg.jpg) no-repeat;
+}
+
+.ship_t_a_tr {
+background:#DAEAF6;
+border-top:1px solid #E6F6F8;
+padding:0 2px 0 3px;
+height:29px;
+width:431px;
+}
+
+
+
+/*------------------------index5 表格1-------------------------------*/
+/*表格*/
+.idc_important {
+width:300px;
+height:192px;
+margin:0 0 0 25px;
+padding:9px 0 0 0;
+float:left;
+}
+
+table.idc_important_t {
+width:300px;
+height:192px;
+empty-cells:show; 
+margin:0;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+line-height:24px;
+color:#181818; 	
+border-collapse:collapse;
+text-align:center;
+}
+
+.idc_important_t_thead {
+width:300px;
+height:31px;
+font-weight:bold;
+text-align:left;
+margin:2px 0 0 0;
+padding:0;
+color:#F7F7F7;
+background:url(images/idc_important_t_bg.jpg) no-repeat left;
+}
+
+table.idc_important_t td {
+margin:0;
+padding:0 0 0 25px;
+}
+
+.idc_important_t_tr {
+background:#C9DFF2;
+border-top:1px solid #E6F6F8;
+padding:0 3px 0 3px;
+height:35px;
+}
+
+/*图表a*/
+.idc_chart_a {
+width:301px;
+height:192px;
+margin:10px 0 0 10px;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+background:url(images/idc_chart_a.jpg) no-repeat;
+}
+
+.idc_chart_a_title {
+width:200px;
+height:26px;
+margin:0 0 0 25px;
+padding:10px 0 0 0;
+font-weight:bold;
+font-size:12px;
+color:#FFFFFF;
+}
+
+.idc_chart_a_content {
+width:285px;
+height:142px;
+margin:0;
+padding:6px;
+}
+
+/*图表b*/
+.idc_chart_b {
+width:301px;
+height:192px;
+margin:10px 0 0 10px;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+clear:right;
+background:url(images/idc_chart_a.jpg) no-repeat;
+}
+
+/*图表c 柱状图*/
+.idc_chart_c {
+width:902px;
+height:173px;
+margin:10px 0 0 25px;
+padding:6px 10px 6px 10px;
+font-size:12px;
+font-family:Arial,"宋体";
+background:#E0E9F1;
+clear:both;
+}
+
+/*------------------------index6 表格3-------------------------------*/
+/*仪表盘*/
+.plan_dashboard {
+width:481px;
+height:174px;
+margin:6px 0 0 50px;
+padding:6px;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+background:url(images/plan_dashboard_bg.jpg) no-repeat;
+}
+
+/*图表a*/
+.plan_chart_a {
+width:349px;
+height:186px;
+margin:6px 0 0 10px;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+background:url(images/plan_chart_a.jpg) no-repeat;
+clear:right;
+}
+
+.plan_chart_a_title {
+width:319px;
+height:26px;
+margin:0 0 0 0;
+padding:10px 0 0 30px;
+font-weight:bold;
+font-size:12px;
+color:#FFFFFF;
+}
+
+.plan_chart_a_content {
+width:337px;
+height:136px;
+margin:0;
+padding:6px;
+}
+
+/*图表b*/
+.plan_chart_b {
+width:376px;
+height:180px;
+margin:10px 0 0 50px;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+clear:left;
+}
+
+.plan_chart_b_title {
+width:346px;
+height:22px;
+margin:0 0 0 0;
+padding:10px 0 0 30px;
+font-weight:bold;
+font-size:12px;
+color:#FFFFFF;
+background:url(images/plan_chart_b.jpg) no-repeat;
+}
+
+.plan_chart_b_content {
+width:364px;
+height:138px;
+margin:0;
+padding:6px;
+background:#DBE7F0;
+}
+
+/*图表c*/
+.plan_chart_c {
+width:464px;
+height:180px;
+margin:10px 0 0 12px;
+padding:0;
+font-size:12px;
+font-family:Arial,"宋体";
+float:left;
+clear:right;
+}
+
+.plan_chart_c_title {
+width:434px;
+height:22px;
+margin:0 0 0 0;
+padding:10px 0 0 30px;
+font-weight:bold;
+font-size:12px;
+color:#FFFFFF;
+background:url(images/plan_chart_c.jpg) no-repeat;
+}
+
+.plan_chart_c_content {
+width:452px;
+height:138px;
+margin:0;
+padding:6px;
+background:#DBE7F0;
+}
+
+/*--------------------------------------index7 设备监视---------------------------------*/
+.device_top {
+width:795px;
+height:198px;
+margin:0;
+padding:0;
+background:#FFFFFF;  
+clear:both;
+}
+
+.device_top_1 {
+width:180px;
+height:198px;
+margin:0;
+padding:5px;
+float:left;
+text-align:center;
+background:url(images/device_top_1.jpg) no-repeat; 
+}
+
+.device_top_a {
+width:170px;
+height:20px;
+margin:0 5px 0 5px;
+padding:0;
+text-align:center;
+}
+
+.device_top_b {
+width:170px;
+height:87px;
+margin:0 5px 0 5px;
+padding:0;
+text-align:center;
+}
+
+.device_top_c {
+width:170px;
+height:25px;
+margin:0 5px 0 5px;
+padding:0;
+text-align:center;
+font-weight:bold;
+font-size:12px;
+font-family:Arial,"宋体";
+}
+
+.device_top_d {
+width:170px;
+height:60px;
+margin:0 5px 0 5px;
+padding:0;
+text-align:center;
+}
+
+.device_top_2 {
+width:190px;
+height:198px;
+margin:0 0 0 7px;
+padding:0;
+float:left;
+background:url(images/device_top_2.jpg) no-repeat; 
+}
+
+.device_bottom {
+width:780px;
+height:194px;
+margin:0;
+padding:0;
+background:#E8EEF4;  
+clear:both;
+}
+
+.device_bottom_1 {
+width:180px;
+height:194px;
+margin:0 7px 0 0;
+padding:0; 
+float:left;
+text-align:center;
+}
+
+.device_bottom_a {
+width:180px;
+height:107px;
+margin:7px 0 0 0;
+padding:0;
+}
+
+.device_bottom_b {
+width:180px;
+height:75px;
+margin:5px 0 0 0;
+padding:0;
+}
+
+.device_bottom_2 {
+width:385px;
+height:174px;
+margin:0;
+padding:10px 5px 10px 5px; 
+float:left;
+clear:right;
+}

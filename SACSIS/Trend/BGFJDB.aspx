@@ -83,7 +83,7 @@
 
         $(function () {
 
-            $("#dv_lien").css("width", pageWidth() - 300);
+            $("#dv_lien").css("width", pageWidth() - 380);
             /*设置风机高度*/
             $("#dv_bg").css("height", pageHeight() - 30);
             $("#tree_bg").css("height", pageHeight() - 40);
@@ -149,14 +149,26 @@
                             $("#grid").css("width", pageWidth() - 380);
                             $("#grid").css("height", pageHeight() - 500);
                             showGrid(data);
+                            var treeObj = $.fn.zTree.getZTreeObj("tree_bg");
+                            treeObj.checkAllNodes(false);
+                            treeObj = $.fn.zTree.getZTreeObj("tree_pt");
+                            treeObj.checkAllNodes(false);
+                            idbg = ''; idpt = '';namebg = ''; namept = '';
+
                         } else {
-                            HT();
+                            //HT();
+                            LineStyle();
                             //CHART(data);
                             LoadZXT(data);
                             $("#grid").show();
                             $("#grid").css("width", pageWidth() - 380);
                             $("#grid").css("height", pageHeight() - 500);
                             showGrid(data);
+                            var treeObj = $.fn.zTree.getZTreeObj("tree_bg");
+                            treeObj.checkAllNodes(false);
+                            treeObj = $.fn.zTree.getZTreeObj("tree_pt");
+                            treeObj.checkAllNodes(false);
+                            idbg = ''; idpt = '';namebg = ''; namept = '';
                         }
                     }, 'json');
                 }
@@ -176,50 +188,9 @@
                 //loadMsg: "正在努力为您加载数据", //加载数据时向用户展示的语句
                 //collapsible: true,
                 //remoteSort: false
-//                onLoadSuccess: function (data) {
-//                //datagrid头部 table 的第一个tr 的td们，即columns的集合
-//                var headerTds = $(".datagrid-header-inner table tr:first-child").children();
-//                //datagrid主体 table 的第一个tr 的td们，即第一个数据行
-//                var bodyTds = $(".datagrid-body table tr:first-child").children();
-//                var totalWidth = 0; //合计宽度，用来为datagrid头部和主体设置宽度
-//                //循环设置宽度
-//                bodyTds.each(function (i, obj) {
-//                    var headerTd = $(headerTds.get(i));
-//                    var bodyTd = $(bodyTds.get(i));
-//                    $("div:first-child", headerTds.get(i)).css("text-align", "center");
-//                    var headerTdWidth = headerTd.width(); //获取第i个头部td的宽度
-//                    //这里加5个像素 是因为数据主体我们取的是第一行数据，不能确保第一行数据宽度最宽，预留5个像素。有兴趣的朋友可以先判断最大的td宽度都在进行设置
-//                    var bodyTdWidth = bodyTd.width() + 5;
-//                    var width = 0;
-//                    //如果头部列名宽度比主体数据宽度宽，则它们的宽度都设为头部的宽度。反之亦然
-//                    if (headerTdWidth > bodyTdWidth) {
-//                        width = headerTdWidth;
-//                        bodyTd.width(width);
-//                        headerTd.width(width);
-//                        totalWidth += width;
-//                    } else {
-//                        width = bodyTdWidth;
-//                        headerTd.width(width);
-//                        bodyTd.width(width);
-//                        totalWidth += width;
-//                    }
-//                });
-//                var headerTable = $(".datagrid-header-inner table:first-child");
-//                var bodyTable = $(".datagrid-body table:first-child");
-//                //循环完毕即能得到总得宽度设置到头部table和数据主体table中
-//                headerTable.width(totalWidth);
-//                bodyTable.width(totalWidth);
-//                bodyTds.each(function (i, obj) {
-//                    var headerTd = $(headerTds.get(i));
-//                    var bodyTd = $(bodyTds.get(i));
-//                    var headerTdWidth = headerTd.width();
-//                    bodyTd.width(headerTdWidth);
-//                });
-//            }
-               
-
+                columns: eval(data.columns)
             };
-            options.columns = eval(data.columns); //把返回的数组字符串转为对象，并赋于datagrid的column属性  
+            //把返回的数组字符串转为对象，并赋于datagrid的column属性  
             var dataGrid = $("#grid");
             dataGrid.datagrid(options); //根据配置选项，生成datagrid
             dataGrid.datagrid("loadData", data.rows); //载入本地json格式的数据  
@@ -287,7 +258,7 @@
         }; 
             //-->
 
-
+        //柱形图
         function LoadZXT(a)
         { 
             $('#container').highcharts({
@@ -324,7 +295,10 @@
                                         borderWidth: 0
                                     }
                                 },
-                                series: a.listZXT
+                                series: a.listZXT,
+                                exporting: {
+                                    enabled: false //用来设置是否显示‘打印’,'导出'等功能按钮，不设置时默认为显示 
+                                }
                             });
         }
     </script>
@@ -334,7 +308,7 @@
     <script src="../Js/data.js" type="text/javascript"></script>
     <script src="../Js/exporting.js" type="text/javascript"></script>
     <div id="dv_body">
-        <div id="dv_jz" style="width: 260px; float: left;">
+        <div id="dv_jz" style="width: 340px; float: left;">
             <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
                 <ul id="tree_bg" class="ztree">
                 </ul>

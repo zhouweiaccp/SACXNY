@@ -31,7 +31,7 @@ namespace DAL
                     from (
                         select s.D_VALUE,s.T_UNITID,s.T_TIME,u.T_UNITDESC,u.T_PERIODID from Administrator.T_INFO_STATISCS s 
                         inner join Administrator.T_BASE_UNIT u on s.T_UNITID=u.T_UNITID  
-                        where s.T_UNITID in (" + units + ") and s.T_Time >'" + st + "' and s.T_Time<'" + et + "' and s.T_TJID='DL' and u.T_PERIODID='MGY3') as t group by t.T_UNITDESC";
+                        where s.T_UNITID in (" + units + ") and s.T_Time >'" + st + "' and s.T_Time<'" + et + "' and s.T_TJID='DL' and u.T_PERIODID='SDFDC-QB') as t group by t.T_UNITDESC";
             return dl.RunDataTable(sql, out errMsg);
         }
         #endregion
@@ -47,7 +47,7 @@ namespace DAL
         {
             sql = @"select  s.D_VALUE,s.T_UNITID,s.T_TIME,u.T_UNITDESC,u.T_PERIODID  from Administrator.T_INFO_STATISCS s
                     inner join Administrator.T_BASE_UNIT u on s.T_UNITID=u.T_UNITID  
-                    where s.T_UNITID in (" + untis + ") and s.T_Time >'" + st + "' and s.T_Time<'" + et + "' and s.T_TJID='DL' and u.T_PERIODID='MGY3'";
+                    where s.T_UNITID in (" + untis + ") and s.T_Time >'" + st + "' and s.T_Time<'" + et + "' and s.T_TJID='DL' and u.T_PERIODID='SDFDC-QB'";
             return dl.RunDataTable(sql, out errMsg);
         }
 

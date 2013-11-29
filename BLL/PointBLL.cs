@@ -23,6 +23,18 @@ namespace BLL
         }
 
         /// <summary>
+        /// 获取实时数据
+        /// </summary>
+        /// <param name="point">测点名称</param>
+        /// <param name="sTime">开始时间</param>
+        /// <param name="type">查询类型   日:1 月:2 年:3</param>
+        /// <returns></returns>
+        public IList<Hashtable> GetValList(string points, string sTime, string type)
+        {
+            return point.GetValList(points, sTime, type);
+        }
+
+        /// <summary>
         /// 获取多个数据测点的历史值
         /// </summary>
         /// <param name="points">测点集合</param>
@@ -82,5 +94,6 @@ namespace BLL
         {
             return point.GetPointVal(points, time);
         }
+
     }
 }
