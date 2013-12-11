@@ -16,11 +16,11 @@
         $(function () {
             /*初始化数据*/
             Init();
-//            setInterval(function () {
-//                Init();
-//            }, 1000 * 10);
+            //            setInterval(function () {
+            //                Init();
+            //            }, 1000 * 10);
 
-         
+
             var num;
             $("#btnFirst").click(function () {
                 if ($("#sp_num").val() == "1") {
@@ -181,7 +181,7 @@
                     </td>
                 </tr>
             </table>
-            <table style="position: absolute; left: 10px; top: 120px;">
+            <table style="position: absolute; left: 10px; top: 120px; font-size: 13px;">
                 <tr>
                     <td>
                         <table style="background-image: url(../img/fjjk_dt_tb1.png); height: 372px; width: 240px;">

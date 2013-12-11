@@ -99,6 +99,88 @@
             /*初始化数据*/
             Init();
 
+            $("#FValue").change(function () {
+                $.post("BGFJDB.aspx", {
+                    param: 'org',
+                    id: $("#FValue").val()
+                }, function (data) {
+                    $("#GValue").empty();
+                    if (data.intNumber == 1) {
+                        $("#divGQ").hide();
+                    }
+                    else {
+                        $("#divGQ").show();
+
+                    }
+                    var lists = data.list2;
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                    }
+                    //                    if (data.list3 != "" && data.list3 != null) {
+                    //                        var zNodes = eval(data.list3);
+                    //                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                    //                    }
+                    //                    else {
+                    //                        $.messager.alert('选择提示', '没有风机数据', 'warning');
+                    //                        var zNodes = eval(data.list3);
+                    //                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                    //                    }
+                    var lists = data.list1;
+                    $("#CValue").empty();
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#CValue").append("<option value='" + lists[i].ID + "'>" + lists[i].NAME + "</option>");
+                        }
+                    } else {
+                        $("#CValue").append("<option value='0'>没有风场数据</option>");
+                    }
+                }, 'json');
+            });
+
+            $("#CValue").change(function () {
+                $.post("BGFJDB.aspx", {
+                    param: 'gq',
+                    id: $("#CValue").val()
+                }, function (data) {
+                    $("#GValue").empty();
+                    if (data.intNumber == 1) {
+                        $("#divGQ").hide();
+                    }
+                    else {
+                        $("#divGQ").show();
+                    }
+                    var lists = data.list1;
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                        if (data.infoBg != "" && data.infoBg != null) {
+                            var zNodes = eval(data.infoBg);
+                            $.fn.zTree.init($("#tree_bg"), settingLeft, zNodes);
+                        }
+                        else {
+                            //$.messager.alert('选择提示', '没有风机数据', 'warning');
+                            var zNodes = eval(data.infoBg);
+                            $.fn.zTree.init($("#tree_bg"), settingRight, zNodes);
+
+                        }
+                        if (data.infoPt != "" && data.infoPt != null) {
+                            var zNodes = eval(data.infoPt);
+                            $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                        }
+                        else {
+                            //$.messager.alert('选择提示', '没有风机数据', 'warning');
+                            var zNodes = eval(data.infoPt);
+                            $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                        }
+                    }
+
+
+                }, 'json');
+            });
+
             $("#GValue").change(function () {
                 //清空记录
                 idbg = '';
@@ -110,29 +192,21 @@
                         var zNodes = eval(data.infoBg);
                         $.fn.zTree.init($("#tree_bg"), settingLeft, zNodes);
                     }
-
-                    if (data.infoPt != "" && data.infoPt != null) {
-                        var zNodes = eval(data.infoPt);
-                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
-                    }
-                }, 'json');
-            });
-
-            $("#ZType").change(function () {
-                //清空记录
-                idbg = '';
-                idpt == '';
-                namebg = '';
-                namept = '';
-                $.post("BGFJDB.aspx", { param: 'unit', id: $("#GValue").val() }, function (data) {
-                    if (data.infoBg != "" && data.infoBg != null) {
+                    else {
+                        //$.messager.alert('选择提示', '没有风机数据', 'warning');
                         var zNodes = eval(data.infoBg);
-                        $.fn.zTree.init($("#tree_bg"), settingLeft, zNodes);
-                    }
+                        $.fn.zTree.init($("#tree_bg"), settingRight, zNodes);
 
+                    }
                     if (data.infoPt != "" && data.infoPt != null) {
                         var zNodes = eval(data.infoPt);
                         $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+                    }
+                    else {
+                        //$.messager.alert('选择提示', '没有风机数据', 'warning');
+                        var zNodes = eval(data.infoPt);
+                        $.fn.zTree.init($("#tree_pt"), settingRight, zNodes);
+
                     }
                 }, 'json');
             });
@@ -153,7 +227,7 @@
                             treeObj.checkAllNodes(false);
                             treeObj = $.fn.zTree.getZTreeObj("tree_pt");
                             treeObj.checkAllNodes(false);
-                            idbg = ''; idpt = '';namebg = ''; namept = '';
+                            idbg = ''; idpt = ''; namebg = ''; namept = '';
 
                         } else {
                             //HT();
@@ -168,7 +242,7 @@
                             treeObj.checkAllNodes(false);
                             treeObj = $.fn.zTree.getZTreeObj("tree_pt");
                             treeObj.checkAllNodes(false);
-                            idbg = ''; idpt = '';namebg = ''; namept = '';
+                            idbg = ''; idpt = ''; namebg = ''; namept = '';
                         }
                     }, 'json');
                 }
@@ -207,6 +281,16 @@
                     }
                 } else {
                     $("#FValue").append("<option value='0'>没有分公司数据</option>");
+                }
+
+                var lists = data.listC;
+                $("#CValue").empty();
+                if (lists != null) {
+                    for (var i = 0; i < lists.length; i++) {
+                        $("#CValue").append("<option value='" + lists[i].ID + "'>" + lists[i].NAME + "</option>");
+                    }
+                } else {
+                    $("#CValue").append("<option value='0'>没有风场数据</option>");
                 }
 
                 var lists = data.lt;
@@ -308,7 +392,7 @@
     <script src="../Js/data.js" type="text/javascript"></script>
     <script src="../Js/exporting.js" type="text/javascript"></script>
     <div id="dv_body">
-        <div id="dv_jz" style="width: 340px; float: left;">
+        <div id="dv_jz" style="width: 280px; float: left;">
             <div id="dv_bg" class="zTreeDemoBackground left" style="float: left;">
                 <ul id="tree_bg" class="ztree">
                 </ul>
@@ -319,15 +403,28 @@
             </div>
         </div>
         <div id="dv_lien" style="float: right;">
-            <div id="dv_d">
-                &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
-                <select id="FValue" style="width: 120px; text-align: center;">
-                </select>
-                &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
-                <select id="GValue" style="width: 120px; text-align: center;">
-                </select>&nbsp;&nbsp;&nbsp;指标类型&nbsp;
-                <select id="ZType" style="width: 120px; text-align: center;">
-                </select><br />
+            <div id="dv_d" >
+                <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
+                    <select id="FValue" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
+                <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
+                    <select id="CValue" style="width: 130px; text-align: center;">
+                    </select>
+                </div>
+                <div id="divGQ" style="float: left">
+                    &nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;
+                    <select id="GValue" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
+                <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;指标类型&nbsp;
+                    <select id="ZType" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
+                <br />
                 <br />
                 <span>&nbsp; &nbsp;开始时间</span>
                 <input type="text" id="txtS" style="text-align: center; width: 180px;" runat="server"

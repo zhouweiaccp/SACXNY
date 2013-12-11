@@ -68,6 +68,18 @@ namespace DAL
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oid"></param>
+        /// <returns></returns>
+        public IList<Hashtable> GetUnitByOrgId(string oid)
+        {
+            sql = "select * from (select  T_UNITID,T_UNITDESC,T_MACHINEID,I_FLAG,(select T_ORGID from ADMINISTRATOR.T_BASE_PERIOD p where p.T_PERIODID=t.T_PERIODID) from ADMINISTRATOR.T_BASE_UNIT t) where T_ORGID='" + oid + "'";
+            dt = db.RunDataTable(sql, out errMsg);
+            return DataTableToList(dt);
+        }
+
         #endregion
 
         #region 获取测点集合  根据 工期编号 机组 和 曲线类型

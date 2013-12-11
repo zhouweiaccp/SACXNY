@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head id="Head1" runat="server">
-    <title>汉能控股集团总部光伏电站数据监测平台</title>
+    <title>华电福新能源股份有限公司</title>
     <link href="Js/jQueryEasyUI/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
     <link href="css/update8.css" rel="stylesheet" type="text/css" />
     <script src="Js/jquery-1.8.2.min.js" type="text/javascript"></script>
@@ -150,7 +150,7 @@
                 width: 100%">
                 <div id="dv_head" style="height: 50px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px;
                     margin-top: 0px;">
-                    <img src="../img/banner.jpg" height="50" alt="" />
+                    <img src="../img/banner_fx.jpg" height="50" alt="" />
                 </div>
             </td>
         </tr>

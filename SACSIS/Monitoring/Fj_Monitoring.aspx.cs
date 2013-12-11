@@ -17,7 +17,7 @@ namespace SACSIS.Monitoring
         private PointsBLL pointsdll = new PointsBLL();
 
         private StringBuilder st = new StringBuilder();
-        private string id = "MGY3";
+        private string id = "SDFDC-QB";
         private static DataTable dt = new DataTable();
         protected void Page_Load(object sender, EventArgs e)
         {

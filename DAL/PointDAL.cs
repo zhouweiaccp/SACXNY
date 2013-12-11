@@ -46,6 +46,11 @@ namespace DAL
         /// <returns></returns>
         public IList<Hashtable> GetVal(string[] points, string[] pointNames, string sTime, string eTime, int seconds)
         {
+            if (points.Length < 1)
+            {
+                return null;
+            }
+
             Plink pk = new Plink();
             //DateTime dt = new DateTime();
             int num = 0;

@@ -53,6 +53,16 @@
                     $("#FValue").append("<option value='0'>没有分公司数据</option>");
                 }
 
+                var lists = data.listC;
+                $("#CValue").empty();
+                if (lists != null) {
+                    for (var i = 0; i < lists.length; i++) {
+                        $("#CValue").append("<option value='" + lists[i].ID + "'>" + lists[i].NAME + "</option>");
+                    }
+                } else {
+                    $("#CValue").append("<option value='0'>没有风场数据</option>");
+                }
+
                 var lists = data.lt;
                 $("#GValue").empty();
                 if (lists != null) {
@@ -62,6 +72,7 @@
                 } else {
                     $("#GValue").append("<option value='0'>没有工期数据</option>");
                 }
+
                 /*指标类型*/
                 $("#ZType").empty();
                 $("#ZType").append("<option value='1'>功率</option>");
@@ -95,6 +106,78 @@
             //            getLine("");
             /*初始化数据*/
 
+
+            $("#FValue").change(function () {
+                $.post("TRadio.aspx", {
+                    param: 'org',
+                    id: $("#FValue").val()
+                }, function (data) {
+                    $("#GValue").empty();
+                    if (data.intNumber == 1) {
+                        $("#divGQ").hide();
+                    }
+                    else {
+                        $("#divGQ").show();
+
+                    }
+                    var lists = data.list2;
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                    }
+                    if (data.list3 != "" && data.list3 != null) {
+                        var zNodes = eval(data.list3);
+                        $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+                    }
+                    else {
+                        $.messager.alert('选择提示', '没有风机数据', 'warning');
+                        var zNodes = eval(data.list3);
+                        $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+                    }
+                    var lists = data.list1;
+                    $("#CValue").empty();
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#CValue").append("<option value='" + lists[i].ID + "'>" + lists[i].NAME + "</option>");
+                        }
+                    } else {
+                        $("#CValue").append("<option value='0'>没有风场数据</option>");
+                    }
+                }, 'json');
+            });
+
+            $("#CValue").change(function () {
+                $.post("TRadio.aspx", {
+                    param: 'gq',
+                    id: $("#CValue").val()
+                }, function (data) {
+                    $("#GValue").empty();
+                    if (data.intNumber == 1) {
+                        $("#divGQ").hide();
+                    }
+                    else {
+                        $("#divGQ").show();
+                    }
+                    var lists = data.list1;
+                    if (lists != null) {
+                        for (var i = 0; i < lists.length; i++) {
+                            $("#GValue").append("<option value='" + lists[i].T_PERIODID + "'>" + lists[i].T_PERIODDESC + "</option>");
+                        }
+                        if (data.list2 != "" && data.list2 != null) {
+                            var zNodes = eval(data.list2);
+                            $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+                        }
+                        else {
+                            $.messager.alert('选择提示', '没有风机数据', 'warning');
+                            var zNodes = eval(data.list2);
+                            $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+                        }
+                    }
+
+                }, 'json');
+            });
+
             //根据风场获取机组信息
             $("#GValue").change(function () {
                 //                //清空记录
@@ -106,6 +189,11 @@
                     if (data.info != "" && data.info != null) {
                         var zNodes = eval(data.info);
                         $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+                    } else {
+                        //$.messager.alert('选择提示', '没有风机数据', 'warning');
+                        var zNodes = eval(data.info);
+                        $.fn.zTree.init($("#tree_bg"), setPer, zNodes);
+
                     }
                 }, 'json');
             });
@@ -115,7 +203,7 @@
                     type: "POST",
                     dataType: "json",
                     url: "TRadio.aspx",
-                    data: { param: 'lineyear', gq: 'MGY3', zType: $("#ZType").val(), tTtype: $("#TType").val(), id: "00016", name: escape($("#txtName").val()), time: GetTime() },
+                    data: { param: 'lineyear', gq: $("#GValue").val(), zType: $("#ZType").val(), tTtype: $("#TType").val(), id: escape($("#txtID").val()), name: escape($("#txtName").val()), time: GetTime() },
                     success: function (data) {
                         //功率 或 风速 
                         if ($("#ZType").val() == "1" || $("#ZType").val() == "2") {
@@ -530,14 +618,26 @@
     </div>
     <div id="dv_lien" style="float: right;">
         <div id="dv_d">
-            &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
-            <select id="FValue" style="width: 120px; text-align: center;">
-            </select>
-            &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
-            <select id="GValue" style="width: 120px; text-align: center;">
-            </select>&nbsp;&nbsp;&nbsp;指标类型&nbsp;
-            <select id="ZType" style="width: 120px; text-align: center;">
-            </select>
+            <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;公&nbsp;&nbsp;&nbsp;&nbsp;司
+                    <select id="FValue" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
+                <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;风&nbsp;&nbsp;&nbsp;&nbsp;场&nbsp;
+                    <select id="CValue" style="width: 130px; text-align: center;">
+                    </select>
+                </div>
+                <div id="divGQ" style="float: left">
+                    &nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;
+                    <select id="GValue" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
+                <div style="float: left">
+                    &nbsp;&nbsp;&nbsp;指标类型&nbsp;
+                    <select id="ZType" style="width: 120px; text-align: center;">
+                    </select>
+                </div>
             <br />
             <br />
             &nbsp;&nbsp;&nbsp;统计类型

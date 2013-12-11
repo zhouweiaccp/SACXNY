@@ -42,6 +42,17 @@ namespace BLL
         {
             return pd.GetUnits(periodId);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oid"></param>
+        /// <returns></returns>
+        public IList<Hashtable> GetUnitByOrgId(string oid)
+        {
+            return pd.GetUnitByOrgId(oid);
+        }
+
         #endregion
 
         #region 获取测点集合  根据 工期编号 机组 和 曲线类型

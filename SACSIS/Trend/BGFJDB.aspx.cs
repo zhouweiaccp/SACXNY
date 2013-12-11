@@ -19,6 +19,7 @@ namespace Web.LineAndChart
         private PointBLL _pb = new PointBLL();
         private BLL_STATISCS _sta = new BLL_STATISCS();
 
+        private WppBLL _wd = new WppBLL();
         private static string _xml = "FD";
         private string result = "";
 
@@ -55,6 +56,17 @@ namespace Web.LineAndChart
                     string id = Request["id"];
                     GetUnit(id);
                 }
+
+                else if (param == "org")
+                {
+                    string id = Request["id"];
+                    GetOrgName(id);
+                }
+                else if (param == "gq")
+                {
+                    string id = Request["id"];
+                    GetGQName(id);
+                }
             }
             else
             {
@@ -62,6 +74,121 @@ namespace Web.LineAndChart
             }
             txtS.Value = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 0:00:00");
             txtE.Value = DateTime.Now.ToString("yyyy-MM-dd 0:00:00");
+        }
+
+        private void GetOrgName(string companyID)
+        {
+            IList<Hashtable> listOrg = new List<Hashtable>();
+            IList<Hashtable> listGQ = new List<Hashtable>();
+            string _treePt_Info = "";
+            int a = 0;
+            DataTable _dtOrg = _wd.GetOrg(companyID);
+            if (_dtOrg.Rows.Count > 0)
+            {
+                for (int j = 0; j < _dtOrg.Rows.Count; j++)
+                {
+                    _ht = new Hashtable();
+                    _ht.Add("ID", _dtOrg.Rows[j]["T_ORGID"].ToString());     //风场编码
+                    _ht.Add("NAME", _dtOrg.Rows[j]["T_ORGDESC"].ToString());   //风场名称
+                    listOrg.Add(_ht);
+                }
+                listGQ = _wd.GetPeriod(_dtOrg.Rows[0]["T_ORGID"].ToString());
+                IList<Hashtable> list = new List<Hashtable>();
+                //_ht = new Hashtable();
+
+                if (listGQ != null)
+                {
+                    if (listGQ[0]["T_PERIODDESC"].ToString().Equals("全部"))
+                    {
+                        a = 1;
+                    }
+                    //_ht = listGQ[0];
+                    string _pid = listGQ[0]["T_PERIODID"].ToString();
+                    list = _wd.GetUnits(_pid);
+
+                    if (list != null)
+                    {
+                        _treePt_Info += "{id:'0',pId:'00',name:'风机',t:'风机', open:true},";
+                        foreach (Hashtable ht in list)
+                        {
+                            _treePt_Info += "{id:'" + ht["T_UNITID"] + "',pId:'0',name:'" + ht["T_UNITDESC"] + "',t:'" + ht["T_UNITDESC"] + "'},";
+                        }
+                        if (_treePt_Info.Length > 0)
+                        {
+                            _treePt_Info = _treePt_Info.Substring(0, _treePt_Info.Length - 1);
+                            _treePt_Info = "[" + _treePt_Info + "]";
+                        }
+                    }
+                }
+            }
+            object obj = new
+            {
+                list1 = listOrg,
+                list2 = listGQ,
+                list3 = _treePt_Info,
+                intNumber = a
+            };
+            result = JsonConvert.SerializeObject(obj);
+            Response.Write(result);
+            Response.End();
+        }
+
+        private void GetGQName(string orgID)
+        {
+            IList<Hashtable> listOrg = new List<Hashtable>();
+            listOrg = _wd.GetPeriod(orgID);
+
+            IList<Hashtable> list = new List<Hashtable>();
+            int a = 0;
+            //string _treePt_Info = "";
+            if (listOrg != null)
+            {
+                if (listOrg[0]["T_PERIODDESC"].ToString().Equals("全部"))
+                {
+                    a = 1;
+                }
+                //_ht = listOrg[0];
+                
+            }
+            list = _pd.GetUnitByOrgId(orgID);
+
+            string _treeBg_Info = "";
+            string _treePt_Info = "";
+            if (list != null)
+            {
+                _treeBg_Info += "{id:'0',pId:'00',name:'标杆风机',t:'标杆风机', open:true},";
+                _treePt_Info += "{id:'0',pId:'00',name:'普通风机',t:'普通风机', open:true},";
+                foreach (Hashtable ht in list)
+                {
+                    if (ht["I_FLAG"].ToString() == "1")
+                        _treeBg_Info += "{id:'" + ht["T_UNITID"] + "',pId:'0',name:'" + ht["T_UNITDESC"] + "',t:'" + ht["T_UNITDESC"] + "'},";
+                    else if (ht["I_FLAG"].ToString() == "0")
+                        _treePt_Info += "{id:'" + ht["T_UNITID"] + "',pId:'0',name:'" + ht["T_UNITDESC"] + "',t:'" + ht["T_UNITDESC"] + "'},";
+                }
+
+                if (_treeBg_Info.Length > 0)
+                {
+                    _treeBg_Info = _treeBg_Info.Substring(0, _treeBg_Info.Length - 1);
+                    _treeBg_Info = "[" + _treeBg_Info + "]";
+                }
+
+                if (_treePt_Info.Length > 0)
+                {
+                    _treePt_Info = _treePt_Info.Substring(0, _treePt_Info.Length - 1);
+                    _treePt_Info = "[" + _treePt_Info + "]";
+                }
+            }
+            object obj = new
+            {
+                list1 = listOrg,
+                intNumber = a,
+                list2 = _treePt_Info,
+                infoBg = _treeBg_Info,
+                infoPt = _treePt_Info
+            };
+            result = JsonConvert.SerializeObject(obj);
+            Response.Write(result);
+            Response.End();
         }
 
         #region 获取机组数据
@@ -156,44 +283,53 @@ namespace Web.LineAndChart
                 if (type == "1" || type == "2")
                 {
                     list = _pb.GetVal(_points, namebg.Split(','), sTime, eTime, 15 * 60);
-                    //listData = _pb.GetValToTable(_points, namebg.Split(','), sTime, eTime, 15 * 60); 
 
-                    int day = Convert.ToDateTime(eTime).Day - Convert.ToDateTime(sTime).Day;
-                    int hour = Convert.ToDateTime(eTime).Hour - Convert.ToDateTime(sTime).Hour;
-                    int minute = Convert.ToDateTime(eTime).Minute - Convert.ToDateTime(sTime).Minute;
-                    int second = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
-
-                    second = day * 24 * 3600 + hour * 3600 + minute * 60 * second;
-
-                    int num = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
-                    num = second / 15 / 60;
-                    if (second % 15 / 60 != 0)
-                        num += 1;
-
-
-                    for (int i = 0; i < num; i++)
+                    if (list == null)
                     {
-                        sTime = Convert.ToDateTime(sTime).AddSeconds(15 * 60).ToString();
-                        eTime = sTime;
-                        Hashtable ht = new Hashtable();
-                        ht.Add("时间", eTime);
-                        //listData.Add(ht);
 
-                        foreach (Hashtable htv in list)
-                        {
-                            ArrayList listD = (ArrayList)htv["data"];
-                            ArrayList listV = (ArrayList)listD[i];
-                            string tname = htv["name"].ToString();
-                            string vname = "";
-                            if (listV.Count > 1)
-                                vname = listV[1].ToString();
-                            else
-                                vname = "0";
-                            ht.Add(tname, vname);//vname is value ? wo  d  jiu shi  zheme shezhi d 
-                        }
-
-                        listData.Add(ht);
                     }
+                    else
+                    {
+                        //listData = _pb.GetValToTable(_points, namebg.Split(','), sTime, eTime, 15 * 60); 
+
+                        int day = Convert.ToDateTime(eTime).Day - Convert.ToDateTime(sTime).Day;
+                        int hour = Convert.ToDateTime(eTime).Hour - Convert.ToDateTime(sTime).Hour;
+                        int minute = Convert.ToDateTime(eTime).Minute - Convert.ToDateTime(sTime).Minute;
+                        int second = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
+
+                        second = day * 24 * 3600 + hour * 3600 + minute * 60 * second;
+
+                        int num = Convert.ToDateTime(eTime).Second - Convert.ToDateTime(sTime).Second;
+                        num = second / 15 / 60;
+                        if (second % 15 / 60 != 0)
+                            num += 1;
+
+
+                        for (int i = 0; i < num; i++)
+                        {
+                            sTime = Convert.ToDateTime(sTime).AddSeconds(15 * 60).ToString();
+                            eTime = sTime;
+                            Hashtable ht = new Hashtable();
+                            ht.Add("时间", eTime);
+                            //listData.Add(ht);
+
+                            foreach (Hashtable htv in list)
+                            {
+                                ArrayList listD = (ArrayList)htv["data"];
+                                ArrayList listV = (ArrayList)listD[i];
+                                string tname = htv["name"].ToString();
+                                string vname = "";
+                                if (listV.Count > 1)
+                                    vname = listV[1].ToString();
+                                else
+                                    vname = "0";
+                                ht.Add(tname, vname);//vname is value ? wo  d  jiu shi  zheme shezhi d 
+                            }
+
+                            listData.Add(ht);
+                        }
+                    }
+                    
                 } 
                 else if(type == "3" || type == "4")
                 {
@@ -289,31 +425,52 @@ namespace Web.LineAndChart
             DataTable _dtXml = GetDataTableXml(_xml);
             DataRow[] _drXml = _dtXml.Select("PID=10001");
 
+            DataTable _dtCompany = _wd.dtGetCompany();
+
             IList<Hashtable> _company = new List<Hashtable>();  //公司
             IList<Hashtable> _fc = new List<Hashtable>();       //风场
+            IList<Hashtable> _fgs = new List<Hashtable>();       //分公司
             IList<Hashtable> _listB = new List<Hashtable>();//标杆风机
             string _str_b = "";
             string _str_f = "";
             IList<Hashtable> _listF = new List<Hashtable>();//非标杆风机
-
-            if (_drXml.Length > 0)
+            int a = 0;
+            if (_dtCompany.Rows.Count > 0)
             {
-                for (int i = 0; i < _drXml.Length; i++)
+                for (int i = 0; i < _dtCompany.Rows.Count; i++)
                 {
                     _ht = new Hashtable();
-                    _ht.Add("ID", _drXml[i][0].ToString());     //公司编码
-                    _ht.Add("NAME", _drXml[i][1].ToString());   //公司名称
+                    _ht.Add("ID", _dtCompany.Rows[i]["T_COMID"].ToString());     //公司编码
+                    _ht.Add("NAME", _dtCompany.Rows[i]["T_COMDESC"].ToString());   //公司名称
                     _company.Add(_ht);
                 }
 
-                string _companyId = _drXml[0][0].ToString();
-                _fc = _pd.GetPeriod(_companyId);
+                string _companyId = _dtCompany.Rows[0]["T_COMID"].ToString();
+                //_fc = _pd.GetPeriod(_companyId);
+                DataTable _dtOrg = _wd.GetOrg(_companyId);
+                if (_dtOrg.Rows.Count > 0)
+                {
+                    for (int j = 0; j < _dtOrg.Rows.Count; j++)
+                    {
+                        _ht = new Hashtable();
+                        _ht.Add("ID", _dtOrg.Rows[j]["T_ORGID"].ToString());     //风场编码
+                        _ht.Add("NAME", _dtOrg.Rows[j]["T_ORGDESC"].ToString());   //风场名称
+                        _fgs.Add(_ht);
+                    }
+                    string _orgid = _dtOrg.Rows[0]["T_ORGID"].ToString();
+                    _fc = _wd.GetPeriod(_orgid);
+                }  
 
                 if (_fc != null)
                 {
                     _ht = new Hashtable();
                     _ht = _fc[0];
 
+                    string _pname = _ht["T_PERIODDESC"].ToString();
+                    if (_pname.Equals("全部"))
+                    {
+                        a = 1;
+                    }
                     string _pid = _ht["T_PERIODID"].ToString();
                     DataTable _dtUnit = _pd.GetUnit(_pid);
 
@@ -366,9 +523,11 @@ namespace Web.LineAndChart
             object obj = new
             {
                 list = _company,
+                listC = _fgs,
                 listB = _str_b,
                 listF = _str_f,
-                lt = _fc
+                lt = _fc,
+                intNumber = a
             };
             result = JsonConvert.SerializeObject(obj);
             Response.Write(result);

@@ -16,8 +16,8 @@
   <parment id="300" name="福新公司" pId="11" order="2" visible="1" owner=",1,2," FileName="" />
   <parment id="301" name="玫瑰营公司" pId="300" order="2" visible="1" owner=",1,2," FileName="" />
   <parment id="302" name="玫瑰营一期" pId="301" order="1" visible="1" owner=",1,2," FileName="../Html/fjfb.html" />
-  <parment id="303" name="风机监控" pId="307" order="1" visible="1" owner=",1,2," FileName="../Monitoring/Fj_Monitoring.aspx?id=MGY3" />
-  <parment id="304" name="升压站监控" pId="307" order="2" visible="1" owner=",1,2," FileName="../Html/SYZ.htm" />
+  <parment id="303" name="风机监控" pId="307" order="1" visible="1" owner=",1,2," FileName="../Monitoring/Fj_Monitoring.aspx?id=SDFDC-QB" />
+  <parment id="304" name="升压站监控" pId="307" order="2" visible="1" owner=",1,2," FileName="" />
   <parment id="306" name="玫瑰营二期" pId="301" order="1" visible="1" owner=",1,2," FileName="" />
   <parment id="307" name="三胜风场" pId="301" order="1" visible="1" owner=",1,2," FileName="" />
   <parment id="308" name="富丽达风场" pId="301" order="1" visible="1" owner=",1,2," FileName="" />
@@ -34,11 +34,11 @@
   <parment id="140" name="日经济数据修正" pId="35" order="1" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=FXGSRJJSJ@1@FXGS" />
   <parment id="38" name="月项目进度修正" pId="35" order="2" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=YXMJDSJ@2@FXGS" />
   <parment id="39" name="年项目进度修正" pId="35" order="3" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=NJHTCRL@3@FXGS" />
-  <parment id="42" name="测试二纬" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@1@MGY1" />
+  <!--<parment id="42" name="测试二纬" pId="35" order="7" visible="1" owner=",1,2," FileName="../Form/UpData.aspx?id=MGY1RL@1@MGY1" />-->
   <parment id="24" name="数据维护" pId="1" order="12" visible="1" owner=",1,2," FileName=""/>
   <parment id="36" name="玫瑰营一期" pId="24" order="1" visible="1" owner=",1,2," FileName=""/>
   <parment id="43" name="电量数据维护" pId="36" order="1" visible="1" owner=",1,2," FileName="../DataMaintenance/FansPower.aspx"/>
-  <parment id="44" name="限负荷数据维护" pId="36" order="2" visible="1" owner=",1,2," FileName="../DataMaintenance/FansFaultCount.aspx"/>
+  <parment id="44" name="故障数据维护" pId="36" order="2" visible="1" owner=",1,2," FileName="../DataMaintenance/FansFaultCount.aspx"/>
   <parment id="701" name="系统管理" pId="7" order="4" visible="1" owner=",1," FileName="" />
   <parment id="702" name="菜单管理" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManageMenu.aspx" />
   <parment id="705" name="权限分配" pId="701" order="1" visible="1" owner=",1," FileName="../Admin/ManagePower.aspx" />

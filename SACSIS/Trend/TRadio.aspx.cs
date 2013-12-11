@@ -19,6 +19,7 @@ namespace Web.LineAndChart
         private PointBLL _pointbll = new PointBLL();
         private BLL_STATISCS _sta = new BLL_STATISCS();
 
+        private WppBLL _wd = new WppBLL();
         private static string _xml = "FD";
         private string result = "";
 
@@ -48,6 +49,17 @@ namespace Web.LineAndChart
                         string name = HttpUtility.UrlDecode(Request["name"]);    //机组名称
                         string gq = Request["gq"];                               //工期
                         ShowLineYear(id, zType, tType, time, gq);
+                    }
+
+                    else if (param == "org")
+                    {
+                        string id = Request["id"];
+                        GetOrgName(id);
+                    }
+                    else if (param == "gq")
+                    {
+                        string id = Request["id"];
+                        GetGQName(id);
                     }
                 }
             }
@@ -315,6 +327,106 @@ namespace Web.LineAndChart
             return columns.ToString();
         }
 
+        private void GetOrgName(string companyID)
+        {
+            IList<Hashtable> listOrg = new List<Hashtable>();
+            IList<Hashtable> listGQ = new List<Hashtable>();
+            string _treePt_Info = "";
+            int a = 0;
+            DataTable _dtOrg = _wd.GetOrg(companyID);
+            if (_dtOrg.Rows.Count > 0)
+            {
+                for (int j = 0; j < _dtOrg.Rows.Count; j++)
+                {
+                    _ht = new Hashtable();
+                    _ht.Add("ID", _dtOrg.Rows[j]["T_ORGID"].ToString());     //风场编码
+                    _ht.Add("NAME", _dtOrg.Rows[j]["T_ORGDESC"].ToString());   //风场名称
+                    listOrg.Add(_ht);
+                }
+                listGQ = _wd.GetPeriod(_dtOrg.Rows[0]["T_ORGID"].ToString());
+                IList<Hashtable> list = new List<Hashtable>();
+                //_ht = new Hashtable();
+
+                if (listGQ != null)
+                {
+                    if (listGQ[0]["T_PERIODDESC"].ToString().Equals("全部"))
+                    {
+                        a = 1;
+                    }
+                    //_ht = listGQ[0];
+                    string _pid = listGQ[0]["T_PERIODID"].ToString();
+                    list = _wd.GetUnits(_pid);
+
+                    if (list != null)
+                    {
+                        _treePt_Info += "{id:'0',pId:'00',name:'风机',t:'风机', open:true},";
+                        foreach (Hashtable ht in list)
+                        {
+                            _treePt_Info += "{id:'" + ht["T_UNITID"] + "',pId:'0',name:'" + ht["T_UNITDESC"] + "',t:'" + ht["T_UNITDESC"] + "'},";
+                        }
+                        if (_treePt_Info.Length > 0)
+                        {
+                            _treePt_Info = _treePt_Info.Substring(0, _treePt_Info.Length - 1);
+                            _treePt_Info = "[" + _treePt_Info + "]";
+                        }
+                    }
+                }
+            }
+            object obj = new
+            {
+                list1 = listOrg,
+                list2 = listGQ,
+                list3 = _treePt_Info,
+                intNumber = a
+            };
+            result = JsonConvert.SerializeObject(obj);
+            Response.Write(result);
+            Response.End();
+        }
+
+        private void GetGQName(string orgID)
+        {
+            IList<Hashtable> listOrg = new List<Hashtable>();
+            listOrg = _wd.GetPeriod(orgID);
+
+            IList<Hashtable> list = new List<Hashtable>();
+            int a = 0;
+            string _treePt_Info = "";
+            if (listOrg != null)
+            {
+                if (listOrg[0]["T_PERIODDESC"].ToString().Equals("全部"))
+                {
+                    a = 1;
+                }
+                //_ht = listOrg[0];
+                string _pid = listOrg[0]["T_PERIODID"].ToString();
+                list = _wd.GetUnits(_pid);
+
+                if (list != null)
+                {
+                    _treePt_Info += "{id:'0',pId:'00',name:'风机',t:'风机', open:true},";
+                    foreach (Hashtable ht in list)
+                    {
+                        _treePt_Info += "{id:'" + ht["T_UNITID"] + "',pId:'0',name:'" + ht["T_UNITDESC"] + "',t:'" + ht["T_UNITDESC"] + "'},";
+                    }
+                    if (_treePt_Info.Length > 0)
+                    {
+                        _treePt_Info = _treePt_Info.Substring(0, _treePt_Info.Length - 1);
+                        _treePt_Info = "[" + _treePt_Info + "]";
+                    }
+                }
+            }
+            object obj = new
+            {
+                list1 = listOrg,
+                intNumber = a,
+                list2 = _treePt_Info
+            };
+            result = JsonConvert.SerializeObject(obj);
+            Response.Write(result);
+            Response.End();
+        }
+
         #region 获取机组数据
         private void GetUnit(string gq)
         {
@@ -353,27 +465,50 @@ namespace Web.LineAndChart
             DataTable _dtXml = GetDataTableXml(_xml);
             DataRow[] _drXml = _dtXml.Select("PID=10001");
 
+            DataTable _dtCompany = _wd.dtGetCompany();
+
             IList<Hashtable> _company = new List<Hashtable>();  //公司
+            IList<Hashtable> _fgs = new List<Hashtable>();       //分公司
             IList<Hashtable> _fc = new List<Hashtable>();       //风场
             string _str_b = "";                                 //风机
+            int a = 0;
 
-            if (_drXml.Length > 0)
+            if (_dtCompany.Rows.Count > 0)
             {
-                for (int i = 0; i < _drXml.Length; i++)
+                for (int i = 0; i < _dtCompany.Rows.Count; i++)
                 {
                     _ht = new Hashtable();
-                    _ht.Add("ID", _drXml[i][0].ToString());     //公司编码
-                    _ht.Add("NAME", _drXml[i][1].ToString());   //公司名称
+                    _ht.Add("ID", _dtCompany.Rows[i]["T_COMID"].ToString());     //公司编码
+                    _ht.Add("NAME", _dtCompany.Rows[i]["T_COMDESC"].ToString());   //公司名称
                     _company.Add(_ht);
                 }
 
-                string _companyId = _drXml[0][0].ToString();
-                _fc = _pd.GetPeriod(_companyId);
+                string _companyId = _dtCompany.Rows[0]["T_COMID"].ToString();
+                //_fc = _pd.GetPeriod(_companyId);
+                DataTable _dtOrg = _wd.GetOrg(_companyId);
+                if (_dtOrg.Rows.Count > 0)
+                {
+                    for (int j = 0; j < _dtOrg.Rows.Count; j++)
+                    {
+                        _ht = new Hashtable();
+                        _ht.Add("ID", _dtOrg.Rows[j]["T_ORGID"].ToString());     //风场编码
+                        _ht.Add("NAME", _dtOrg.Rows[j]["T_ORGDESC"].ToString());   //风场名称
+                        _fgs.Add(_ht);
+                    }
+                    string _orgid = _dtOrg.Rows[0]["T_ORGID"].ToString();
+                    _fc = _wd.GetPeriod(_orgid);
+                } 
 
                 if (_fc != null)
                 {
                     _ht = new Hashtable();
                     _ht = _fc[0];
+
+                    string _pname = _ht["T_PERIODDESC"].ToString();
+                    if (_pname.Equals("全部"))
+                    {
+                        a = 1;
+                    }
 
                     string _pid = _ht["T_PERIODID"].ToString();
                     DataTable _dtUnit = _pd.GetUnit(_pid);
@@ -397,8 +532,10 @@ namespace Web.LineAndChart
             object obj = new
             {
                 list = _company,
+                listC = _fgs,
                 listB = _str_b,
-                lt = _fc
+                lt = _fc,
+                intNumber = a
             };
             result = JsonConvert.SerializeObject(obj);
             Response.Write(result);
