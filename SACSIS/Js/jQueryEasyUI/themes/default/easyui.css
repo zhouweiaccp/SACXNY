@@ -964,7 +964,6 @@ a.m-btn-plain-active{
 }
 .progressbar{
 	border:1px solid #99BBE8;
-	border-radius:5px;
 	overflow:hidden;
 }
 .progressbar-text{
@@ -974,7 +973,6 @@ a.m-btn-plain-active{
 }
 .progressbar-value{
 	background-color:#FF8D40;
-	border-radius:5px 0 0 5px;
 	width:0;
 }
 .propertygrid .datagrid-view1 .datagrid-body,.propertygrid .datagrid-group{

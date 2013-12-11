@@ -834,7 +834,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="WebForm1.aspx" />
     <Content Include="xml\EditMenu.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -842,6 +841,7 @@
     <Content Include="xml\WebMenu.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="yyzl\CZInfo.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\ManageMenu.aspx.cs">
@@ -982,13 +982,14 @@
     <Compile Include="Trend\TRadio.aspx.designer.cs">
       <DependentUpon>TRadio.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="yyzl\CZInfo.aspx.cs">
+      <DependentUpon>CZInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="yyzl\CZInfo.aspx.designer.cs">
+      <DependentUpon>CZInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="yyzl\czInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1020,7 +1021,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51934</DevelopmentServerPort>
+          <DevelopmentServerPort>8759</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
