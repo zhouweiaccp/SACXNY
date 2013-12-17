@@ -32,5 +32,24 @@ namespace BLL
         {
             return dSta.GetDlByTimeAndUnits(st, et, untis);
         }
+
+
+        #region 获取统计数据
+        /// <summary>
+        /// 统计数据
+        /// </summary>
+        /// <param name="orgId">风场ID</param>
+        /// <param name="periodid">工期ID</param>
+        /// <param name="unitid">机组ID </param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <param name="type">统计类型</param>
+        /// <param name="judge">统计方式: 0 求和; 1 获取详细信息</param>
+        /// <returns></returns>
+        public DataTable GetDL(string orgId, string periodid, string unitid, string st, string et, string type, int judge)
+        {
+            return dSta.GetDL(orgId, periodid, unitid, st, et, type, judge);
+        }
+        #endregion
     }
 }

@@ -51,6 +51,47 @@ namespace DAL
             return dl.RunDataTable(sql, out errMsg);
         }
 
-       // public DataTable GetValByTime(string time, string units, 
+        // public DataTable GetValByTime(string time, string units, 
+        private DataTable dt = new DataTable();
+        private string sqlWhere = "";
+
+        #region 获取统计数据
+        /// <summary>
+        /// 统计数据
+        /// </summary>
+        /// <param name="orgId">风场ID</param>
+        /// <param name="periodid">工期ID</param>
+        /// <param name="unitid">机组ID </param>
+        /// <param name="st">开始时间</param>
+        /// <param name="et">结束时间</param>
+        /// <param name="type">统计类型</param>
+        /// <param name="judge">统计方式: 0 求和; 1 获取详细信息</param>
+        /// <returns></returns>
+        public DataTable GetDL(string orgId, string periodid, string unitid, string st, string et, string type, int judge)
+        {
+            sqlWhere += " where 1=1";
+            sql = "";
+            if (orgId != "")
+                sqlWhere += " and T_ORGID='" + orgId + "'";
+
+            if (periodid != "")
+                sqlWhere += " and T_PERIODID='" + periodid + "'";
+
+            if (unitid != "")
+                sqlWhere += " and T_UNITID='" + unitid + "'";
+
+            if (st != "" && et != "")
+                sqlWhere += " and T_TIME>='" + st + "' and T_TIME<'" + et + "'";
+            if (judge == 0)
+                sql += "select select sum(decimal(D_VALUE,31,4)) D_VALUE from ADMINISTRATOR.T_INFO_STATISCS where T_TJID='" + type + "'";
+            else
+                sql += "select D_VALUE,T_TIME,T_OGGID,T_PERIODID,T_UNITID from ADMINISTRATOR.T_INFO_STATISCS where T_TJID='" + type + "'";
+            sql += sqlWhere;
+
+            dt = dl.RunDataTable(sql, out errMsg);
+
+            return dt;
+        }
+        #endregion
     }
 }

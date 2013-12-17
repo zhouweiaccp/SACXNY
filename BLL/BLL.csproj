@@ -49,6 +49,7 @@
     <Compile Include="PointBLL.cs" />
     <Compile Include="PointsBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RLBLL.cs" />
     <Compile Include="WppBLL.cs" />
   </ItemGroup>
   <ItemGroup>
