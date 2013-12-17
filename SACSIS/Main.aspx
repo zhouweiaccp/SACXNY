@@ -172,7 +172,7 @@
         <tr>
             <td colspan="2">
                 <div id="dv_connect">
-                    <iframe width="100%" src="" id="frm" frameborder="0" name="frm" scrolling="no"></iframe>
+                    <iframe width="100%" src="" id="frm" frameborder="0" name="frm"></iframe>
                 </div>
             </td>
         </tr>

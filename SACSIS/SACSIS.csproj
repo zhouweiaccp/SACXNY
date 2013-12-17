@@ -110,6 +110,8 @@
     <Content Include="Html\testimg\风向.jpg" />
     <Content Include="Html\testimg\风速对比曲线图.jpg" />
     <Content Include="img\20131115110424.jpg" />
+    <Content Include="img\20131211142227.png" />
+    <Content Include="img\20131211144004.png" />
     <Content Include="img\banner.jpg" />
     <Content Include="img\banner_02.jpg" />
     <Content Include="img\bg08.jpg" />
@@ -143,6 +145,16 @@
     <Content Include="img\table-head-2.jpg" />
     <Content Include="img\table-head-3.jpg" />
     <Content Include="img\table-head.jpg" />
+    <Content Include="img\全国地图.jpg" />
+    <Content Include="img\内蒙古地图.jpg" />
+    <Content Include="img\分布式图标.png" />
+    <Content Include="img\华电logo.png" />
+    <Content Include="img\太阳能图标.png" />
+    <Content Include="img\核能图标.png" />
+    <Content Include="img\水电图标.png" />
+    <Content Include="img\火电图标.png" />
+    <Content Include="img\生物质图标.png" />
+    <Content Include="img\风电图标.png" />
     <Content Include="Js\Chart.js" />
     <Content Include="Js\ChartManage.js" />
     <Content Include="Js\data.js" />
@@ -1021,7 +1033,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>8759</DevelopmentServerPort>
+          <DevelopmentServerPort>46360</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
